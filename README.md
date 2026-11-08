@@ -1,5 +1,7 @@
 # Illustrator AI Design MCP
 
+[![CI](https://github.com/axcel-blade/Illustrator-MCP-Server/actions/workflows/ci.yml/badge.svg)](https://github.com/axcel-blade/Illustrator-MCP-Server/actions/workflows/ci.yml)
+
 An MCP server that lets AI assistants (Claude Desktop, ChatGPT) design in **Adobe Illustrator**: it turns
 natural-language briefs into structured design plans, builds them as **editable vector artwork**, inspects
 the result, exports previews and applies targeted revisions.
