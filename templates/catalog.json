@@ -1,0 +1,222 @@
+[
+  {
+    "id": "logo",
+    "name": "Minimalist Logo",
+    "category": "logo",
+    "description": "Geometric monogram mark with wordmark and tagline lockup.",
+    "defaultSize": {
+      "width": 1000,
+      "height": 1000,
+      "units": "px"
+    }
+  },
+  {
+    "id": "corporate-identity",
+    "name": "Corporate Identity Sheet",
+    "category": "corporate-identity",
+    "description": "Stationery set on one artboard: letterhead, business card and envelope.",
+    "defaultSize": {
+      "width": 420,
+      "height": 297,
+      "units": "mm"
+    }
+  },
+  {
+    "id": "brand-identity",
+    "name": "Brand Identity Board",
+    "category": "brand-identity",
+    "description": "Logo lockup, color swatches with hex labels and typography specimen.",
+    "defaultSize": {
+      "width": 1920,
+      "height": 1080,
+      "units": "px"
+    }
+  },
+  {
+    "id": "brand-guidelines",
+    "name": "Brand Guidelines Page",
+    "category": "brand-guidelines",
+    "description": "Guideline spread: section header, clear-space diagram and usage rules.",
+    "defaultSize": {
+      "width": 297,
+      "height": 210,
+      "units": "mm"
+    }
+  },
+  {
+    "id": "poster",
+    "name": "Poster",
+    "category": "poster",
+    "description": "Hero image, dominant headline, supporting copy and footer band.",
+    "defaultSize": {
+      "width": 210,
+      "height": 297,
+      "units": "mm"
+    }
+  },
+  {
+    "id": "flyer",
+    "name": "Flyer",
+    "category": "flyer",
+    "description": "Split layout with a color block, headline, bulleted offers and CTA button.",
+    "defaultSize": {
+      "width": 148,
+      "height": 210,
+      "units": "mm"
+    }
+  },
+  {
+    "id": "brochure",
+    "name": "Tri-fold Brochure (outside)",
+    "category": "brochure",
+    "description": "Three panels on US Letter landscape: inside flap, back, and cover.",
+    "defaultSize": {
+      "width": 279.4,
+      "height": 215.9,
+      "units": "mm"
+    }
+  },
+  {
+    "id": "business-card",
+    "name": "Business Card",
+    "category": "business-card",
+    "description": "Front side: brand bar, name, title and contact details.",
+    "defaultSize": {
+      "width": 85,
+      "height": 55,
+      "units": "mm"
+    }
+  },
+  {
+    "id": "packaging",
+    "name": "Packaging Front Panel + Dieline",
+    "category": "packaging",
+    "description": "Flat box layout: four side panels with front art, plus top/bottom flaps.",
+    "defaultSize": {
+      "width": 300,
+      "height": 220,
+      "units": "mm"
+    }
+  },
+  {
+    "id": "product-label",
+    "name": "Product Label",
+    "category": "product-label",
+    "description": "Rounded label with badge, product name, descriptor and net weight.",
+    "defaultSize": {
+      "width": 90,
+      "height": 120,
+      "units": "mm"
+    }
+  },
+  {
+    "id": "social-media",
+    "name": "Social Media Post",
+    "category": "social-media",
+    "description": "Square post with bold headline, shape accents and handle.",
+    "defaultSize": {
+      "width": 1080,
+      "height": 1080,
+      "units": "px"
+    }
+  },
+  {
+    "id": "infographic",
+    "name": "Infographic",
+    "category": "infographic",
+    "description": "Title, numbered stat blocks with bars, and source footnote.",
+    "defaultSize": {
+      "width": 1080,
+      "height": 1920,
+      "units": "px"
+    }
+  },
+  {
+    "id": "editorial",
+    "name": "Editorial Layout",
+    "category": "editorial",
+    "description": "Magazine page: kicker, large serif title, deck, two-column body and pull quote.",
+    "defaultSize": {
+      "width": 210,
+      "height": 297,
+      "units": "mm"
+    }
+  },
+  {
+    "id": "icon-set",
+    "name": "Icon Set",
+    "category": "icon-set",
+    "description": "Grid of consistent geometric icons on a shared keyline.",
+    "defaultSize": {
+      "width": 1200,
+      "height": 600,
+      "units": "px"
+    }
+  },
+  {
+    "id": "illustration",
+    "name": "Vector Landscape Illustration",
+    "category": "illustration",
+    "description": "Layered flat landscape: sky gradient, sun, mountains, hills and trees.",
+    "defaultSize": {
+      "width": 1600,
+      "height": 1000,
+      "units": "px"
+    }
+  },
+  {
+    "id": "presentation",
+    "name": "Presentation Slide",
+    "category": "presentation",
+    "description": "16:9 title slide with accent bar, title, subtitle and footer.",
+    "defaultSize": {
+      "width": 1920,
+      "height": 1080,
+      "units": "px"
+    }
+  },
+  {
+    "id": "print-ad",
+    "name": "Print Advertisement",
+    "category": "print-ad",
+    "description": "Full-bleed image area, benefit headline, logo and legal line.",
+    "defaultSize": {
+      "width": 210,
+      "height": 297,
+      "units": "mm"
+    }
+  },
+  {
+    "id": "restaurant-menu",
+    "name": "Restaurant Menu",
+    "category": "restaurant-menu",
+    "description": "Single page menu: masthead, sections with dotted price leaders.",
+    "defaultSize": {
+      "width": 215.9,
+      "height": 355.6,
+      "units": "mm"
+    }
+  },
+  {
+    "id": "event-graphic",
+    "name": "Event Graphic",
+    "category": "event-graphic",
+    "description": "Bold date block, event name, venue and registration CTA (landscape banner).",
+    "defaultSize": {
+      "width": 1920,
+      "height": 1080,
+      "units": "px"
+    }
+  },
+  {
+    "id": "product-catalogue",
+    "name": "Product Catalogue Page",
+    "category": "product-catalogue",
+    "description": "Header plus 2×3 product grid with image frames, names and prices.",
+    "defaultSize": {
+      "width": 210,
+      "height": 297,
+      "units": "mm"
+    }
+  }
+]

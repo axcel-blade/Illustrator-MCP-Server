@@ -1,0 +1,44 @@
+{
+  "name": "illustrator-ai-mcp",
+  "version": "0.1.0",
+  "description": "Adobe Illustrator AI Design MCP server: natural-language design planning executed as editable Illustrator artwork.",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "illustrator-ai-mcp": "dist/index.js"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "pnpm@10.18.0",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc -p tsconfig.build.json",
+    "start": "node dist/index.js",
+    "start:http": "node dist/index.js --transport http",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:integration": "tsx tests/integration/run-integration.ts",
+    "lint": "eslint .",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.32.2",
+    "zod": "3.25.76"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.39.1",
+    "@types/node": "22.19.1",
+    "eslint": "9.39.1",
+    "tsx": "4.20.6",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.46.4",
+    "vitest": "3.2.4"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  }
+}

@@ -1,0 +1,24 @@
+# Known limitations
+
+## Unverified
+
+- **All ExtendScript operations are unverified against a real Illustrator.** They were written against Adobe's
+  Illustrator Scripting Reference (JavaScript/VBScript) and checked for syntax and allowlist parity, but the
+  development machine had no Illustrator. Expect some fixes after the first `scripts\integration-test.ps1` run.
+  Highest-risk items: live-effect XML (`apply_shadow`, `apply_blur`, glows), the `rulerType` preference codes
+  (`set_document_units`), `DoJavaScriptFile` optional-argument handling from PowerShell (a fallback call is included),
+  SVG ranged-export file naming, and gradient angle application.
+- **ChatGPT** connectivity is unverified; the HTTP transport was tested locally only.
+
+## By design / platform
+
+- Windows only (COM). macOS would need an AppleScript or UXP adapter.
+- Illustrator's scripting DOM cannot create **pattern swatches**; `create_pattern` builds a tiled clipping group instead and says so.
+- `set_document_units` changes the session default and a ruler preference; `Document.rulerUnits` is read-only in scripting.
+- PDF/EPS export uses `saveAs`, so the open document is re-targeted; the tool reopens the saved .ai afterwards and refuses to run on unsaved changes.
+- Text sizes used for alignment *before* execution are estimates (0.55 em average glyph width). After execution, bounds come from Illustrator.
+- The server does no image recognition. Visual critique depends on the AI client viewing the attached PNG preview.
+- The brief planner is rule-based (keywords → category/style/colors). It is deterministic and explainable but not creative on its own;
+  the AI client is expected to refine plans (`plan_design` → edit → `execute_design_plan`) for bespoke work.
+- Each bridge call starts PowerShell (~0.2–0.4 s). Complex designs are batched into a single call.
+- Only one Illustrator instance/user session is supported per server process.

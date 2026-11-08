@@ -1,0 +1,379 @@
+{
+  "version": 1,
+  "meta": {
+    "title": "Olive & Thyme Bistro",
+    "brief": "vintage restaurant menu for Olive & Thyme bistro",
+    "category": "restaurant-menu",
+    "style": "vintage",
+    "audience": "food lovers",
+    "template": "restaurant-menu",
+    "rationale": [
+      "Category \"restaurant-menu\" via template \"restaurant-menu\" (Single page menu: masthead, sections with dotted price leaders.)",
+      "Style \"vintage\" for food lovers: palette \"Vintage Print (brief colors)\", headings in Baskerville, body in Book Antiqua",
+      "Hierarchy uses a 1.5 modular type scale; headline is the dominant element, supporting copy steps down in size and contrast",
+      "Layers separate typography, graphics, images and a locked background so revisions can target one concern"
+    ]
+  },
+  "document": {
+    "name": "Olive Menu",
+    "width": 215.9,
+    "height": 355.6,
+    "units": "mm",
+    "colorMode": "CMYK"
+  },
+  "background": {
+    "type": "solid",
+    "color": "palette.background"
+  },
+  "palette": {
+    "name": "Vintage Print (brief colors)",
+    "colors": {
+      "background": "#EFE6D2",
+      "surface": "#E2D3B5",
+      "primary": "#6B705C",
+      "secondary": "#7A4E2D",
+      "accent": "#A8442C",
+      "text": "#3E2C23",
+      "muted": "#9C8A70"
+    }
+  },
+  "typography": {
+    "heading": {
+      "fonts": [
+        "Baskerville",
+        "Baskerville Old Face",
+        "Book Antiqua",
+        "Georgia",
+        "TimesNewRomanPSMT",
+        "Times New Roman"
+      ],
+      "weight": "bold",
+      "tracking": 80
+    },
+    "body": {
+      "fonts": [
+        "Book Antiqua",
+        "Georgia",
+        "TimesNewRomanPSMT",
+        "Times New Roman"
+      ],
+      "weight": "regular"
+    },
+    "accent": {
+      "fonts": [
+        "Copperplate Gothic Bold",
+        "Copperplate",
+        "Georgia",
+        "TimesNewRomanPSMT",
+        "Times New Roman"
+      ],
+      "weight": "regular",
+      "tracking": 200
+    }
+  },
+  "layers": [
+    {
+      "name": "Typography"
+    },
+    {
+      "name": "Graphics"
+    },
+    {
+      "name": "Images"
+    },
+    {
+      "name": "Background",
+      "locked": true
+    }
+  ],
+  "elements": [
+    {
+      "type": "text",
+      "name": "Restaurant Name",
+      "layer": "Typography",
+      "x": 107.95,
+      "y": 21.590000000000003,
+      "role": "headline",
+      "content": "OLIVE",
+      "fontRole": "heading",
+      "fontSize": 40,
+      "color": "palette.primary",
+      "textAlign": "center"
+    },
+    {
+      "type": "text",
+      "name": "Menu Tagline",
+      "layer": "Typography",
+      "x": 107.95,
+      "y": 39.59,
+      "role": "subheadline",
+      "content": "SEASONAL KITCHEN",
+      "fontRole": "accent",
+      "fontSize": 9,
+      "color": "palette.secondary",
+      "textAlign": "center",
+      "tracking": 300
+    },
+    {
+      "type": "line",
+      "name": "Masthead Rule",
+      "layer": "Graphics",
+      "x": 21.590000000000003,
+      "y": 49.59,
+      "stroke": {
+        "color": "palette.accent",
+        "width": 0.75
+      },
+      "x2": 194.31,
+      "y2": 49.59
+    },
+    {
+      "type": "text",
+      "name": "Dish 1",
+      "layer": "Typography",
+      "x": 21.590000000000003,
+      "y": 63.59,
+      "role": "list-item",
+      "content": "Burrata & heirloom tomato",
+      "fontRole": "heading",
+      "fontSize": 12,
+      "color": "palette.text",
+      "textAlign": "left"
+    },
+    {
+      "type": "line",
+      "name": "Dish 1 Leader",
+      "layer": "Graphics",
+      "x": 85.59,
+      "y": 67.09,
+      "stroke": {
+        "color": "palette.muted",
+        "width": 0.3
+      },
+      "x2": 180.31,
+      "y2": 67.09
+    },
+    {
+      "type": "text",
+      "name": "Dish 1 Price",
+      "layer": "Typography",
+      "x": 194.31,
+      "y": 63.59,
+      "role": "price",
+      "content": "12",
+      "fontRole": "body",
+      "fontSize": 12,
+      "color": "palette.text",
+      "textAlign": "right"
+    },
+    {
+      "type": "text",
+      "name": "Dish 2",
+      "layer": "Typography",
+      "x": 21.590000000000003,
+      "y": 107.32666666666668,
+      "role": "list-item",
+      "content": "Charred octopus",
+      "fontRole": "heading",
+      "fontSize": 12,
+      "color": "palette.text",
+      "textAlign": "left"
+    },
+    {
+      "type": "line",
+      "name": "Dish 2 Leader",
+      "layer": "Graphics",
+      "x": 61.59,
+      "y": 110.82666666666668,
+      "stroke": {
+        "color": "palette.muted",
+        "width": 0.3
+      },
+      "x2": 180.31,
+      "y2": 110.82666666666668
+    },
+    {
+      "type": "text",
+      "name": "Dish 2 Price",
+      "layer": "Typography",
+      "x": 194.31,
+      "y": 107.32666666666668,
+      "role": "price",
+      "content": "15",
+      "fontRole": "body",
+      "fontSize": 12,
+      "color": "palette.text",
+      "textAlign": "right"
+    },
+    {
+      "type": "text",
+      "name": "Dish 3",
+      "layer": "Typography",
+      "x": 21.590000000000003,
+      "y": 151.06333333333333,
+      "role": "list-item",
+      "content": "Wild mushroom risotto",
+      "fontRole": "heading",
+      "fontSize": 12,
+      "color": "palette.text",
+      "textAlign": "left"
+    },
+    {
+      "type": "line",
+      "name": "Dish 3 Leader",
+      "layer": "Graphics",
+      "x": 75.99000000000001,
+      "y": 154.56333333333333,
+      "stroke": {
+        "color": "palette.muted",
+        "width": 0.3
+      },
+      "x2": 180.31,
+      "y2": 154.56333333333333
+    },
+    {
+      "type": "text",
+      "name": "Dish 3 Price",
+      "layer": "Typography",
+      "x": 194.31,
+      "y": 151.06333333333333,
+      "role": "price",
+      "content": "18",
+      "fontRole": "body",
+      "fontSize": 12,
+      "color": "palette.text",
+      "textAlign": "right"
+    },
+    {
+      "type": "text",
+      "name": "Dish 4",
+      "layer": "Typography",
+      "x": 21.590000000000003,
+      "y": 194.8,
+      "role": "list-item",
+      "content": "Braised short rib",
+      "fontRole": "heading",
+      "fontSize": 12,
+      "color": "palette.text",
+      "textAlign": "left"
+    },
+    {
+      "type": "line",
+      "name": "Dish 4 Leader",
+      "layer": "Graphics",
+      "x": 66.39,
+      "y": 198.3,
+      "stroke": {
+        "color": "palette.muted",
+        "width": 0.3
+      },
+      "x2": 180.31,
+      "y2": 198.3
+    },
+    {
+      "type": "text",
+      "name": "Dish 4 Price",
+      "layer": "Typography",
+      "x": 194.31,
+      "y": 194.8,
+      "role": "price",
+      "content": "21",
+      "fontRole": "body",
+      "fontSize": 12,
+      "color": "palette.text",
+      "textAlign": "right"
+    },
+    {
+      "type": "text",
+      "name": "Dish 5",
+      "layer": "Typography",
+      "x": 21.590000000000003,
+      "y": 238.5366666666667,
+      "role": "list-item",
+      "content": "Lemon tart",
+      "fontRole": "heading",
+      "fontSize": 12,
+      "color": "palette.text",
+      "textAlign": "left"
+    },
+    {
+      "type": "line",
+      "name": "Dish 5 Leader",
+      "layer": "Graphics",
+      "x": 49.59,
+      "y": 242.0366666666667,
+      "stroke": {
+        "color": "palette.muted",
+        "width": 0.3
+      },
+      "x2": 180.31,
+      "y2": 242.0366666666667
+    },
+    {
+      "type": "text",
+      "name": "Dish 5 Price",
+      "layer": "Typography",
+      "x": 194.31,
+      "y": 238.5366666666667,
+      "role": "price",
+      "content": "24",
+      "fontRole": "body",
+      "fontSize": 12,
+      "color": "palette.text",
+      "textAlign": "right"
+    },
+    {
+      "type": "text",
+      "name": "Dish 6",
+      "layer": "Typography",
+      "x": 21.590000000000003,
+      "y": 282.27333333333337,
+      "role": "list-item",
+      "content": "Dark chocolate mousse",
+      "fontRole": "heading",
+      "fontSize": 12,
+      "color": "palette.text",
+      "textAlign": "left"
+    },
+    {
+      "type": "line",
+      "name": "Dish 6 Leader",
+      "layer": "Graphics",
+      "x": 75.99000000000001,
+      "y": 285.77333333333337,
+      "stroke": {
+        "color": "palette.muted",
+        "width": 0.3
+      },
+      "x2": 180.31,
+      "y2": 285.77333333333337
+    },
+    {
+      "type": "text",
+      "name": "Dish 6 Price",
+      "layer": "Typography",
+      "x": 194.31,
+      "y": 282.27333333333337,
+      "role": "price",
+      "content": "27",
+      "fontRole": "body",
+      "fontSize": 12,
+      "color": "palette.text",
+      "textAlign": "right"
+    },
+    {
+      "type": "text",
+      "name": "Menu Footer",
+      "layer": "Typography",
+      "x": 107.95,
+      "y": 340.487,
+      "role": "caption",
+      "content": "example.com",
+      "fontRole": "body",
+      "fontSize": 8,
+      "color": "palette.muted",
+      "textAlign": "center"
+    }
+  ],
+  "swatches": true
+}

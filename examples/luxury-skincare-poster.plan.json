@@ -1,0 +1,235 @@
+{
+  "version": 1,
+  "meta": {
+    "title": "PURE BEAUTY",
+    "brief": "Create a modern luxury skincare poster with a minimalist layout, beige background, elegant typography and a product image. Headline \"PURE BEAUTY\" and \"Radiance, refined\"",
+    "category": "poster",
+    "style": "luxury",
+    "audience": "luxury consumers",
+    "template": "poster",
+    "rationale": [
+      "Category \"poster\" via template \"poster\" (Hero image, dominant headline, supporting copy and footer band.)",
+      "Style \"luxury\" for luxury consumers: palette \"Luxe Sand (brief colors)\", headings in Didot, body in Montserrat",
+      "Hierarchy uses a 1.618 modular type scale; headline is the dominant element, supporting copy steps down in size and contrast",
+      "Layers separate typography, graphics, images and a locked background so revisions can target one concern",
+      "Brief mentions an image but no file was supplied, so a labelled placeholder frame was planned"
+    ]
+  },
+  "document": {
+    "name": "PURE BEAUTY",
+    "width": 210,
+    "height": 297,
+    "units": "mm",
+    "colorMode": "CMYK"
+  },
+  "background": {
+    "type": "solid",
+    "color": "palette.background"
+  },
+  "palette": {
+    "name": "Luxe Sand (brief colors)",
+    "colors": {
+      "background": "#E9DDCC",
+      "surface": "#F1E9DE",
+      "primary": "#29231E",
+      "secondary": "#8C7356",
+      "accent": "#C6A15B",
+      "text": "#29231E",
+      "muted": "#A08C74"
+    }
+  },
+  "typography": {
+    "heading": {
+      "fonts": [
+        "Didot",
+        "Bodoni 72",
+        "Playfair Display",
+        "Bodoni MT",
+        "Georgia",
+        "TimesNewRomanPSMT",
+        "Times New Roman"
+      ],
+      "weight": "regular",
+      "tracking": 150
+    },
+    "body": {
+      "fonts": [
+        "Montserrat",
+        "Gill Sans MT",
+        "Segoe UI",
+        "ArialMT",
+        "Arial"
+      ],
+      "weight": "light",
+      "tracking": 40
+    },
+    "accent": {
+      "fonts": [
+        "Montserrat",
+        "Segoe UI",
+        "ArialMT",
+        "Arial"
+      ],
+      "weight": "regular",
+      "tracking": 400
+    }
+  },
+  "grid": {
+    "columns": 12,
+    "margin": 16.8,
+    "gutter": 4.2
+  },
+  "layers": [
+    {
+      "name": "Typography"
+    },
+    {
+      "name": "Graphics"
+    },
+    {
+      "name": "Images"
+    },
+    {
+      "name": "Background",
+      "locked": true
+    }
+  ],
+  "elements": [
+    {
+      "type": "circle",
+      "name": "Decorative Circle",
+      "layer": "Graphics",
+      "x": 138.6,
+      "y": 106.92,
+      "role": "decoration",
+      "fill": "palette.surface",
+      "stroke": "none",
+      "radius": 63
+    },
+    {
+      "type": "rect",
+      "name": "Hero Image Placeholder",
+      "layer": "Images",
+      "x": 63,
+      "y": 50.49,
+      "role": "image-placeholder",
+      "fill": "palette.surface",
+      "stroke": {
+        "color": "palette.muted",
+        "width": 0.5,
+        "dashes": [
+          3,
+          3
+        ]
+      },
+      "width": 84,
+      "height": 112.86
+    },
+    {
+      "type": "text",
+      "name": "Hero Image Placeholder Label",
+      "layer": "Images",
+      "x": 105,
+      "y": 106.92,
+      "role": "placeholder-label",
+      "content": "IMAGE",
+      "fontRole": "accent",
+      "fontSize": 9,
+      "color": "palette.muted",
+      "textAlign": "center"
+    },
+    {
+      "type": "text",
+      "name": "Eyebrow",
+      "layer": "Typography",
+      "x": 16.8,
+      "y": 16.8,
+      "role": "eyebrow",
+      "content": "SKINCARE",
+      "fontRole": "accent",
+      "fontSize": 9,
+      "color": "palette.secondary",
+      "textAlign": "left"
+    },
+    {
+      "type": "text",
+      "name": "Headline",
+      "layer": "Typography",
+      "x": 105,
+      "y": 184.14,
+      "role": "headline",
+      "content": "PURE BEAUTY",
+      "fontRole": "heading",
+      "fontSize": 48,
+      "color": "palette.text",
+      "textAlign": "center"
+    },
+    {
+      "type": "text",
+      "name": "Subheadline",
+      "layer": "Typography",
+      "x": 105,
+      "y": 213.84,
+      "role": "subheadline",
+      "content": "Radiance, refined",
+      "fontRole": "body",
+      "fontSize": 14,
+      "color": "palette.secondary",
+      "textAlign": "center"
+    },
+    {
+      "type": "line",
+      "name": "Divider",
+      "layer": "Graphics",
+      "x": 88.2,
+      "y": 234.63000000000002,
+      "stroke": {
+        "color": "palette.accent",
+        "width": 1
+      },
+      "x2": 121.8,
+      "y2": 234.63000000000002
+    },
+    {
+      "type": "text",
+      "name": "Body",
+      "layer": "Typography",
+      "x": 42,
+      "y": 243.54,
+      "role": "body",
+      "content": "Thoughtfully designed to deliver clarity, character and lasting impact for every audience it reaches.",
+      "fontRole": "body",
+      "fontSize": 10,
+      "color": "palette.text",
+      "textAlign": "center",
+      "width": 126,
+      "height": 20.790000000000003
+    },
+    {
+      "type": "rect",
+      "name": "Footer Band",
+      "layer": "Graphics",
+      "x": 0,
+      "y": 276.21000000000004,
+      "role": "footer",
+      "fill": "palette.primary",
+      "stroke": "none",
+      "width": 210,
+      "height": 20.790000000000003
+    },
+    {
+      "type": "text",
+      "name": "Footer CTA",
+      "layer": "Typography",
+      "x": 105,
+      "y": 282.74399999999997,
+      "role": "cta",
+      "content": "DISCOVER MORE",
+      "fontRole": "accent",
+      "fontSize": 10,
+      "color": "palette.background",
+      "textAlign": "center"
+    }
+  ],
+  "swatches": true
+}

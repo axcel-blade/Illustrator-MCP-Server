@@ -1,0 +1,186 @@
+{
+  "version": 1,
+  "meta": {
+    "title": "NEXUS 2026",
+    "brief": "futuristic event banner for \"NEXUS 2026\" AI conference, \"Berlin · Hall 4\"",
+    "category": "event-graphic",
+    "style": "futuristic",
+    "audience": "general audience",
+    "template": "event-graphic",
+    "rationale": [
+      "Category \"event-graphic\" via template \"event-graphic\" (Bold date block, event name, venue and registration CTA (landscape banner).)",
+      "Style \"futuristic\" for general audience: palette \"Neon Night\", headings in Orbitron, body in Bahnschrift",
+      "Hierarchy uses a 1.618 modular type scale; headline is the dominant element, supporting copy steps down in size and contrast",
+      "Layers separate typography, graphics, images and a locked background so revisions can target one concern"
+    ]
+  },
+  "document": {
+    "name": "NEXUS 2026",
+    "width": 1920,
+    "height": 1080,
+    "units": "px",
+    "colorMode": "RGB"
+  },
+  "background": {
+    "type": "solid",
+    "color": "palette.primary"
+  },
+  "palette": {
+    "name": "Neon Night",
+    "colors": {
+      "background": "#0B0F1A",
+      "surface": "#151B2E",
+      "primary": "#00E5FF",
+      "secondary": "#7C4DFF",
+      "accent": "#FF2E88",
+      "text": "#EAF2FF",
+      "muted": "#7A86A8"
+    }
+  },
+  "typography": {
+    "heading": {
+      "fonts": [
+        "Orbitron",
+        "Eurostile",
+        "Bahnschrift",
+        "Segoe UI",
+        "ArialMT",
+        "Arial"
+      ],
+      "weight": "bold",
+      "tracking": 200
+    },
+    "body": {
+      "fonts": [
+        "Bahnschrift",
+        "Segoe UI",
+        "Segoe UI",
+        "ArialMT",
+        "Arial"
+      ],
+      "weight": "light"
+    },
+    "accent": {
+      "fonts": [
+        "Bahnschrift",
+        "Segoe UI",
+        "ArialMT",
+        "Arial"
+      ],
+      "weight": "regular",
+      "tracking": 400
+    }
+  },
+  "layers": [
+    {
+      "name": "Typography"
+    },
+    {
+      "name": "Graphics"
+    },
+    {
+      "name": "Images"
+    },
+    {
+      "name": "Background",
+      "locked": true
+    }
+  ],
+  "elements": [
+    {
+      "type": "circle",
+      "name": "Ring Large",
+      "layer": "Graphics",
+      "x": 1574.3999999999999,
+      "y": 540,
+      "role": "decoration",
+      "fill": "none",
+      "stroke": {
+        "color": "palette.accent",
+        "width": 24
+      },
+      "radius": 453.59999999999997
+    },
+    {
+      "type": "circle",
+      "name": "Ring Small",
+      "layer": "Graphics",
+      "x": 1574.3999999999999,
+      "y": 540,
+      "opacity": 80,
+      "role": "decoration",
+      "fill": "palette.accent",
+      "stroke": "none",
+      "radius": 259.2
+    },
+    {
+      "type": "rect",
+      "name": "Date Block",
+      "layer": "Graphics",
+      "x": 115.19999999999999,
+      "y": 151.20000000000002,
+      "role": "marker",
+      "fill": "palette.accent",
+      "stroke": "none",
+      "width": 260,
+      "height": 120
+    },
+    {
+      "type": "text",
+      "name": "Date",
+      "layer": "Typography",
+      "x": 245.2,
+      "y": 187.20000000000002,
+      "role": "eyebrow",
+      "content": "OCT 24",
+      "fontRole": "heading",
+      "fontSize": 40,
+      "color": "palette.primary",
+      "textAlign": "center"
+    },
+    {
+      "type": "text",
+      "name": "Event Name",
+      "layer": "Typography",
+      "x": 115.19999999999999,
+      "y": 388.8,
+      "role": "headline",
+      "content": "NEXUS 2026",
+      "fontRole": "heading",
+      "fontSize": 110,
+      "color": "palette.background",
+      "textAlign": "left",
+      "leading": 112,
+      "width": 1113.6,
+      "height": 345.6
+    },
+    {
+      "type": "text",
+      "name": "Venue",
+      "layer": "Typography",
+      "x": 115.19999999999999,
+      "y": 777.6,
+      "role": "subheadline",
+      "content": "Berlin · Hall 4",
+      "fontRole": "body",
+      "fontSize": 36,
+      "color": "palette.background",
+      "textAlign": "left"
+    },
+    {
+      "type": "text",
+      "name": "CTA",
+      "layer": "Typography",
+      "x": 115.19999999999999,
+      "y": 907.1999999999999,
+      "role": "cta",
+      "content": "REGISTER NOW",
+      "fontRole": "accent",
+      "fontSize": 30,
+      "color": "palette.accent",
+      "textAlign": "left",
+      "tracking": 200
+    }
+  ],
+  "swatches": true
+}
