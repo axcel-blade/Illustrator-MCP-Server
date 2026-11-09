@@ -2,12 +2,9 @@
 
 ## Unverified
 
-- **All ExtendScript operations are unverified against a real Illustrator.** They were written against Adobe's
-  Illustrator Scripting Reference (JavaScript/VBScript) and checked for syntax and allowlist parity, but the
-  development machine had no Illustrator. Expect some fixes after the first `scripts\integration-test.ps1` run.
-  Highest-risk items: live-effect XML (`apply_shadow`, `apply_blur`, glows), the `rulerType` preference codes
-  (`set_document_units`), `DoJavaScriptFile` optional-argument handling from PowerShell (a fallback call is included),
-  SVG ranged-export file naming, and gradient angle application.
+- ExtendScript operations are verified against **Illustrator 2026 (30.8) only** (see [TEST_REPORT.md](TEST_REPORT.md)).
+  Older versions (2020+) are expected to work but are untested; `uuid` lookups need 2020+. Least-covered items: live-effect XML
+  (`apply_shadow`, `apply_blur`, glows) and the `rulerType` preference codes (`set_document_units`).
 - **ChatGPT** connectivity is unverified; the HTTP transport was tested locally only.
 
 ## By design / platform
