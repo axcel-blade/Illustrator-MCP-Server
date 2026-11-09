@@ -10,7 +10,7 @@ MCP.verifyWritten = function (path) {
 MCP.rasterExport = function (a, kind) {
   var doc = MCP.doc();
   var indexes = a.artboards && a.artboards.length ? a.artboards : [doc.artboards.getActiveArtboardIndex()];
-  var files = [];
+  var files = [], wasSaved = doc.saved;
   for (var i = 0; i < indexes.length; i++) {
     doc.artboards.setActiveArtboardIndex(indexes[i]);
     var path = indexes.length > 1 ? a.path.replace(/(\.\w+)$/, "-" + (indexes[i] + 1) + "$1") : a.path;
@@ -34,6 +34,9 @@ MCP.rasterExport = function (a, kind) {
     doc.exportFile(new File(path), type, opts);
     files.push(MCP.verifyWritten(path));
   }
+  /* Raster export changes no artwork, but Illustrator marks the document dirty, which would
+     then block export_pdf/export_eps ("save first"). */
+  if (wasSaved && !doc.saved) { try { doc.saved = true; } catch (e) { /* read-only in some versions */ } }
   return { files: files, scalePercent: scale };
 };
 
@@ -46,10 +49,22 @@ MCP.ops.export_svg = function (a) {
   opts.coordinatePrecision = a.precision || 3;
   opts.embedRasterImages = a.embedImages !== false;
   opts.fontType = a.outlineText ? SVGFontType.OUTLINEFONT : SVGFontType.SVGFONT;
+  /* Default subsetting embeds whole SVG-font glyph tables (MBs, ignored by browsers) and took
+     over 60 s for a 3-font document; keep live <text> that references fonts by CSS name. */
+  if (!a.outlineText) opts.fontSubsetting = SVGFontSubsetting.None;
   opts.cssProperties = SVGCSSPropertyLocation.STYLEATTRIBUTES;
   opts.documentEncoding = SVGDocumentEncoding.UTF8;
   if (a.artboard !== undefined) { opts.saveMultipleArtboards = true; opts.artboardRange = String(a.artboard + 1); }
+  var before = null, wasSaved = doc.saved;
+  try { if (doc.fullName.exists) before = doc.fullName; } catch (e) { before = null; }
   doc.exportFile(new File(a.path), ExportType.SVG, opts);
+  /* Illustrator 2026 re-targets the open document to the exported .svg; restore the .ai. */
+  var after = null;
+  try { after = app.activeDocument.fullName.fsName; } catch (e) { after = null; }
+  if (before && after !== before.fsName) {
+    if (wasSaved) { app.activeDocument.close(SaveOptions.DONOTSAVECHANGES); app.open(before); }
+    else MCP.warn("Illustrator re-targeted the open document to the SVG file and it has unsaved changes; use save_document_as to save it back to " + before.fsName + ".");
+  }
   var f = new File(a.path);
   if (!f.exists && a.artboard !== undefined) {
     /* Illustrator appends "_Artboard N" style suffixes for ranged SVG exports. */
