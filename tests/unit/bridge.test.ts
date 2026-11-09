@@ -50,7 +50,7 @@ describe("script builder", () => {
     for (const f of readdirSync(SCRIPT_DIR).filter((x) => x.endsWith(".jsx"))) {
       const src = readFileSync(join(SCRIPT_DIR, f), "utf8");
       expect(() => new Function(src), f).not.toThrow();
-      expect(/\b(let|const)\s|=>|`|\.forEach\(|\.map\(|JSON\.parse/.test(src), `${f} uses non-ES3 syntax`).toBe(false);
+      expect(/\b(let|const)\s|=>|`|\.forEach\(|\.map\(|JSON\.parse|[{,]\s*(in|default|class)\s*:|\.(in|default|class)\b/.test(src), `${f} uses non-ES3 syntax`).toBe(false);
     }
   });
 });
@@ -96,5 +96,20 @@ describe("bridge", () => {
   it("passes warnings and adapter identity through", async () => {
     const bridge = new IllustratorBridge(new StubAdapter(async () => JSON.stringify({ ok: true, data: 1, warnings: ["font fallback"] })), 1000);
     await expect(bridge.run("status", {})).resolves.toMatchObject({ data: 1, warnings: ["font fallback"], adapter: "mock" });
+  });
+  it("pins the document the server last worked on and re-sends it with each op", async () => {
+    const scripts: string[] = [];
+    const docs = ["Poster.ai", "Poster.ai", "Other.ai"];
+    const bridge = new IllustratorBridge(new StubAdapter(async (req) => {
+      scripts.push(req.script);
+      return JSON.stringify({ ok: true, data: null, document: docs[scripts.length - 1] });
+    }), 1000);
+    await bridge.run("create_document", {});
+    expect(bridge.pinnedDocument).toBe("Poster.ai");
+    await bridge.run("draw_rectangle", {});
+    expect(scripts[1]).toContain('"doc":"Poster.ai"');
+    await bridge.run("list_documents", {});
+    expect(scripts[2]).not.toContain('"doc":');
+    expect(bridge.pinnedDocument).toBe("Other.ai");
   });
 });

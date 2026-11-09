@@ -12,6 +12,12 @@
 
 ## By design / platform
 
+- `undo` / `redo` step through Illustrator's own undo history, where one step is one internal change, not one tool call. Inspect the document after undoing.
+- `simplify_path` removes anchors within a distance tolerance; Illustrator's Simplify command opens a dialog that scripts cannot drive. Handles of removed anchors are dropped.
+- Opacity masks and pattern swatches cannot be created from scripting. Pathfinder runs through Live Pathfinder menu commands and is expanded immediately.
+- `replace_image` relinks linked images only; an embedded image cannot be relinked.
+- The server pins the document it last worked on. If you switch documents in Illustrator's UI, call `activate_document` (or `list_documents` and then `activate_document`) so the server follows.
+
 - Windows only (COM). macOS would need an AppleScript or UXP adapter.
 - Illustrator's scripting DOM cannot create **pattern swatches**; `create_pattern` builds a tiled clipping group instead and says so.
 - `set_document_units` changes the session default and a ruler preference; `Document.rulerUnits` is read-only in scripting.

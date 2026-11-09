@@ -25,7 +25,7 @@ templates. The `wireframe` style gives a grayscale low-fidelity look.
 ## Design knowledge (UI/UX Pro Max)
 
 The server ships the design data of [UI/UX Pro Max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill)
-(MIT) in `data/ui-ux-pro-max`. For UI briefs, the planner matches the business described in the brief
+(MIT) in `data/`. For UI briefs, the planner matches the business described in the brief
 ("fintech", "telemedicine", "recipe app") to one of 192 product types. It then uses that product's color
 palette and font pairing and adds its reasoning (key considerations, recommended style, what to avoid) to the
 plan's rationale. Words that describe the deliverable ("login screen", "dashboard") are ignored when matching,

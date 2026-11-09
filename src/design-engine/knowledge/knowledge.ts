@@ -5,12 +5,12 @@ import { contrastRatio, normalizeHex } from "../../utils/colors.js";
 import type { RolePalette } from "../color/palettes.js";
 
 /*
- * Design knowledge base from UI/UX Pro Max (MIT, vendored in data/ui-ux-pro-max). Rows are
+ * Design knowledge base from UI/UX Pro Max (MIT, vendored in data/). Rows are
  * loaded lazily and searched with a simple token-overlap score weighted toward each domain's
  * name/keyword columns, which is deterministic and needs no index.
  */
 
-export const KNOWLEDGE_DIR = join(PROJECT_ROOT, "data", "ui-ux-pro-max");
+export const KNOWLEDGE_DIR = join(PROJECT_ROOT, "data");
 
 export type Row = Record<string, string>;
 

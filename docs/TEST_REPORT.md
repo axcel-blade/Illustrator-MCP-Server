@@ -72,8 +72,18 @@ No active document, negative or oversized dimensions, invalid hex color, missing
 | Claude Code | stdio | **PARTIAL** | Same stdio path. `claude mcp add` was not run because it writes persistent config. |
 | ChatGPT (developer-mode connector) | Streamable HTTP | **PARTIAL** | `pnpm test:e2e:http`: initialize, tools/list and a real Illustrator call pass with both a bearer token and a secret-path URL. Unauthenticated requests get 401. ChatGPT needs a public HTTPS URL (for example a tunnel), which was not set up, so a ChatGPT connection was not tested. |
 
+## 9b. Advanced tools (`pnpm test:e2e:advanced`): PASS (44/44), 2026-11-09, Illustrator 30.8
+Run with four other documents open. Pathfinder (5 operations, operands consumed), flip, anchor list/move/handles/convert/add/remove, reverse, close, split (open and closed), join, simplify (40 to 2 anchors),
+undo/redo, artboard rename/duplicate/delete (delete is refused without confirm), list documents, typography analysis and role rules (dry run changes nothing; unknown font is an error),
+design system save/list/apply (overwrite is refused), image info, relink keeping bounds, and Image Trace ("6 Colors") to a vector group. `pnpm test:e2e:design` was re-run and passes.
+
+Bugs found in the existing code:
+| # | Bug | Fix |
+|---|---|---|
+| 6 | With more than one document open, an object drawn in one call was not found by name in the next (`doc.pageItems` was stale), and right after `create_document`, `activeDocument` could still be the previous document. | `bootstrap.jsx`: `app.redraw()` at the start of each call, and the bridge pins and re-activates the target document. |
+
 ## 10. Remaining issues / recommended improvements
-1. Add an `edit_path_points` tool to move, add or delete individual anchors and handles.
+1. ~~Add an `edit_path_points` tool~~ (done).
 2. MCP clients default to a 60 s request timeout, the same as `ILLUSTRATOR_TIMEOUT_MS`. A slow operation then fails on the client before the server can return `BRIDGE_TIMEOUT`. Consider defaulting the server timeout to about 50 s, or sending progress notifications.
 3. Each call starts a new PowerShell process (about 2.5–3 s overhead). A persistent PowerShell or COM host would make multi-step designs much faster.
 4. The JSX fixes above cannot be covered by the mock-based vitest suite. Run `pnpm test:e2e` on a Windows machine with Illustrator before each release.

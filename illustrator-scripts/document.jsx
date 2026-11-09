@@ -50,13 +50,15 @@ MCP.ops.create_document = function (a) {
     if (u) preset.units = u;
   }
   var doc = app.documents.addDocument(a.colorMode === "CMYK" ? "Print" : "Web", preset);
+  MCP.pinned = doc; /* activeDocument may still report the previous document right after creation */
   return MCP.docInfo(doc);
 };
 
 MCP.ops.open_document = function (a) {
   var f = new File(a.path);
   if (!f.exists) MCP.fail("FILE_NOT_FOUND", "File not found: " + a.path);
-  return MCP.docInfo(app.open(f));
+  MCP.pinned = app.open(f);
+  return MCP.docInfo(MCP.pinned);
 };
 
 MCP.findDoc = function (name) {

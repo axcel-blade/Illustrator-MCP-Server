@@ -68,7 +68,8 @@ MCP.warn = function (msg) {
 
 MCP.doc = function () {
   if (app.documents.length === 0) MCP.fail("NO_ACTIVE_DOCUMENT", "No document is open in Illustrator.");
-  return app.activeDocument;
+  /* The pinned reference comes from app.documents; activeDocument can be stale right after activate(). */
+  return MCP.pinned || app.activeDocument;
 };
 
 /* Activate the artboard used as coordinate origin. */
@@ -352,6 +353,23 @@ MCP.writeResult = function (path, text) {
   f.close();
 };
 
+/* Re-activate the document the server is working on; fall back to the active one if it was closed. */
+MCP.pinDocument = function (name) {
+  for (var i = 0; i < app.documents.length; i++) {
+    if (app.documents[i].name === name) {
+      /* activate() on the already-active document leaves its item collections stale (Illustrator 2026). */
+      if (app.activeDocument.name !== name) app.documents[i].activate();
+      MCP.pinned = app.documents[i];
+      return;
+    }
+  }
+  if (app.documents.length) MCP.warn("Document '" + name + "' is no longer open; using the active document '" + app.activeDocument.name + "'.");
+};
+
+MCP.isOpen = function (doc) {
+  try { return !!doc.name; } catch (e) { return false; }
+};
+
 MCP.main = function (command, resultPath) {
   var out;
   var prevInteraction = app.userInteractionLevel;
@@ -359,12 +377,16 @@ MCP.main = function (command, resultPath) {
     app.userInteractionLevel = UserInteractionLevel.DONTDISPLAYALERTS;
     var fn = MCP.ops[command.op];
     if (!fn) MCP.fail("UNSUPPORTED_OPERATION", "Operation is not allowlisted: " + command.op);
+    try { app.redraw(); } catch (eR) { /* no window */ }
+    MCP.pinned = null; /* the engine keeps MCP between calls; never reuse a previous call's document */
+    if (command.doc) MCP.pinDocument(command.doc);
     var data = fn(command.args || {});
     out = { ok: true, data: data === undefined ? null : data, warnings: MCP.warnings };
   } catch (e) {
     out = { ok: false, error: { code: e.mcpCode || "ILLUSTRATOR_SCRIPT_ERROR", message: String(e.message || e),
       line: e.line, details: e.mcpDetails }, warnings: MCP.warnings };
   }
+  try { if (app.documents.length) out.document = MCP.pinned && MCP.isOpen(MCP.pinned) ? MCP.pinned.name : app.activeDocument.name; } catch (e3) { /* no document */ }
   try { app.userInteractionLevel = prevInteraction; } catch (e2) { /* ignore */ }
   var text = MCP.stringify(out);
   MCP.writeResult(resultPath, text);

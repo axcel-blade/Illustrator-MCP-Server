@@ -1,6 +1,6 @@
 # MCP tool reference
 
-Generated from the server (124 tools) by `node scripts/gen-docs.mjs`. Coordinates follow [COORDINATES.md](COORDINATES.md).
+Generated from the server (148 tools) by `node scripts/gen-docs.mjs`. Coordinates follow [COORDINATES.md](COORDINATES.md).
 
 ## `illustrator_status`
 
@@ -1625,4 +1625,222 @@ Rename generic objects ("<Path>", "Rectangle 3", unnamed text) in the active doc
 |---|---|---|
 | `artboard` | integer |  |
 | `all` | boolean | Also rename objects that already have custom names |
+| `dryRun` | boolean |  |
+
+## `pathfinder`
+
+Pathfinder boolean operation on 2+ objects: unite (union), minusFront (subtract front from back), intersect, exclude, divide, minusBack. Result is expanded, editable vector paths.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `operation` * | string |  |
+| `targets` * | array |  |
+| `name` | string | Object name, used later to target it |
+
+## `flip_objects`
+
+Mirror objects horizontally or vertically about their own center.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `targets` | array | Multiple object references; defaults to current selection |
+| `axis` * | string |  |
+
+## `edit_path_points`
+
+Inspect or edit a path's anchor points. action: list | move (index, x, y; handles move along unless in/out given) | set_handles (index, in?, out?, pointType?) | convert (index → corner) | add (after index at x/y, or at the segment midpoint) | remove (index). Coordinates are absolute, artboard origin, y down.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `target` * | union | Object reference: "selection" or {name, layer?} / {uuid} |
+| `action` * | string |  |
+| `index` | integer |  |
+| `x` | number |  |
+| `y` | number |  |
+| `in` | array | Incoming handle (absolute) |
+| `out` | object | Outgoing handle (absolute) |
+| `pointType` | string |  |
+| `artboard` | integer | Artboard index used as the coordinate origin (default: active) |
+| `units` | string | Units for coordinates/sizes in this call (default: session units, initially pt) |
+
+## `reverse_path`
+
+Reverse a path's direction (point order and handles).
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `target` * | union | Object reference: "selection" or {name, layer?} / {uuid} |
+
+## `set_path_closed`
+
+Close an open path (adds the segment from the last to the first anchor) or open a closed one.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `target` * | union | Object reference: "selection" or {name, layer?} / {uuid} |
+| `closed` * | boolean |  |
+
+## `split_path`
+
+Split a path at an anchor index. An open path becomes two paths; a closed path becomes one open path starting at that anchor.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `target` * | union | Object reference: "selection" or {name, layer?} / {uuid} |
+| `index` * | integer |  |
+
+## `join_paths`
+
+Join open paths at their endpoints (Illustrator's Object > Path > Join).
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `targets` * | array |  |
+| `name` | string | Object name, used later to target it |
+
+## `simplify_path`
+
+Reduce anchor points: removes anchors whose removal moves the outline less than `tolerance` (Ramer–Douglas–Peucker over anchors). Illustrator's own Simplify dialog cannot be driven by scripts, so this is an alternative; curve handles of removed anchors are dropped.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `target` * | union | Object reference: "selection" or {name, layer?} / {uuid} |
+| `tolerance` | number |  |
+| `units` | string | Units for coordinates/sizes in this call (default: session units, initially pt) |
+
+## `get_image_info`
+
+Report linked/embedded images: kind, file path, whether the link exists, placed bounds, effective PPI. Omit target for all images. Images are reported as raster (isVector: false).
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `target` | union | Object reference: "selection" or {name, layer?} / {uuid} |
+
+## `replace_image`
+
+Relink a linked image to another file from an allowed directory, keeping its position and size unless keepBounds: false.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `target` * | union | Object reference: "selection" or {name, layer?} / {uuid} |
+| `path` * | string |  |
+| `keepBounds` | boolean |  |
+
+## `trace_image`
+
+Convert a placed or raster image to vector paths with Illustrator's Image Trace. preset: an Illustrator tracing preset name (e.g. "[Default]", "Black and White Logo", "6 Colors", "High Fidelity Photo"). expand (default true) produces editable paths; expand: false leaves a live trace object, which is NOT editable vector yet.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `target` * | union | Object reference: "selection" or {name, layer?} / {uuid} |
+| `preset` | string |  |
+| `expand` | boolean |  |
+| `name` | string | Object name, used later to target it |
+
+## `rename_artboard`
+
+Rename an artboard by index.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `index` * | integer |  |
+| `name` * | string |  |
+
+## `duplicate_artboard`
+
+Duplicate an artboard, placed to its right (gap) or at dx/dy offset, copying the unlocked artwork that lies fully inside it.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `index` * | integer |  |
+| `name` | string |  |
+| `gap` | number |  |
+| `dx` | number |  |
+| `dy` | number |  |
+| `withArtwork` | boolean |  |
+| `units` | string | Units for coordinates/sizes in this call (default: session units, initially pt) |
+
+## `delete_artboard`
+
+Delete an artboard (artwork on it is kept). Destructive: requires confirm: true after asking the user.
+
+> Destructive — requires `confirm: true`.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `index` * | integer |  |
+| `confirm` | boolean |  |
+
+## `list_documents`
+
+List all open Illustrator documents with path, saved state, color mode and which one is active.
+
+## `activate_document`
+
+Make an open document active, by name or by index from list_documents.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `name` | string |  |
+| `index` | integer |  |
+
+## `undo`
+
+Undo Illustrator steps in the active document. One step is one internal Illustrator change, not one tool call (a tool that draws 3 shapes creates about 3 steps), so inspect the document afterwards. Use redo to step forward again.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `steps` | integer |  |
+
+## `redo`
+
+Redo steps previously undone with undo.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `steps` | integer |  |
+
+## `analyze_typography`
+
+Group all text in the active document by font and size, flag inconsistencies (too many families/sizes, near-duplicate sizes, missing fonts, tiny text). Read-only.
+
+## `apply_typography`
+
+Apply fonts/sizes by role across all text, e.g. headings (minSize 24) → "Montserrat Bold", body (maxSize 14) → "Inter Regular". First matching rule wins; locked text is skipped. Use dryRun: true to preview which objects would change.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `rules` * | array |  |
+| `dryRun` | boolean |  |
+
+## `save_design_system`
+
+Store a reusable design system (palette roles, typography roles, spacing scale, grid, logo variants, guidelines) on disk so it can be applied to any document. Saving under an existing name requires overwrite: true.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `system` * | object |  |
+| `overwrite` | boolean |  |
+
+## `list_design_systems`
+
+List stored design systems.
+
+## `get_design_system`
+
+Read a stored design system by name.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `name` * | string |  |
+
+## `apply_design_system`
+
+Apply a stored design system to the active document: adds its palette as a swatch group and applies its typography roles to matching text. Recolor specific objects afterwards with apply_color_palette using the returned palette.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `name` * | string |  |
+| `swatches` | boolean |  |
+| `typography` | boolean |  |
 | `dryRun` | boolean |  |

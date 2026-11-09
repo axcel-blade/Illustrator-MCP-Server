@@ -19,6 +19,8 @@ export interface ScriptEnvelope {
   data?: unknown;
   warnings?: string[];
   error?: { code: string; message: string; line?: number; details?: unknown };
+  /** Name of the active document after the op ran (absent when none is open). */
+  document?: string;
 }
 
 export interface ExecuteRequest {

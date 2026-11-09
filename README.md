@@ -10,7 +10,7 @@ the result, exports previews and applies targeted revisions.
 AI client (Claude Desktop: stdio · ChatGPT: HTTPS)
         │  MCP
         ▼
-MCP server ── 124 tools, resources, prompts, validation, auth
+MCP server ── 148 tools, resources, prompts, validation, auth
         │
         ▼
 AI design engine ── brief analysis → plan JSON → validation → compile; critique, revision, variations
@@ -26,7 +26,7 @@ Adobe Illustrator ── ExtendScript ops (illustrator-scripts/*.jsx)
 
 | Area | State |
 |---|---|
-| MCP server (stdio + Streamable HTTP), 124 tools, resources, prompts | Implemented, covered by automated tests |
+| MCP server (stdio + Streamable HTTP), 148 tools, resources, prompts | Implemented, covered by automated tests |
 | Design engine (planner, 26 templates incl. UI screens, 15 styles, auto layout, UI components, design tokens, UI/UX Pro Max design knowledge, validator, compiler, analyzer, revisions, variations) | Implemented, covered by automated tests |
 | Bridge (queue, timeouts, allowlist, error mapping, COM runner) | Implemented; COM failure path verified on a machine **without** Illustrator |
 | ExtendScript operations inside a real Illustrator | **Not yet verified** — the development machine had no Illustrator. Run `scripts\integration-test.ps1` |
@@ -76,5 +76,5 @@ minimalist layout, beige background, elegant typography and a product image."*
 
 MIT — see [LICENSE](LICENSE).
 
-Design knowledge in [`data/ui-ux-pro-max`](data/ui-ux-pro-max) comes from
+Design knowledge in [`data/`](data) comes from
 [UI/UX Pro Max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) © 2024 Next Level Builder, MIT License.
