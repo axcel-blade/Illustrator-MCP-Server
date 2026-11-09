@@ -20,6 +20,11 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:integration": "tsx tests/integration/run-integration.ts",
+    "test:e2e": "node tests/e2e/suite.mjs",
+    "test:e2e:design": "node tests/e2e/design.mjs",
+    "test:e2e:advanced": "node tests/e2e/advanced.mjs",
+    "test:e2e:http": "node tests/e2e/http.mjs",
+    "test:e2e:reconnect": "node tests/e2e/reconnect.mjs",
     "lint": "eslint .",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },

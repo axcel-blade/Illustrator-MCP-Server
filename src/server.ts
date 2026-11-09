@@ -8,6 +8,7 @@ import { MockAdapter } from "./illustrator/bridge/mock-adapter.js";
 import type { BridgeAdapter } from "./illustrator/bridge/types.js";
 import { registerPrompts } from "./mcp/prompts/index.js";
 import { registerResources } from "./mcp/resources/index.js";
+import { registerAdvancedTools } from "./mcp/tools/advanced.js";
 import { registerAppearanceTools } from "./mcp/tools/appearance.js";
 import { registerAssetTools } from "./mcp/tools/assets.js";
 import type { ToolContext } from "./mcp/tools/common.js";
@@ -18,6 +19,7 @@ import { registerLayerTools } from "./mcp/tools/layers.js";
 import { registerLayoutTools } from "./mcp/tools/layout.js";
 import { registerObjectTools } from "./mcp/tools/objects.js";
 import { registerTypographyTools } from "./mcp/tools/typography.js";
+import { registerUiTools } from "./mcp/tools/ui.js";
 import { registerVectorTools } from "./mcp/tools/vector.js";
 import { PathPolicy } from "./utils/paths.js";
 
@@ -44,7 +46,7 @@ export function createServer(ctx: ToolContext): McpServer {
     instructions:
       "Controls Adobe Illustrator. Coordinates: origin at the artboard's top-left, x right, y DOWN; points unless `units` is given. " +
       "Every result states its source (illustrator | mock | server). Never claim visual inspection unless a tool returned a preview image. " +
-      "Destructive tools need confirm: true after asking the user. Start with illustrator_status.",
+      "Destructive tools need confirm: true after asking the user. Ops target the document the server last worked on; use list_documents / activate_document to switch. Start with illustrator_status.",
   });
   registerDocumentTools(server, ctx);
   registerVectorTools(server, ctx);
@@ -56,6 +58,8 @@ export function createServer(ctx: ToolContext): McpServer {
   registerExportTools(server, ctx);
   registerAssetTools(server, ctx);
   registerDesignTools(server, ctx);
+  registerUiTools(server, ctx);
+  registerAdvancedTools(server, ctx);
   registerResources(server, ctx);
   registerPrompts(server);
   return server;

@@ -13,6 +13,9 @@ const KNOWN_CODES = new Set<string>([
   "BRIDGE_UNAVAILABLE", "NO_ACTIVE_DOCUMENT", "OBJECT_NOT_FOUND", "FILE_NOT_FOUND", "CONFIRMATION_REQUIRED", "UNSUPPORTED_OPERATION",
 ]);
 
+/* Ops that choose their own document; the pin is not applied to them. */
+const UNPINNED_OPS = new Set(["status", "list_documents", "create_document", "open_document", "activate_document"]);
+
 export interface RunOptions {
   timeoutMs?: number;
 }
@@ -25,6 +28,11 @@ export interface RunOptions {
 export class IllustratorBridge {
   private readonly queue = new OperationQueue();
   private readonly workDir: string;
+  /**
+   * Document the server last operated on. With several documents open, Illustrator's
+   * activeDocument can differ between COM calls, so every op re-activates this one first.
+   */
+  pinnedDocument: string | undefined;
 
   constructor(
     readonly adapter: BridgeAdapter,
@@ -55,10 +63,11 @@ export class IllustratorBridge {
       const timeoutMs = opts.timeoutMs ?? this.defaultTimeoutMs;
       try {
         const raw = await withTimeout(
-          this.adapter.execute({ op, args, script: buildScript(op, args, resultPath), resultPath, timeoutMs }),
+          this.adapter.execute({ op, args, script: buildScript(op, args, resultPath, UNPINNED_OPS.has(op) ? undefined : this.pinnedDocument), resultPath, timeoutMs }),
           timeoutMs + 2000,
         );
         const envelope = parseEnvelope(raw);
+        if ("document" in envelope || envelope.ok) this.pinnedDocument = envelope.document;
         const durationMs = Date.now() - started;
         logger.info("bridge op", { op, ok: envelope.ok, durationMs, adapter: this.adapter.name });
         if (!envelope.ok) {

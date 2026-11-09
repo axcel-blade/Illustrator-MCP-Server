@@ -33,6 +33,7 @@ export const STYLE_PALETTES: Record<string, RolePalette> = {
   playful: { name: "Playful Pop", colors: { background: "#FFF8E7", surface: "#FFE3EC", primary: "#5B2EFF", secondary: "#00C2A8", accent: "#FF5C8A", text: "#231942", muted: "#8E7DBE" } },
   futuristic: { name: "Neon Night", colors: { background: "#0B0F1A", surface: "#151B2E", primary: "#00E5FF", secondary: "#7C4DFF", accent: "#FF2E88", text: "#EAF2FF", muted: "#7A86A8" } },
   vintage: { name: "Vintage Print", colors: { background: "#EFE6D2", surface: "#E2D3B5", primary: "#3E2C23", secondary: "#7A4E2D", accent: "#A8442C", text: "#3E2C23", muted: "#9C8A70" } },
+  wireframe: { name: "Wireframe Gray", colors: { background: "#FFFFFF", surface: "#F2F2F2", primary: "#333333", secondary: "#666666", accent: "#2F80ED", text: "#1F1F1F", muted: "#9E9E9E" } },
   contemporary: { name: "Contemporary Clay", colors: { background: "#F7F3F0", surface: "#EADFD8", primary: "#2F2A3A", secondary: "#8D6E63", accent: "#D97757", text: "#2F2A3A", muted: "#9C8F8A" } },
 };
 

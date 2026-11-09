@@ -19,6 +19,9 @@
    all JSX modules + `MCP.main(<command literal>, <result path>)`. Client data is embedded only as a JSON literal — never as code.
 4. The COM adapter writes the script to `%TEMP%\illustrator-ai-mcp\<uuid>.jsx` and runs `run-jsx.ps1`, which calls
    `DoJavaScriptFile`. The JSX writes `{ok, data | error, warnings}` to `<uuid>.json`.
+   The command also carries the name of the document the server last worked on (`doc`). `MCP.main` calls `app.redraw()`
+   (which refreshes Illustrator's item collections between calls) and re-activates that document, because with several documents
+   open `app.activeDocument` is not reliable across COM calls. The envelope reports the document used, and the bridge pins it.
 5. The bridge parses the envelope. `ok: false` becomes a typed `McpDesignError`; `ok: true` is the only path to success.
 6. The tool returns JSON with `source: "illustrator"` (or `"mock"` / `"server"`).
 

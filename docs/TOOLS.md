@@ -1,6 +1,6 @@
 # MCP tool reference
 
-Generated from the server (114 tools) by `node scripts/gen-docs.mjs`. Coordinates follow [COORDINATES.md](COORDINATES.md).
+Generated from the server (148 tools) by `node scripts/gen-docs.mjs`. Coordinates follow [COORDINATES.md](COORDINATES.md).
 
 ## `illustrator_status`
 
@@ -1112,6 +1112,7 @@ Turn a brief into a structured, validated design plan (JSON) WITHOUT touching Il
 | `size` | object |  |
 | `colorMode` | string |  |
 | `imagePath` | string | Image to place (must be inside an allowed directory) |
+| `designSystem` | boolean | UI briefs: apply the UI/UX Pro Max product palette + font pairing matched from the brief (default: on unless style or baseColor is given) |
 | `execute` | boolean |  |
 | `preview` | boolean | Export and attach a PNG preview after execution |
 | `saveAs` | string | Save the result as this .ai path |
@@ -1172,6 +1173,7 @@ Full pipeline from a brief: analyze requirements (category, audience, style, siz
 | `size` | object |  |
 | `colorMode` | string |  |
 | `imagePath` | string | Image to place (must be inside an allowed directory) |
+| `designSystem` | boolean | UI briefs: apply the UI/UX Pro Max product palette + font pairing matched from the brief (default: on unless style or baseColor is given) |
 | `execute` | boolean | false = return the plan only |
 | `preview` | boolean | Export and attach a PNG preview after execution |
 | `saveAs` | string | Save the result as this .ai path |
@@ -1193,6 +1195,7 @@ Create a minimalist logo lockup (mark, wordmark, tagline) as editable vectors. S
 | `size` | object |  |
 | `colorMode` | string |  |
 | `imagePath` | string | Image to place (must be inside an allowed directory) |
+| `designSystem` | boolean | UI briefs: apply the UI/UX Pro Max product palette + font pairing matched from the brief (default: on unless style or baseColor is given) |
 | `execute` | boolean | false = return the plan only |
 | `preview` | boolean | Export and attach a PNG preview after execution |
 | `saveAs` | string | Save the result as this .ai path |
@@ -1213,6 +1216,7 @@ Create a poster with hero image area, headline hierarchy and footer CTA. Same op
 | `size` | object |  |
 | `colorMode` | string |  |
 | `imagePath` | string | Image to place (must be inside an allowed directory) |
+| `designSystem` | boolean | UI briefs: apply the UI/UX Pro Max product palette + font pairing matched from the brief (default: on unless style or baseColor is given) |
 | `execute` | boolean | false = return the plan only |
 | `preview` | boolean | Export and attach a PNG preview after execution |
 | `saveAs` | string | Save the result as this .ai path |
@@ -1233,6 +1237,7 @@ Create a flyer with color block, headline, offer list and CTA button. Same optio
 | `size` | object |  |
 | `colorMode` | string |  |
 | `imagePath` | string | Image to place (must be inside an allowed directory) |
+| `designSystem` | boolean | UI briefs: apply the UI/UX Pro Max product palette + font pairing matched from the brief (default: on unless style or baseColor is given) |
 | `execute` | boolean | false = return the plan only |
 | `preview` | boolean | Export and attach a PNG preview after execution |
 | `saveAs` | string | Save the result as this .ai path |
@@ -1253,6 +1258,7 @@ Create a social media graphic (default 1080×1080 px). Same options as generate_
 | `size` | object |  |
 | `colorMode` | string |  |
 | `imagePath` | string | Image to place (must be inside an allowed directory) |
+| `designSystem` | boolean | UI briefs: apply the UI/UX Pro Max product palette + font pairing matched from the brief (default: on unless style or baseColor is given) |
 | `execute` | boolean | false = return the plan only |
 | `preview` | boolean | Export and attach a PNG preview after execution |
 | `saveAs` | string | Save the result as this .ai path |
@@ -1273,6 +1279,7 @@ Create a business card front (85×55 mm, CMYK). Same options as generate_design.
 | `size` | object |  |
 | `colorMode` | string |  |
 | `imagePath` | string | Image to place (must be inside an allowed directory) |
+| `designSystem` | boolean | UI briefs: apply the UI/UX Pro Max product palette + font pairing matched from the brief (default: on unless style or baseColor is given) |
 | `execute` | boolean | false = return the plan only |
 | `preview` | boolean | Export and attach a PNG preview after execution |
 | `saveAs` | string | Save the result as this .ai path |
@@ -1293,6 +1300,7 @@ Create a brand identity board: logo lockup, palette swatches with hex labels, ty
 | `size` | object |  |
 | `colorMode` | string |  |
 | `imagePath` | string | Image to place (must be inside an allowed directory) |
+| `designSystem` | boolean | UI briefs: apply the UI/UX Pro Max product palette + font pairing matched from the brief (default: on unless style or baseColor is given) |
 | `execute` | boolean | false = return the plan only |
 | `preview` | boolean | Export and attach a PNG preview after execution |
 | `saveAs` | string | Save the result as this .ai path |
@@ -1313,6 +1321,7 @@ Create a flat packaging layout with panels, dieline layer and front artwork. Sam
 | `size` | object |  |
 | `colorMode` | string |  |
 | `imagePath` | string | Image to place (must be inside an allowed directory) |
+| `designSystem` | boolean | UI briefs: apply the UI/UX Pro Max product palette + font pairing matched from the brief (default: on unless style or baseColor is given) |
 | `execute` | boolean | false = return the plan only |
 | `preview` | boolean | Export and attach a PNG preview after execution |
 | `saveAs` | string | Save the result as this .ai path |
@@ -1333,6 +1342,7 @@ Create an infographic with numbered stat rows and bars. Pass copy.items as the d
 | `size` | object |  |
 | `colorMode` | string |  |
 | `imagePath` | string | Image to place (must be inside an allowed directory) |
+| `designSystem` | boolean | UI briefs: apply the UI/UX Pro Max product palette + font pairing matched from the brief (default: on unless style or baseColor is given) |
 | `execute` | boolean | false = return the plan only |
 | `preview` | boolean | Export and attach a PNG preview after execution |
 | `saveAs` | string | Save the result as this .ai path |
@@ -1353,6 +1363,7 @@ Create a consistent geometric icon set on shared keylines. Pass copy.items as ic
 | `size` | object |  |
 | `colorMode` | string |  |
 | `imagePath` | string | Image to place (must be inside an allowed directory) |
+| `designSystem` | boolean | UI briefs: apply the UI/UX Pro Max product palette + font pairing matched from the brief (default: on unless style or baseColor is given) |
 | `execute` | boolean | false = return the plan only |
 | `preview` | boolean | Export and attach a PNG preview after execution |
 | `saveAs` | string | Save the result as this .ai path |
@@ -1373,6 +1384,7 @@ Create a layered flat vector illustration (landscape scene). Same options as gen
 | `size` | object |  |
 | `colorMode` | string |  |
 | `imagePath` | string | Image to place (must be inside an allowed directory) |
+| `designSystem` | boolean | UI briefs: apply the UI/UX Pro Max product palette + font pairing matched from the brief (default: on unless style or baseColor is given) |
 | `execute` | boolean | false = return the plan only |
 | `preview` | boolean | Export and attach a PNG preview after execution |
 | `saveAs` | string | Save the result as this .ai path |
@@ -1393,6 +1405,91 @@ Create an editorial magazine page with kicker, title, deck, columns and pull quo
 | `size` | object |  |
 | `colorMode` | string |  |
 | `imagePath` | string | Image to place (must be inside an allowed directory) |
+| `designSystem` | boolean | UI briefs: apply the UI/UX Pro Max product palette + font pairing matched from the brief (default: on unless style or baseColor is given) |
+| `execute` | boolean | false = return the plan only |
+| `preview` | boolean | Export and attach a PNG preview after execution |
+| `saveAs` | string | Save the result as this .ai path |
+
+## `create_app_screen`
+
+Create a mobile app screen (393×852-class frame) in auto layout with UI components: home/dashboard by default; the brief picks login/sign-up or settings screens. Pass copy.items for list rows. Same options as generate_design.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `brief` * | string | Natural-language design brief. Quote exact copy, e.g. headline "PURE BEAUTY". |
+| `style` | string |  |
+| `template` | string | Template id (see list_templates) |
+| `copy` | object |  |
+| `baseColor` | string | Derive the palette from this color |
+| `harmony` | string |  |
+| `palette` | object | Override palette roles, e.g. {background:'#E9DDCC'} |
+| `size` | object |  |
+| `colorMode` | string |  |
+| `imagePath` | string | Image to place (must be inside an allowed directory) |
+| `designSystem` | boolean | UI briefs: apply the UI/UX Pro Max product palette + font pairing matched from the brief (default: on unless style or baseColor is given) |
+| `execute` | boolean | false = return the plan only |
+| `preview` | boolean | Export and attach a PNG preview after execution |
+| `saveAs` | string | Save the result as this .ai path |
+
+## `create_landing_page`
+
+Create a desktop website landing page: navbar, hero with CTAs and visual, feature cards. Pass copy.items as feature titles. Same options as generate_design.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `brief` * | string | Natural-language design brief. Quote exact copy, e.g. headline "PURE BEAUTY". |
+| `style` | string |  |
+| `template` | string | Template id (see list_templates) |
+| `copy` | object |  |
+| `baseColor` | string | Derive the palette from this color |
+| `harmony` | string |  |
+| `palette` | object | Override palette roles, e.g. {background:'#E9DDCC'} |
+| `size` | object |  |
+| `colorMode` | string |  |
+| `imagePath` | string | Image to place (must be inside an allowed directory) |
+| `designSystem` | boolean | UI briefs: apply the UI/UX Pro Max product palette + font pairing matched from the brief (default: on unless style or baseColor is given) |
+| `execute` | boolean | false = return the plan only |
+| `preview` | boolean | Export and attach a PNG preview after execution |
+| `saveAs` | string | Save the result as this .ai path |
+
+## `create_web_dashboard`
+
+Create a web app dashboard: sidebar nav, header with search, KPI tiles, chart and activity list. Pass copy.items as nav labels. Same options as generate_design.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `brief` * | string | Natural-language design brief. Quote exact copy, e.g. headline "PURE BEAUTY". |
+| `style` | string |  |
+| `template` | string | Template id (see list_templates) |
+| `copy` | object |  |
+| `baseColor` | string | Derive the palette from this color |
+| `harmony` | string |  |
+| `palette` | object | Override palette roles, e.g. {background:'#E9DDCC'} |
+| `size` | object |  |
+| `colorMode` | string |  |
+| `imagePath` | string | Image to place (must be inside an allowed directory) |
+| `designSystem` | boolean | UI briefs: apply the UI/UX Pro Max product palette + font pairing matched from the brief (default: on unless style or baseColor is given) |
+| `execute` | boolean | false = return the plan only |
+| `preview` | boolean | Export and attach a PNG preview after execution |
+| `saveAs` | string | Save the result as this .ai path |
+
+## `create_ui_kit`
+
+Create a design-system sheet: color tokens, type scale, buttons, inputs, controls, cards, list rows — all themed by style/palette. Same options as generate_design.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `brief` * | string | Natural-language design brief. Quote exact copy, e.g. headline "PURE BEAUTY". |
+| `style` | string |  |
+| `template` | string | Template id (see list_templates) |
+| `copy` | object |  |
+| `baseColor` | string | Derive the palette from this color |
+| `harmony` | string |  |
+| `palette` | object | Override palette roles, e.g. {background:'#E9DDCC'} |
+| `size` | object |  |
+| `colorMode` | string |  |
+| `imagePath` | string | Image to place (must be inside an allowed directory) |
+| `designSystem` | boolean | UI briefs: apply the UI/UX Pro Max product palette + font pairing matched from the brief (default: on unless style or baseColor is given) |
 | `execute` | boolean | false = return the plan only |
 | `preview` | boolean | Export and attach a PNG preview after execution |
 | `saveAs` | string | Save the result as this .ai path |
@@ -1457,8 +1554,293 @@ Generate N variations of a brief by changing one dimension each (style, palette 
 | `size` | object |  |
 | `colorMode` | string |  |
 | `imagePath` | string | Image to place (must be inside an allowed directory) |
+| `designSystem` | boolean | UI briefs: apply the UI/UX Pro Max product palette + font pairing matched from the brief (default: on unless style or baseColor is given) |
 | `execute` | boolean |  |
 | `preview` | boolean | Export and attach a PNG preview after execution |
 | `saveAs` | string | Save the result as this .ai path |
 | `count` | integer |  |
 | `dimension` | string |  |
+
+## `search_design_knowledge`
+
+Search the UI/UX Pro Max design knowledge base (MIT, 192 product types, 89 styles, 74 font pairings, 120+ UX rules). Domains: product (Product types → recommended style, landing pattern, dashboard style, palette focus); color (Product-type color palettes (primary, secondary, accent, background, foreground, card, muted, border, destructive)); typography (Heading/body font pairings by mood); style (UI styles (glassmorphism, neumorphism, brutalism…) with colors, effects, best-for and do-not-use-for); reasoning (Per-product design reasoning: pattern, style priority, color/typography mood, anti-patterns); landing (Landing page patterns: section order, CTA placement, color strategy); ux (UX guidelines with do / don't and severity); app-interface (Mobile app interface rules (accessibility, touch, navigation)); chart (Chart type recommendations per data type). Use it to ground style, color, type, layout and UX decisions before designing.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `domain` * | string |  |
+| `query` * | string | Keywords, e.g. "fintech", "glassmorphism", "elegant serif", "touch target" |
+| `limit` | integer |  |
+
+## `recommend_design_system`
+
+Recommend a complete design system for a product brief using UI/UX Pro Max reasoning: matched product type, color palette mapped to palette roles (incl. AA-safe subtle/link/onPrimary), font pairing, UI style, landing-page pattern, key considerations and anti-patterns to avoid. Pass the result's palette to create_ui_design or the design tools.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `brief` * | string | e.g. "telemedicine app for elderly patients" |
+
+## `list_ui_components`
+
+List the UI component library (button, input, card, navbar, tab-bar, list-item, toggle, stat, chart…) with props, the auto-layout node reference, device frame presets and default design tokens. Read this before create_ui_design.
+
+## `get_design_tokens`
+
+Design system for a style: color roles (incl. AA-safe 'subtle' text color), typography roles, spacing/radius/type-size tokens and control height. Use the token keys in auto-layout nodes.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `style` | string |  |
+| `platform` | string |  |
+| `baseColor` | string |  |
+| `harmony` | string |  |
+| `palette` | object |  |
+
+## `create_ui_design`
+
+Build a UI screen from an auto-layout tree (Figma-style frames: stacks with gap/padding/alignment, fill/hug sizing, components and design tokens). The server measures and positions everything, validates contrast, then builds editable artwork in Illustrator with a preview. Call list_ui_components first for the node and component reference. execute: false returns the computed plan only.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `name` | string |  |
+| `frame` | string | Device preset; or give width/height |
+| `width` | number |  |
+| `height` | number |  |
+| `style` | string |  |
+| `product` | string | Product/business description; applies the UI/UX Pro Max palette and font pairing for it (see recommend_design_system) |
+| `baseColor` | string |  |
+| `harmony` | string |  |
+| `palette` | object | Override palette roles |
+| `tokens` | object | Override design tokens (spacing, radius, fontSize, controlHeight) |
+| `layout` * | array | Auto-layout root nodes; usually one vertical stack with width/height 'fill' |
+| `elements` | array | Extra absolutely-positioned plan elements drawn beneath the layout |
+| `execute` | boolean |  |
+| `preview` | boolean |  |
+| `saveAs` | string |  |
+
+## `rename_layers_semantically`
+
+Rename generic objects ("<Path>", "Rectangle 3", unnamed text) in the active document to meaningful names inferred from verified geometry and content, e.g. "Background", "Header Bar", "Button / Sign in", "Heading / Pure Beauty". dryRun returns suggestions only. Inspects top-level objects of each layer.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `artboard` | integer |  |
+| `all` | boolean | Also rename objects that already have custom names |
+| `dryRun` | boolean |  |
+
+## `pathfinder`
+
+Pathfinder boolean operation on 2+ objects: unite (union), minusFront (subtract front from back), intersect, exclude, divide, minusBack. Result is expanded, editable vector paths.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `operation` * | string |  |
+| `targets` * | array |  |
+| `name` | string | Object name, used later to target it |
+
+## `flip_objects`
+
+Mirror objects horizontally or vertically about their own center.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `targets` | array | Multiple object references; defaults to current selection |
+| `axis` * | string |  |
+
+## `edit_path_points`
+
+Inspect or edit a path's anchor points. action: list | move (index, x, y; handles move along unless in/out given) | set_handles (index, in?, out?, pointType?) | convert (index → corner) | add (after index at x/y, or at the segment midpoint) | remove (index). Coordinates are absolute, artboard origin, y down.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `target` * | union | Object reference: "selection" or {name, layer?} / {uuid} |
+| `action` * | string |  |
+| `index` | integer |  |
+| `x` | number |  |
+| `y` | number |  |
+| `in` | array | Incoming handle (absolute) |
+| `out` | object | Outgoing handle (absolute) |
+| `pointType` | string |  |
+| `artboard` | integer | Artboard index used as the coordinate origin (default: active) |
+| `units` | string | Units for coordinates/sizes in this call (default: session units, initially pt) |
+
+## `reverse_path`
+
+Reverse a path's direction (point order and handles).
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `target` * | union | Object reference: "selection" or {name, layer?} / {uuid} |
+
+## `set_path_closed`
+
+Close an open path (adds the segment from the last to the first anchor) or open a closed one.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `target` * | union | Object reference: "selection" or {name, layer?} / {uuid} |
+| `closed` * | boolean |  |
+
+## `split_path`
+
+Split a path at an anchor index. An open path becomes two paths; a closed path becomes one open path starting at that anchor.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `target` * | union | Object reference: "selection" or {name, layer?} / {uuid} |
+| `index` * | integer |  |
+
+## `join_paths`
+
+Join open paths at their endpoints (Illustrator's Object > Path > Join).
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `targets` * | array |  |
+| `name` | string | Object name, used later to target it |
+
+## `simplify_path`
+
+Reduce anchor points: removes anchors whose removal moves the outline less than `tolerance` (Ramer–Douglas–Peucker over anchors). Illustrator's own Simplify dialog cannot be driven by scripts, so this is an alternative; curve handles of removed anchors are dropped.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `target` * | union | Object reference: "selection" or {name, layer?} / {uuid} |
+| `tolerance` | number |  |
+| `units` | string | Units for coordinates/sizes in this call (default: session units, initially pt) |
+
+## `get_image_info`
+
+Report linked/embedded images: kind, file path, whether the link exists, placed bounds, effective PPI. Omit target for all images. Images are reported as raster (isVector: false).
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `target` | union | Object reference: "selection" or {name, layer?} / {uuid} |
+
+## `replace_image`
+
+Relink a linked image to another file from an allowed directory, keeping its position and size unless keepBounds: false.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `target` * | union | Object reference: "selection" or {name, layer?} / {uuid} |
+| `path` * | string |  |
+| `keepBounds` | boolean |  |
+
+## `trace_image`
+
+Convert a placed or raster image to vector paths with Illustrator's Image Trace. preset: an Illustrator tracing preset name (e.g. "[Default]", "Black and White Logo", "6 Colors", "High Fidelity Photo"). expand (default true) produces editable paths; expand: false leaves a live trace object, which is NOT editable vector yet.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `target` * | union | Object reference: "selection" or {name, layer?} / {uuid} |
+| `preset` | string |  |
+| `expand` | boolean |  |
+| `name` | string | Object name, used later to target it |
+
+## `rename_artboard`
+
+Rename an artboard by index.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `index` * | integer |  |
+| `name` * | string |  |
+
+## `duplicate_artboard`
+
+Duplicate an artboard, placed to its right (gap) or at dx/dy offset, copying the unlocked artwork that lies fully inside it.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `index` * | integer |  |
+| `name` | string |  |
+| `gap` | number |  |
+| `dx` | number |  |
+| `dy` | number |  |
+| `withArtwork` | boolean |  |
+| `units` | string | Units for coordinates/sizes in this call (default: session units, initially pt) |
+
+## `delete_artboard`
+
+Delete an artboard (artwork on it is kept). Destructive: requires confirm: true after asking the user.
+
+> Destructive — requires `confirm: true`.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `index` * | integer |  |
+| `confirm` | boolean |  |
+
+## `list_documents`
+
+List all open Illustrator documents with path, saved state, color mode and which one is active.
+
+## `activate_document`
+
+Make an open document active, by name or by index from list_documents.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `name` | string |  |
+| `index` | integer |  |
+
+## `undo`
+
+Undo Illustrator steps in the active document. One step is one internal Illustrator change, not one tool call (a tool that draws 3 shapes creates about 3 steps), so inspect the document afterwards. Use redo to step forward again.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `steps` | integer |  |
+
+## `redo`
+
+Redo steps previously undone with undo.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `steps` | integer |  |
+
+## `analyze_typography`
+
+Group all text in the active document by font and size, flag inconsistencies (too many families/sizes, near-duplicate sizes, missing fonts, tiny text). Read-only.
+
+## `apply_typography`
+
+Apply fonts/sizes by role across all text, e.g. headings (minSize 24) → "Montserrat Bold", body (maxSize 14) → "Inter Regular". First matching rule wins; locked text is skipped. Use dryRun: true to preview which objects would change.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `rules` * | array |  |
+| `dryRun` | boolean |  |
+
+## `save_design_system`
+
+Store a reusable design system (palette roles, typography roles, spacing scale, grid, logo variants, guidelines) on disk so it can be applied to any document. Saving under an existing name requires overwrite: true.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `system` * | object |  |
+| `overwrite` | boolean |  |
+
+## `list_design_systems`
+
+List stored design systems.
+
+## `get_design_system`
+
+Read a stored design system by name.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `name` * | string |  |
+
+## `apply_design_system`
+
+Apply a stored design system to the active document: adds its palette as a swatch group and applies its typography roles to matching text. Recolor specific objects afterwards with apply_color_palette using the returned palette.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `name` * | string |  |
+| `swatches` | boolean |  |
+| `typography` | boolean |  |
+| `dryRun` | boolean |  |

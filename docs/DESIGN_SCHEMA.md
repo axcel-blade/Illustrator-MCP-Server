@@ -14,6 +14,8 @@ Schema via the MCP resource `illustrator://schema/design-plan`. Examples: [`exam
 | `palette` | object | `name`, `colors: { role: "#RRGGBB" }` |
 | `typography` | object | `heading`, `body`, `accent?` → `{ fonts: [candidates...], weight?, tracking? }` |
 | `grid` | object? | `columns`, `margin`, `gutter` |
+| `tokens` | object? | Design tokens: `spacing`, `radius`, `fontSize` (records of named values), `controlHeight`. See [UI_DESIGN.md](UI_DESIGN.md) |
+| `autoLayout` | array? | Input only: auto-layout tree, flattened into `elements` (appended on top) before validation. See [UI_DESIGN.md](UI_DESIGN.md) |
 | `layers` | array | Top-to-bottom. `{ name, locked? }` |
 | `elements` | array | Bottom-to-top unless `z` is set |
 | `swatches` | boolean | Add palette swatches to the document (default true) |

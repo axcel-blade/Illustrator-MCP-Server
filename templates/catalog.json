@@ -218,5 +218,71 @@
       "height": 297,
       "units": "mm"
     }
+  },
+  {
+    "id": "mobile-home",
+    "name": "Mobile Home Screen",
+    "category": "mobile-app",
+    "description": "App home: app bar, greeting, search, KPI tiles, featured card, activity list and bottom tab bar.",
+    "defaultSize": {
+      "width": 390,
+      "height": 844,
+      "units": "px"
+    }
+  },
+  {
+    "id": "mobile-login",
+    "name": "Mobile Login Screen",
+    "category": "mobile-app",
+    "description": "Sign-in screen: logo mark, welcome copy, email/password fields, primary + secondary actions.",
+    "defaultSize": {
+      "width": 390,
+      "height": 844,
+      "units": "px"
+    }
+  },
+  {
+    "id": "mobile-settings",
+    "name": "Mobile Settings Screen",
+    "category": "mobile-app",
+    "description": "Settings: profile row, grouped toggles and navigation rows, destructive action.",
+    "defaultSize": {
+      "width": 390,
+      "height": 844,
+      "units": "px"
+    }
+  },
+  {
+    "id": "landing-page",
+    "name": "Landing Page (Desktop)",
+    "category": "landing-page",
+    "description": "Website hero: navbar, headline, subcopy, dual CTAs, product visual, three feature cards.",
+    "defaultSize": {
+      "width": 1440,
+      "height": 1024,
+      "units": "px"
+    }
+  },
+  {
+    "id": "web-dashboard",
+    "name": "Web Dashboard",
+    "category": "web-dashboard",
+    "description": "Admin dashboard: sidebar navigation, header with search, KPI row, bar chart and recent activity list.",
+    "defaultSize": {
+      "width": 1440,
+      "height": 900,
+      "units": "px"
+    }
+  },
+  {
+    "id": "ui-kit",
+    "name": "UI Kit / Design System Sheet",
+    "category": "ui-kit",
+    "description": "Design-system sheet: color tokens, type scale, buttons, inputs, controls, cards and navigation components.",
+    "defaultSize": {
+      "width": 1440,
+      "height": 1100,
+      "units": "px"
+    }
   }
 ]

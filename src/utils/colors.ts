@@ -71,6 +71,13 @@ export function contrastRatio(a: string, b: string): number {
   return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05);
 }
 
+/** Linear RGB mix: t = 0 gives a, t = 1 gives b. */
+export function mixHex(a: string, b: string, t: number): string {
+  const x = hexToRgb(a), y = hexToRgb(b);
+  const m = (p: number, q: number) => Math.round(p + (q - p) * t);
+  return rgbToHex({ r: m(x.r, y.r), g: m(x.g, y.g), b: m(x.b, y.b) });
+}
+
 export function shiftLightness(hex: string, delta: number): string {
   const hsl = rgbToHsl(hexToRgb(hex));
   return rgbToHex(hslToRgb(hsl.h, hsl.s, Math.max(0, Math.min(100, hsl.l + delta))));

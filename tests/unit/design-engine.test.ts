@@ -11,6 +11,8 @@ import { parseInstructions, revisePlan, revisionOps } from "../../src/design-eng
 import { TEMPLATES } from "../../src/design-engine/templates/library.js";
 import { typeScale } from "../../src/design-engine/typography/type-systems.js";
 import { validatePlan } from "../../src/design-engine/validator/validate.js";
+import { suggestLayerNames } from "../../src/design-engine/ui/naming.js";
+import { parseCsv, recommendDesignSystem, rows, search } from "../../src/design-engine/knowledge/knowledge.js";
 import { contrastRatio } from "../../src/utils/colors.js";
 
 const SAMPLE = {
@@ -200,5 +202,109 @@ describe("composition analyzer", () => {
     ], ab);
     expect(report.findings).toEqual([]);
     expect(report.score).toBe(100);
+  });
+});
+
+describe("UI: auto layout, components, naming", () => {
+  it("routes UI briefs to UI templates", () => {
+    expect(planDesign({ brief: "a sign in screen for a mobile app" }).plan.meta.template).toBe("mobile-login");
+    expect(planDesign({ brief: "settings screen for an iOS app" }).plan.meta.template).toBe("mobile-settings");
+    expect(planDesign({ brief: "a SaaS landing page" }).plan.meta.template).toBe("landing-page");
+    expect(planDesign({ brief: "an admin dashboard for orders" }).plan.meta.template).toBe("web-dashboard");
+    expect(planDesign({ brief: "a design system ui kit" }).plan.meta.template).toBe("ui-kit");
+    expect(planDesign({ brief: "low-fidelity wireframe of a mobile app home screen" }).plan.meta.style).toBe("wireframe");
+    expect(analyzeBrief("a poster for a jazz studios night").category).toBe("poster");
+  });
+
+  it("every UI template validates without contrast warnings", () => {
+    for (const t of TEMPLATES.filter((x) => ["mobile-app", "landing-page", "web-dashboard", "ui-kit"].includes(x.category))) {
+      const r = planDesign({ brief: "test", template: t.id, style: "modern" });
+      expect(r.plan.elements.length, t.id).toBeGreaterThan(10);
+      expect(r.warnings.filter((w) => /contrast/.test(w)), t.id).toEqual([]);
+    }
+  });
+
+  it("stacks children with gap and padding, fill and spacer", () => {
+    const r = validatePlan({
+      document: { width: 400, height: 800, units: "px" }, layers: [{ name: "UI" }],
+      palette: { colors: { background: "#FFFFFF", text: "#111111", primary: "#1F4E79", surface: "#EEEEEE", muted: "#999999" } },
+      elements: [],
+      autoLayout: [{ type: "stack", name: "Root", width: "fill", height: "fill", padding: 20, gap: 10, children: [
+        { type: "rect", name: "A", width: "fill", height: 50 },
+        { type: "rect", name: "B", width: 100, height: 30 },
+        { type: "spacer" },
+        { type: "stack", name: "Row", direction: "horizontal", gap: 10, width: "fill", fill: "palette.surface", children: [
+          { type: "rect", name: "C", width: "fill", height: 40 },
+          { type: "rect", name: "D", width: "fill", height: 40 },
+        ] },
+      ] }],
+    });
+    expect(r.errors).toEqual([]);
+    const p = r.plan!;
+    const get = (n: string) => p.elements.find((e) => e.name === n) as unknown as { x: number; y: number; width: number; height: number };
+    expect(get("A")).toMatchObject({ x: 20, y: 20, width: 360, height: 50 });
+    expect(get("B")).toMatchObject({ x: 20, y: 80, width: 100 });
+    expect(get("Row")).toMatchObject({ x: 20, y: 740, width: 360, height: 40 }); // spacer pushes the row to the bottom
+    expect(get("C")).toMatchObject({ x: 20, width: 175 });
+    expect(get("D")).toMatchObject({ x: 205, width: 175 });
+    expect(p.palette.colors.subtle).toBeDefined();
+  });
+
+  it("expands components with prefixed part names and token sizes", () => {
+    const { plan } = planDesign({ brief: "a login screen for a mobile app" });
+    const get = (n: string) => plan.elements.find((e) => e.name === n) as unknown as { x: number; width: number };
+    expect(get("Sign In").width).toBeCloseTo(390 - 48);
+    expect(get("Sign In / Label").x).toBeCloseTo(get("Sign In").x + get("Sign In").width / 2); // centered point text
+    const r = validatePlan({ document: { width: 100, height: 100, units: "px" }, layers: [{ name: "UI" }], elements: [], autoLayout: [{ type: "stack", name: "S", gap: "huge", children: [] }] });
+    expect(r.valid).toBe(false);
+    expect(r.errors[0]!.message).toMatch(/spacing token "huge"/);
+  });
+
+  it("warns when stack content overflows its frame", () => {
+    const r = validatePlan({ document: { width: 100, height: 100, units: "px" }, layers: [{ name: "UI" }], elements: [],
+      autoLayout: [{ type: "stack", name: "Tight", width: 100, height: 50, children: [{ type: "rect", name: "Big", width: 50, height: 80 }] }] });
+    expect(r.valid).toBe(true);
+    expect(r.warnings.map((w) => w.message).join(" ")).toMatch(/overflows the height by 30/);
+  });
+
+  it("suggests semantic names for generic objects only", () => {
+    const s = suggestLayerNames([
+      { name: "", type: "PathItem", bounds: { x: 0, y: 0, width: 400, height: 800 } },
+      { name: "<Path>", type: "PathItem", bounds: { x: 20, y: 700, width: 200, height: 48 } },
+      { name: "", type: "TextFrame", bounds: { x: 60, y: 712, width: 80, height: 20 }, contents: "Get started", fontSize: 16 },
+      { name: "", type: "TextFrame", bounds: { x: 20, y: 100, width: 300, height: 40 }, contents: "Welcome back", fontSize: 32 },
+      { name: "Hero", type: "PathItem", bounds: { x: 0, y: 0, width: 50, height: 50 } },
+    ], { width: 400, height: 800 });
+    expect(s.map((x) => x.to)).toEqual(["Background", "Button / Get started", "Button Label / Get started", "Heading / Welcome back"]);
+  });
+});
+
+describe("UI/UX Pro Max knowledge", () => {
+  it("parses quoted CSV fields with commas, quotes and newlines", () => {
+    expect(parseCsv('a,b\n1,"x, ""y""\nz"\n')).toEqual([{ a: "1", b: 'x, "y"\nz' }]);
+  });
+
+  it("loads every vendored table", () => {
+    expect(rows("product").length).toBeGreaterThan(150);
+    expect(rows("color").length).toBe(rows("product").length);
+    expect(rows("typography").length).toBeGreaterThan(50);
+    expect(search("style", "glassmorphism", 1)[0]!.row["Style Category"]).toBe("Glassmorphism");
+  });
+
+  it("matches products on business words, not on UI words", () => {
+    expect(recommendDesignSystem("login screen for a fintech banking app").product?.["Product Type"]).toBe("Fintech/Crypto");
+    expect(recommendDesignSystem("a recipe app").product?.["Product Type"]).toBe("Recipe & Cooking App");
+    expect(recommendDesignSystem("sign in screen for a mobile app").confidence).not.toBe("high");
+  });
+
+  it("applies the product palette and fonts to UI briefs, contrast-clean for every product", () => {
+    const { plan } = planDesign({ brief: "landing page for a fintech payments startup" });
+    expect(plan.palette.name).toMatch(/UI\/UX Pro Max/);
+    expect(plan.meta.rationale?.join(" ")).toMatch(/Avoid:/);
+    expect(planDesign({ brief: "landing page for a fintech startup", style: "playful" }).plan.palette.name).not.toMatch(/Pro Max/);
+    for (const r of rows("product")) {
+      const out = planDesign({ brief: r["Product Type"]!, template: "mobile-home" });
+      expect(out.warnings.filter((w) => /contrast/.test(w)), r["Product Type"]).toEqual([]);
+    }
   });
 });

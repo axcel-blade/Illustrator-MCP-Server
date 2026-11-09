@@ -30,6 +30,7 @@ const briefInput = {
   size: z.object({ width: z.number().positive(), height: z.number().positive(), units: UnitSchema }).optional(),
   colorMode: z.enum(["RGB", "CMYK"]).optional(),
   imagePath: z.string().optional().describe("Image to place (must be inside an allowed directory)"),
+  designSystem: z.boolean().optional().describe("UI briefs: apply the UI/UX Pro Max product palette + font pairing matched from the brief (default: on unless style or baseColor is given)"),
   execute: z.boolean().default(true).describe("false = return the plan only"),
   preview: z.boolean().default(true).describe("Export and attach a PNG preview after execution"),
   saveAs: z.string().optional().describe("Save the result as this .ai path"),
@@ -117,7 +118,7 @@ export async function executePlan(ctx: ToolContext, input: DesignPlan, opts: Exe
 function toPlanOptions(a: BriefArgs, category?: string): PlanOptions {
   return {
     brief: a.brief, category, style: a.style, template: a.template, copy: a.copy, palette: a.palette, baseColor: a.baseColor,
-    harmony: a.harmony, size: a.size, colorMode: a.colorMode, imagePath: a.imagePath,
+    harmony: a.harmony, size: a.size, colorMode: a.colorMode, imagePath: a.imagePath, designSystem: a.designSystem,
   };
 }
 
@@ -219,6 +220,10 @@ export function registerDesignTools(server: McpServer, ctx: ToolContext): void {
     ["create_icon_set", "icon-set", "Create a consistent geometric icon set on shared keylines. Pass copy.items as icon labels."],
     ["create_vector_illustration", "illustration", "Create a layered flat vector illustration (landscape scene)."],
     ["create_editorial_layout", "editorial", "Create an editorial magazine page with kicker, title, deck, columns and pull quote."],
+    ["create_app_screen", "mobile-app", "Create a mobile app screen (393×852-class frame) in auto layout with UI components: home/dashboard by default; the brief picks login/sign-up or settings screens. Pass copy.items for list rows."],
+    ["create_landing_page", "landing-page", "Create a desktop website landing page: navbar, hero with CTAs and visual, feature cards. Pass copy.items as feature titles."],
+    ["create_web_dashboard", "web-dashboard", "Create a web app dashboard: sidebar nav, header with search, KPI tiles, chart and activity list. Pass copy.items as nav labels."],
+    ["create_ui_kit", "ui-kit", "Create a design-system sheet: color tokens, type scale, buttons, inputs, controls, cards, list rows — all themed by style/palette."],
   ];
   for (const [name, category, description] of categoryTools) {
     defineTool(server, ctx, { name, description: `${description} Same options as generate_design.`, input: briefInput, annotations: WRITE, handler: async (a) => briefTool(ctx, a, category) });

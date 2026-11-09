@@ -4,7 +4,9 @@ MCP.ops.status = function () {
   var docs = [];
   for (var i = 0; i < app.documents.length; i++) {
     var d = app.documents[i];
-    docs.push({ name: d.name, saved: d.saved, path: d.fullName ? String(d.fullName.fsName) : null });
+    var p = null;
+    try { if (d.fullName && d.fullName.exists) p = String(d.fullName.fsName); } catch (e) { p = null; }
+    docs.push({ name: d.name, saved: p !== null && d.saved, path: p });
   }
   return {
     application: app.name, version: app.version, buildNumber: app.buildNumber,
@@ -20,10 +22,12 @@ MCP.docInfo = function (doc) {
     abs.push({ index: i, name: doc.artboards[i].name, width: r[2] - r[0], height: r[1] - r[3],
       left: r[0], top: r[1], active: i === doc.artboards.getActiveArtboardIndex() });
   }
+  /* A never-saved document reports saved=true while empty and a fullName relative to
+     Illustrator's install folder, so only trust a fullName that exists on disk. */
   var path = null;
-  try { if (doc.saved || doc.path.fsName) path = doc.fullName.fsName; } catch (e) { path = null; }
+  try { if (doc.fullName && doc.fullName.exists) path = doc.fullName.fsName; } catch (e) { path = null; }
   return {
-    name: doc.name, path: path, saved: doc.saved,
+    name: doc.name, path: path, saved: path !== null && doc.saved,
     colorMode: doc.documentColorSpace === DocumentColorSpace.CMYK ? "CMYK" : "RGB",
     rulerUnits: String(doc.rulerUnits), artboards: abs,
     layerCount: doc.layers.length, pageItemCount: doc.pageItems.length,
@@ -46,13 +50,15 @@ MCP.ops.create_document = function (a) {
     if (u) preset.units = u;
   }
   var doc = app.documents.addDocument(a.colorMode === "CMYK" ? "Print" : "Web", preset);
+  MCP.pinned = doc; /* activeDocument may still report the previous document right after creation */
   return MCP.docInfo(doc);
 };
 
 MCP.ops.open_document = function (a) {
   var f = new File(a.path);
   if (!f.exists) MCP.fail("FILE_NOT_FOUND", "File not found: " + a.path);
-  return MCP.docInfo(app.open(f));
+  MCP.pinned = app.open(f);
+  return MCP.docInfo(MCP.pinned);
 };
 
 MCP.findDoc = function (name) {

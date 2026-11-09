@@ -213,8 +213,14 @@ MCP.unionBox = function (items) {
 MCP.ops.align_objects = function (a) {
   var doc = MCP.doc();
   var items = MCP.targets(a);
-  var ref = a.relativeTo === "artboard" ? MCP.abBox(doc)
-    : a.relativeTo === "key" ? MCP.box(MCP.findOne(doc, a.key).geometricBounds) : MCP.unionBox(items);
+  /* if/else instead of a multi-line nested ternary: ExtendScript evaluated the "key" branch
+     for relativeTo "artboard" and crashed on the undefined key. */
+  var ref;
+  if (a.relativeTo === "artboard") ref = MCP.abBox(doc);
+  else if (a.relativeTo === "key") {
+    if (!a.key) MCP.fail("VALIDATION_ERROR", "relativeTo \"key\" requires a key object reference.");
+    ref = MCP.box(MCP.findOne(doc, a.key).geometricBounds);
+  } else ref = MCP.unionBox(items);
   for (var i = 0; i < items.length; i++) {
     var b = MCP.box(items[i].geometricBounds);
     var x = b.x, y = b.y;
