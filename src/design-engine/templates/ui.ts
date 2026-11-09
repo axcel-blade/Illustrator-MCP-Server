@@ -47,7 +47,7 @@ const mobileLogin: TemplateDefinition = {
           S("Form", { direction: "vertical", gap: "md", width: "fill" }, [
             C("Email", "input", { label: "Email", placeholder: "you@example.com" }),
             C("Password", "input", { label: "Password", placeholder: "••••••••" }),
-            T("Forgot Password", "Forgot password?", { fontSize: "label", weight: "medium", color: "palette.primary", role: "link" }),
+            T("Forgot Password", "Forgot password?", { fontSize: "label", weight: "medium", color: "palette.link", role: "link" }),
           ]),
           C("Sign In", "button", { label: ctx.copy.cta, variant: "primary", size: "lg" }, { width: "fill" }),
           C("Create Account", "button", { label: "Create an account", variant: "outline", size: "lg" }, { width: "fill" }),

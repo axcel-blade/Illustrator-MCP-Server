@@ -12,6 +12,7 @@ import { TEMPLATES } from "../../src/design-engine/templates/library.js";
 import { typeScale } from "../../src/design-engine/typography/type-systems.js";
 import { validatePlan } from "../../src/design-engine/validator/validate.js";
 import { suggestLayerNames } from "../../src/design-engine/ui/naming.js";
+import { parseCsv, recommendDesignSystem, rows, search } from "../../src/design-engine/knowledge/knowledge.js";
 import { contrastRatio } from "../../src/utils/colors.js";
 
 const SAMPLE = {
@@ -275,5 +276,35 @@ describe("UI: auto layout, components, naming", () => {
       { name: "Hero", type: "PathItem", bounds: { x: 0, y: 0, width: 50, height: 50 } },
     ], { width: 400, height: 800 });
     expect(s.map((x) => x.to)).toEqual(["Background", "Button / Get started", "Button Label / Get started", "Heading / Welcome back"]);
+  });
+});
+
+describe("UI/UX Pro Max knowledge", () => {
+  it("parses quoted CSV fields with commas, quotes and newlines", () => {
+    expect(parseCsv('a,b\n1,"x, ""y""\nz"\n')).toEqual([{ a: "1", b: 'x, "y"\nz' }]);
+  });
+
+  it("loads every vendored table", () => {
+    expect(rows("product").length).toBeGreaterThan(150);
+    expect(rows("color").length).toBe(rows("product").length);
+    expect(rows("typography").length).toBeGreaterThan(50);
+    expect(search("style", "glassmorphism", 1)[0]!.row["Style Category"]).toBe("Glassmorphism");
+  });
+
+  it("matches products on business words, not on UI words", () => {
+    expect(recommendDesignSystem("login screen for a fintech banking app").product?.["Product Type"]).toBe("Fintech/Crypto");
+    expect(recommendDesignSystem("a recipe app").product?.["Product Type"]).toBe("Recipe & Cooking App");
+    expect(recommendDesignSystem("sign in screen for a mobile app").confidence).not.toBe("high");
+  });
+
+  it("applies the product palette and fonts to UI briefs, contrast-clean for every product", () => {
+    const { plan } = planDesign({ brief: "landing page for a fintech payments startup" });
+    expect(plan.palette.name).toMatch(/UI\/UX Pro Max/);
+    expect(plan.meta.rationale?.join(" ")).toMatch(/Avoid:/);
+    expect(planDesign({ brief: "landing page for a fintech startup", style: "playful" }).plan.palette.name).not.toMatch(/Pro Max/);
+    for (const r of rows("product")) {
+      const out = planDesign({ brief: r["Product Type"]!, template: "mobile-home" });
+      expect(out.warnings.filter((w) => /contrast/.test(w)), r["Product Type"]).toEqual([]);
+    }
   });
 });

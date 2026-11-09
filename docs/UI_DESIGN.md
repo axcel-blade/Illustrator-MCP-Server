@@ -15,10 +15,26 @@ layer names. Everything ends up as editable Illustrator vectors and live text.
 | `create_ui_design` | Your own screen as an auto-layout tree (the AI decides the structure; the server does the geometry) |
 | `list_ui_components` | Component catalog with props, node reference, device frame presets, default tokens |
 | `get_design_tokens` | Palette roles, typography roles, spacing/radius/type-size tokens for a style |
+| `recommend_design_system` | Product brief → palette, font pairing, style, landing pattern, anti-patterns (UI/UX Pro Max) |
+| `search_design_knowledge` | Search styles, product palettes, font pairings, landing patterns, UX/mobile rules, chart guidance |
 | `rename_layers_semantically` | Rename `<Path>`, `Rectangle 3`, unnamed text… to `Background`, `Button / Sign in`, `Heading / …` |
 
 `generate_design` also routes UI briefs ("mobile app", "landing page", "dashboard", "ui kit", "wireframe") to these
 templates. The `wireframe` style gives a grayscale low-fidelity look.
+
+## Design knowledge (UI/UX Pro Max)
+
+The server ships the design data of [UI/UX Pro Max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill)
+(MIT) in `data/ui-ux-pro-max`. For UI briefs, the planner matches the business described in the brief
+("fintech", "telemedicine", "recipe app") to one of 192 product types. It then uses that product's color
+palette and font pairing and adds its reasoning (key considerations, recommended style, what to avoid) to the
+plan's rationale. Words that describe the deliverable ("login screen", "dashboard") are ignored when matching,
+so a brief with no business in it keeps the style palette.
+
+The knowledge is used when no `style` or `baseColor` is given. Pass `designSystem: false` to turn it off, or
+`designSystem: true` to apply it together with a style. `create_ui_design` takes `product: "…"` for the same
+effect. Font pairings are Google Fonts; when one isn't installed, Illustrator falls back to Segoe UI/Arial or
+Georgia, and the font check warns about it.
 
 ## Auto layout
 
@@ -65,8 +81,9 @@ Plans carry `tokens` (spacing, radius, fontSize, controlHeight). Nodes reference
 `organic` have rounder ones, and web frames get larger display sizes.
 
 Colors use palette roles. When a role that components need is missing (`surface`, `muted`, `secondary`), it is
-derived from the palette, and `palette.subtle` is always added as a secondary text color that passes WCAG AA
-(at least 4.6:1) against the background. The validator checks text contrast against the shape *under* the text,
+derived from the palette, and three roles are always derived: `subtle` (secondary text, at least 4.6:1 against the
+background), `link` (primary-colored text that reads at 4.5:1 on both the page and cards) and
+`onPrimary`/`onAccent` (text on primary/accent fills). The validator checks text contrast against the shape *under* the text,
 not just the page background.
 
 ## Device frames

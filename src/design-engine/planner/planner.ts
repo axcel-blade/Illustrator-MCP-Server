@@ -4,6 +4,7 @@ import type { Unit } from "../../utils/units.js";
 import { generatePalette, paletteFromBrief, STYLE_PALETTES, type Harmony, type RolePalette } from "../color/palettes.js";
 import type { Copy } from "../templates/helpers.js";
 import { getTemplate, TEMPLATES } from "../templates/library.js";
+import { recommendDesignSystem, type DesignSystemRecommendation } from "../knowledge/knowledge.js";
 import { TYPE_SYSTEMS } from "../typography/type-systems.js";
 import { validatePlan } from "../validator/validate.js";
 
@@ -163,7 +164,11 @@ export interface PlanOptions {
   colorMode?: "RGB" | "CMYK";
   imagePath?: string;
   title?: string;
+  /** UI briefs: use the UI/UX Pro Max product palette and font pairing (default true unless a style or base color is given). */
+  designSystem?: boolean;
 }
+
+export const UI_CATEGORIES = new Set(["mobile-app", "landing-page", "web-dashboard", "ui-kit"]);
 
 /** Steps 5-11: hierarchy, palette, type, positions, layers -> structured plan -> validation. */
 export function planDesign(opts: PlanOptions): { plan: DesignPlan; analysis: BriefAnalysis; warnings: string[] } {
@@ -174,12 +179,14 @@ export function planDesign(opts: PlanOptions): { plan: DesignPlan; analysis: Bri
   const template = getTemplate(opts.template ?? category) ?? pickUiTemplate(category, analysis.brief) ?? TEMPLATES.find((t) => t.category === category);
   if (!template) throw new McpDesignError("VALIDATION_ERROR", `No template for category "${category}". Available: ${TEMPLATES.map((t) => t.id).join(", ")}`);
 
+  const useKnowledge = UI_CATEGORIES.has(template.category) && (opts.designSystem ?? (!opts.baseColor && !opts.style && style !== "wireframe"));
+  const rec: DesignSystemRecommendation | undefined = useKnowledge ? recommendDesignSystem(opts.brief) : undefined;
   let palette: RolePalette = opts.baseColor
     ? generatePalette(opts.baseColor, opts.harmony ?? analysis.harmony ?? "complementary", { dark: style === "futuristic" })
-    : paletteFromBrief(opts.brief, style);
+    : rec?.palette ?? paletteFromBrief(opts.brief, style);
   if (opts.palette) palette = { name: `${palette.name} (custom)`, colors: { ...palette.colors, ...Object.fromEntries(Object.entries(opts.palette).filter(([, v]) => v)) } };
 
-  const type = TYPE_SYSTEMS[style]!;
+  const type = rec?.fonts ? { ...TYPE_SYSTEMS[style]!, ...rec.fonts, headingCaps: false } : TYPE_SYSTEMS[style]!;
   const copy = defaultCopy(analysis, opts.copy);
   const size = opts.size ?? analysis.size ?? template.defaultSize;
   const out = template.build({ style, palette, type, copy, imagePath: opts.imagePath }, size);
@@ -190,6 +197,7 @@ export function planDesign(opts: PlanOptions): { plan: DesignPlan; analysis: Bri
     `Hierarchy uses a ${type.scale} modular type scale; headline is the dominant element, supporting copy steps down in size and contrast`,
     `Layers separate typography, graphics, images and a locked background so revisions can target one concern`,
   ];
+  if (rec?.confidence === "high") rationale.push(...rec.rationale);
   if (analysis.wantsImage && !opts.imagePath) rationale.push("Brief mentions an image but no file was supplied, so a labelled placeholder frame was planned");
 
   const draft = {

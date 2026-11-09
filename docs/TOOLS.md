@@ -1,6 +1,6 @@
 # MCP tool reference
 
-Generated from the server (122 tools) by `node scripts/gen-docs.mjs`. Coordinates follow [COORDINATES.md](COORDINATES.md).
+Generated from the server (124 tools) by `node scripts/gen-docs.mjs`. Coordinates follow [COORDINATES.md](COORDINATES.md).
 
 ## `illustrator_status`
 
@@ -1112,6 +1112,7 @@ Turn a brief into a structured, validated design plan (JSON) WITHOUT touching Il
 | `size` | object |  |
 | `colorMode` | string |  |
 | `imagePath` | string | Image to place (must be inside an allowed directory) |
+| `designSystem` | boolean | UI briefs: apply the UI/UX Pro Max product palette + font pairing matched from the brief (default: on unless style or baseColor is given) |
 | `execute` | boolean |  |
 | `preview` | boolean | Export and attach a PNG preview after execution |
 | `saveAs` | string | Save the result as this .ai path |
@@ -1172,6 +1173,7 @@ Full pipeline from a brief: analyze requirements (category, audience, style, siz
 | `size` | object |  |
 | `colorMode` | string |  |
 | `imagePath` | string | Image to place (must be inside an allowed directory) |
+| `designSystem` | boolean | UI briefs: apply the UI/UX Pro Max product palette + font pairing matched from the brief (default: on unless style or baseColor is given) |
 | `execute` | boolean | false = return the plan only |
 | `preview` | boolean | Export and attach a PNG preview after execution |
 | `saveAs` | string | Save the result as this .ai path |
@@ -1193,6 +1195,7 @@ Create a minimalist logo lockup (mark, wordmark, tagline) as editable vectors. S
 | `size` | object |  |
 | `colorMode` | string |  |
 | `imagePath` | string | Image to place (must be inside an allowed directory) |
+| `designSystem` | boolean | UI briefs: apply the UI/UX Pro Max product palette + font pairing matched from the brief (default: on unless style or baseColor is given) |
 | `execute` | boolean | false = return the plan only |
 | `preview` | boolean | Export and attach a PNG preview after execution |
 | `saveAs` | string | Save the result as this .ai path |
@@ -1213,6 +1216,7 @@ Create a poster with hero image area, headline hierarchy and footer CTA. Same op
 | `size` | object |  |
 | `colorMode` | string |  |
 | `imagePath` | string | Image to place (must be inside an allowed directory) |
+| `designSystem` | boolean | UI briefs: apply the UI/UX Pro Max product palette + font pairing matched from the brief (default: on unless style or baseColor is given) |
 | `execute` | boolean | false = return the plan only |
 | `preview` | boolean | Export and attach a PNG preview after execution |
 | `saveAs` | string | Save the result as this .ai path |
@@ -1233,6 +1237,7 @@ Create a flyer with color block, headline, offer list and CTA button. Same optio
 | `size` | object |  |
 | `colorMode` | string |  |
 | `imagePath` | string | Image to place (must be inside an allowed directory) |
+| `designSystem` | boolean | UI briefs: apply the UI/UX Pro Max product palette + font pairing matched from the brief (default: on unless style or baseColor is given) |
 | `execute` | boolean | false = return the plan only |
 | `preview` | boolean | Export and attach a PNG preview after execution |
 | `saveAs` | string | Save the result as this .ai path |
@@ -1253,6 +1258,7 @@ Create a social media graphic (default 1080×1080 px). Same options as generate_
 | `size` | object |  |
 | `colorMode` | string |  |
 | `imagePath` | string | Image to place (must be inside an allowed directory) |
+| `designSystem` | boolean | UI briefs: apply the UI/UX Pro Max product palette + font pairing matched from the brief (default: on unless style or baseColor is given) |
 | `execute` | boolean | false = return the plan only |
 | `preview` | boolean | Export and attach a PNG preview after execution |
 | `saveAs` | string | Save the result as this .ai path |
@@ -1273,6 +1279,7 @@ Create a business card front (85×55 mm, CMYK). Same options as generate_design.
 | `size` | object |  |
 | `colorMode` | string |  |
 | `imagePath` | string | Image to place (must be inside an allowed directory) |
+| `designSystem` | boolean | UI briefs: apply the UI/UX Pro Max product palette + font pairing matched from the brief (default: on unless style or baseColor is given) |
 | `execute` | boolean | false = return the plan only |
 | `preview` | boolean | Export and attach a PNG preview after execution |
 | `saveAs` | string | Save the result as this .ai path |
@@ -1293,6 +1300,7 @@ Create a brand identity board: logo lockup, palette swatches with hex labels, ty
 | `size` | object |  |
 | `colorMode` | string |  |
 | `imagePath` | string | Image to place (must be inside an allowed directory) |
+| `designSystem` | boolean | UI briefs: apply the UI/UX Pro Max product palette + font pairing matched from the brief (default: on unless style or baseColor is given) |
 | `execute` | boolean | false = return the plan only |
 | `preview` | boolean | Export and attach a PNG preview after execution |
 | `saveAs` | string | Save the result as this .ai path |
@@ -1313,6 +1321,7 @@ Create a flat packaging layout with panels, dieline layer and front artwork. Sam
 | `size` | object |  |
 | `colorMode` | string |  |
 | `imagePath` | string | Image to place (must be inside an allowed directory) |
+| `designSystem` | boolean | UI briefs: apply the UI/UX Pro Max product palette + font pairing matched from the brief (default: on unless style or baseColor is given) |
 | `execute` | boolean | false = return the plan only |
 | `preview` | boolean | Export and attach a PNG preview after execution |
 | `saveAs` | string | Save the result as this .ai path |
@@ -1333,6 +1342,7 @@ Create an infographic with numbered stat rows and bars. Pass copy.items as the d
 | `size` | object |  |
 | `colorMode` | string |  |
 | `imagePath` | string | Image to place (must be inside an allowed directory) |
+| `designSystem` | boolean | UI briefs: apply the UI/UX Pro Max product palette + font pairing matched from the brief (default: on unless style or baseColor is given) |
 | `execute` | boolean | false = return the plan only |
 | `preview` | boolean | Export and attach a PNG preview after execution |
 | `saveAs` | string | Save the result as this .ai path |
@@ -1353,6 +1363,7 @@ Create a consistent geometric icon set on shared keylines. Pass copy.items as ic
 | `size` | object |  |
 | `colorMode` | string |  |
 | `imagePath` | string | Image to place (must be inside an allowed directory) |
+| `designSystem` | boolean | UI briefs: apply the UI/UX Pro Max product palette + font pairing matched from the brief (default: on unless style or baseColor is given) |
 | `execute` | boolean | false = return the plan only |
 | `preview` | boolean | Export and attach a PNG preview after execution |
 | `saveAs` | string | Save the result as this .ai path |
@@ -1373,6 +1384,7 @@ Create a layered flat vector illustration (landscape scene). Same options as gen
 | `size` | object |  |
 | `colorMode` | string |  |
 | `imagePath` | string | Image to place (must be inside an allowed directory) |
+| `designSystem` | boolean | UI briefs: apply the UI/UX Pro Max product palette + font pairing matched from the brief (default: on unless style or baseColor is given) |
 | `execute` | boolean | false = return the plan only |
 | `preview` | boolean | Export and attach a PNG preview after execution |
 | `saveAs` | string | Save the result as this .ai path |
@@ -1393,6 +1405,7 @@ Create an editorial magazine page with kicker, title, deck, columns and pull quo
 | `size` | object |  |
 | `colorMode` | string |  |
 | `imagePath` | string | Image to place (must be inside an allowed directory) |
+| `designSystem` | boolean | UI briefs: apply the UI/UX Pro Max product palette + font pairing matched from the brief (default: on unless style or baseColor is given) |
 | `execute` | boolean | false = return the plan only |
 | `preview` | boolean | Export and attach a PNG preview after execution |
 | `saveAs` | string | Save the result as this .ai path |
@@ -1413,6 +1426,7 @@ Create a mobile app screen (393×852-class frame) in auto layout with UI compone
 | `size` | object |  |
 | `colorMode` | string |  |
 | `imagePath` | string | Image to place (must be inside an allowed directory) |
+| `designSystem` | boolean | UI briefs: apply the UI/UX Pro Max product palette + font pairing matched from the brief (default: on unless style or baseColor is given) |
 | `execute` | boolean | false = return the plan only |
 | `preview` | boolean | Export and attach a PNG preview after execution |
 | `saveAs` | string | Save the result as this .ai path |
@@ -1433,6 +1447,7 @@ Create a desktop website landing page: navbar, hero with CTAs and visual, featur
 | `size` | object |  |
 | `colorMode` | string |  |
 | `imagePath` | string | Image to place (must be inside an allowed directory) |
+| `designSystem` | boolean | UI briefs: apply the UI/UX Pro Max product palette + font pairing matched from the brief (default: on unless style or baseColor is given) |
 | `execute` | boolean | false = return the plan only |
 | `preview` | boolean | Export and attach a PNG preview after execution |
 | `saveAs` | string | Save the result as this .ai path |
@@ -1453,6 +1468,7 @@ Create a web app dashboard: sidebar nav, header with search, KPI tiles, chart an
 | `size` | object |  |
 | `colorMode` | string |  |
 | `imagePath` | string | Image to place (must be inside an allowed directory) |
+| `designSystem` | boolean | UI briefs: apply the UI/UX Pro Max product palette + font pairing matched from the brief (default: on unless style or baseColor is given) |
 | `execute` | boolean | false = return the plan only |
 | `preview` | boolean | Export and attach a PNG preview after execution |
 | `saveAs` | string | Save the result as this .ai path |
@@ -1473,6 +1489,7 @@ Create a design-system sheet: color tokens, type scale, buttons, inputs, control
 | `size` | object |  |
 | `colorMode` | string |  |
 | `imagePath` | string | Image to place (must be inside an allowed directory) |
+| `designSystem` | boolean | UI briefs: apply the UI/UX Pro Max product palette + font pairing matched from the brief (default: on unless style or baseColor is given) |
 | `execute` | boolean | false = return the plan only |
 | `preview` | boolean | Export and attach a PNG preview after execution |
 | `saveAs` | string | Save the result as this .ai path |
@@ -1537,11 +1554,30 @@ Generate N variations of a brief by changing one dimension each (style, palette 
 | `size` | object |  |
 | `colorMode` | string |  |
 | `imagePath` | string | Image to place (must be inside an allowed directory) |
+| `designSystem` | boolean | UI briefs: apply the UI/UX Pro Max product palette + font pairing matched from the brief (default: on unless style or baseColor is given) |
 | `execute` | boolean |  |
 | `preview` | boolean | Export and attach a PNG preview after execution |
 | `saveAs` | string | Save the result as this .ai path |
 | `count` | integer |  |
 | `dimension` | string |  |
+
+## `search_design_knowledge`
+
+Search the UI/UX Pro Max design knowledge base (MIT, 192 product types, 89 styles, 74 font pairings, 120+ UX rules). Domains: product (Product types → recommended style, landing pattern, dashboard style, palette focus); color (Product-type color palettes (primary, secondary, accent, background, foreground, card, muted, border, destructive)); typography (Heading/body font pairings by mood); style (UI styles (glassmorphism, neumorphism, brutalism…) with colors, effects, best-for and do-not-use-for); reasoning (Per-product design reasoning: pattern, style priority, color/typography mood, anti-patterns); landing (Landing page patterns: section order, CTA placement, color strategy); ux (UX guidelines with do / don't and severity); app-interface (Mobile app interface rules (accessibility, touch, navigation)); chart (Chart type recommendations per data type). Use it to ground style, color, type, layout and UX decisions before designing.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `domain` * | string |  |
+| `query` * | string | Keywords, e.g. "fintech", "glassmorphism", "elegant serif", "touch target" |
+| `limit` | integer |  |
+
+## `recommend_design_system`
+
+Recommend a complete design system for a product brief using UI/UX Pro Max reasoning: matched product type, color palette mapped to palette roles (incl. AA-safe subtle/link/onPrimary), font pairing, UI style, landing-page pattern, key considerations and anti-patterns to avoid. Pass the result's palette to create_ui_design or the design tools.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `brief` * | string | e.g. "telemedicine app for elderly patients" |
 
 ## `list_ui_components`
 
@@ -1570,6 +1606,7 @@ Build a UI screen from an auto-layout tree (Figma-style frames: stacks with gap/
 | `width` | number |  |
 | `height` | number |  |
 | `style` | string |  |
+| `product` | string | Product/business description; applies the UI/UX Pro Max palette and font pairing for it (see recommend_design_system) |
 | `baseColor` | string |  |
 | `harmony` | string |  |
 | `palette` | object | Override palette roles |

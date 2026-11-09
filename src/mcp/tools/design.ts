@@ -30,6 +30,7 @@ const briefInput = {
   size: z.object({ width: z.number().positive(), height: z.number().positive(), units: UnitSchema }).optional(),
   colorMode: z.enum(["RGB", "CMYK"]).optional(),
   imagePath: z.string().optional().describe("Image to place (must be inside an allowed directory)"),
+  designSystem: z.boolean().optional().describe("UI briefs: apply the UI/UX Pro Max product palette + font pairing matched from the brief (default: on unless style or baseColor is given)"),
   execute: z.boolean().default(true).describe("false = return the plan only"),
   preview: z.boolean().default(true).describe("Export and attach a PNG preview after execution"),
   saveAs: z.string().optional().describe("Save the result as this .ai path"),
@@ -117,7 +118,7 @@ export async function executePlan(ctx: ToolContext, input: DesignPlan, opts: Exe
 function toPlanOptions(a: BriefArgs, category?: string): PlanOptions {
   return {
     brief: a.brief, category, style: a.style, template: a.template, copy: a.copy, palette: a.palette, baseColor: a.baseColor,
-    harmony: a.harmony, size: a.size, colorMode: a.colorMode, imagePath: a.imagePath,
+    harmony: a.harmony, size: a.size, colorMode: a.colorMode, imagePath: a.imagePath, designSystem: a.designSystem,
   };
 }
 

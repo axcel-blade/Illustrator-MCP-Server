@@ -45,10 +45,10 @@ export const COMPONENTS: Record<string, ComponentDef> = {
       const variant = str(p.variant, "primary");
       const h = { sm: t.controlHeight - 12, md: t.controlHeight, lg: t.controlHeight + 8 }[str(p.size, "md") as "sm"] ?? t.controlHeight;
       const paint: Record<string, [string, string, unknown]> = {
-        primary: ["palette.primary", "palette.background", "none"],
+        primary: ["palette.primary", "palette.onPrimary", "none"],
         secondary: ["palette.surface", "palette.text", "none"],
-        outline: ["none", "palette.primary", { color: "palette.primary", width: 1.5 }],
-        ghost: ["none", "palette.primary", "none"],
+        outline: ["none", "palette.link", { color: "palette.primary", width: 1.5 }],
+        ghost: ["none", "palette.link", "none"],
       };
       const [fill, color, stroke] = paint[variant] ?? paint.primary!;
       return stack(name, {
@@ -132,7 +132,7 @@ export const COMPONENTS: Record<string, ComponentDef> = {
           const color = i === active ? "palette.primary" : "palette.subtle";
           return stack(`${name} / ${label}`, { direction: "vertical", align: "center", gap: "xxs" }, [
             { type: "rect", name: `${name} / ${label} / Icon`, width: 22, height: 22, radius: 6, fill: i === active ? "palette.primary" : "none", stroke: { color, width: 1.75 }, role: "icon" },
-            text(`${name} / ${label} / Label`, label, { fontSize: "caption", weight: i === active ? "semibold" : "regular", color }),
+            text(`${name} / ${label} / Label`, label, { fontSize: "caption", weight: i === active ? "semibold" : "regular", color: i === active ? "palette.link" : "palette.subtle" }),
           ]);
         }));
     },
@@ -157,7 +157,7 @@ export const COMPONENTS: Record<string, ComponentDef> = {
     build(name, p, _t, size) {
       const s = num(p.size, 40);
       return stack(name, { direction: "horizontal", justify: "center", align: "center", width: size.width ?? s, height: size.height ?? s, radius: "full", fill: "palette.primary", role: "avatar" },
-        [text(`${name} / Initials`, str(p.initials, "A").slice(0, 2).toUpperCase(), { fontSize: Math.round(s * 0.38), weight: "semibold", color: "palette.background" })]);
+        [text(`${name} / Initials`, str(p.initials, "A").slice(0, 2).toUpperCase(), { fontSize: Math.round(s * 0.38), weight: "semibold", color: "palette.onPrimary" })]);
     },
   },
   badge: {
@@ -165,7 +165,7 @@ export const COMPONENTS: Record<string, ComponentDef> = {
     props: { label: "string", tone: "primary|accent|neutral" },
     build(name, p, _t, size) {
       const tone = str(p.tone, "primary");
-      const [fill, color] = tone === "neutral" ? ["palette.surface", "palette.text"] : tone === "accent" ? ["palette.accent", "palette.text"] : ["palette.primary", "palette.background"];
+      const [fill, color] = tone === "neutral" ? ["palette.surface", "palette.text"] : tone === "accent" ? ["palette.accent", "palette.onAccent"] : ["palette.primary", "palette.onPrimary"];
       return stack(name, { direction: "horizontal", justify: "center", align: "center", padding: { x: "sm", y: "xxs" }, width: size.width ?? "hug", radius: "full", fill, role: "badge" },
         [text(`${name} / Label`, str(p.label, "New"), { fontSize: "caption", weight: "semibold", color })]);
     },
@@ -201,7 +201,7 @@ export const COMPONENTS: Record<string, ComponentDef> = {
       return stack(name, { direction: "vertical", gap: "xs", padding: "md", width: size.width ?? "fill", height: size.height ?? "hug", radius: "lg", fill: "palette.surface", effects: [SHADOW_SM], role: "card" }, [
         text(`${name} / Label`, str(p.label, "Metric"), { fontSize: "label", color: "palette.subtle" }),
         text(`${name} / Value`, str(p.value, "1,234"), { fontSize: "heading", fontRole: "heading", weight: "bold", role: "headline" }),
-        ...(p.delta ? [text(`${name} / Delta`, String(p.delta), { fontSize: "caption", weight: "semibold", color: "palette.primary" })] : []),
+        ...(p.delta ? [text(`${name} / Delta`, String(p.delta), { fontSize: "caption", weight: "semibold", color: "palette.link" })] : []),
       ]);
     },
   },
@@ -260,7 +260,7 @@ export const COMPONENTS: Record<string, ComponentDef> = {
     build(name, p, _t, size) {
       return stack(name, { direction: "horizontal", align: "center", width: size.width ?? "fill" }, [
         text(`${name} / Title`, str(p.title, "Section"), { fontSize: "title", fontRole: "heading", weight: "semibold", width: "fill", role: "subheadline" }),
-        ...(p.action ? [text(`${name} / Action`, String(p.action), { fontSize: "label", weight: "medium", color: "palette.primary", role: "link" })] : []),
+        ...(p.action ? [text(`${name} / Action`, String(p.action), { fontSize: "label", weight: "medium", color: "palette.link", role: "link" })] : []),
       ]);
     },
   },
@@ -270,8 +270,8 @@ export const COMPONENTS: Record<string, ComponentDef> = {
     build(name, p, _t, size) {
       const active = bool(p.active, false);
       return stack(name, { direction: "horizontal", align: "center", gap: "sm", padding: { x: "md" }, width: size.width ?? "fill", height: size.height ?? 40, radius: "md", fill: active ? "palette.primary" : "none", role: "navigation" }, [
-        { type: "rect", name: `${name} / Icon`, width: 16, height: 16, radius: 4, fill: "none", stroke: { color: active ? "palette.background" : "palette.secondary", width: 1.5 }, role: "icon" },
-        text(`${name} / Label`, str(p.label, "Item"), { fontSize: "label", weight: active ? "semibold" : "regular", color: active ? "palette.background" : "palette.text" }),
+        { type: "rect", name: `${name} / Icon`, width: 16, height: 16, radius: 4, fill: "none", stroke: { color: active ? "palette.onPrimary" : "palette.secondary", width: 1.5 }, role: "icon" },
+        text(`${name} / Label`, str(p.label, "Item"), { fontSize: "label", weight: active ? "semibold" : "regular", color: active ? "palette.onPrimary" : "palette.text" }),
       ]);
     },
   },

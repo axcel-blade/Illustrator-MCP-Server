@@ -421,7 +421,7 @@ export function expandAutoLayoutWithWarnings(input: unknown): { input: unknown; 
 
 /**
  * Components reference the full role set. Missing roles are derived from the ones present:
- * surface/muted/secondary by mixing, and "subtle" (secondary text) by mixing text into the
+ * surface/muted/secondary by mixing, onPrimary/onAccent by best contrast, link (readable primary text), and "subtle" (secondary text) by mixing text into the
  * background as far as 4.6:1 contrast allows, so it always passes WCAG AA.
  */
 export function withUiRoles(palette: unknown): unknown {
@@ -435,6 +435,17 @@ export function withUiRoles(palette: unknown): unknown {
   colors.surface ??= mixHex(bg, text, 0.06);
   colors.muted ??= mixHex(text, bg, 0.55);
   colors.secondary ??= mixHex(colors.primary, bg, 0.25);
+  // Text on primary/accent fills: whichever of background/text contrasts more.
+  const on = (fill: string) => (contrastRatio(bg, fill) >= contrastRatio(text, fill) ? bg : text);
+  colors.onPrimary ??= on(colors.primary);
+  colors.onAccent ??= on(colors.accent);
+  // Primary-colored text (links, ghost buttons): shift primary toward the text color until it reads at 4.5:1 on both the page and cards.
+  if (!colors.link) {
+    let link = colors.primary;
+    const readable = (c: string) => Math.min(contrastRatio(c, bg), contrastRatio(c, colors.surface!)) >= 4.5;
+    for (let t = 0; t <= 1.0001 && !readable(link); t += 0.1) link = mixHex(colors.primary, text, t);
+    colors.link = link;
+  }
   if (!colors.subtle) {
     let subtle = text;
     for (let t = 0.6; t >= 0; t -= 0.05) {

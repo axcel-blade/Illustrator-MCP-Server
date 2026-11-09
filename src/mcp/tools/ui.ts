@@ -4,6 +4,7 @@ import { generatePalette, STYLE_PALETTES, type Harmony, type RolePalette } from 
 import type { InspectedItem } from "../../design-engine/composition/analyzer.js";
 import { STYLES } from "../../design-engine/planner/planner.js";
 import { TYPE_SYSTEMS } from "../../design-engine/typography/type-systems.js";
+import { DOMAINS, recommendDesignSystem, search, type Domain } from "../../design-engine/knowledge/knowledge.js";
 import { componentCatalog } from "../../design-engine/ui/components.js";
 import { withUiRoles } from "../../design-engine/ui/layout.js";
 import { suggestLayerNames } from "../../design-engine/ui/naming.js";
@@ -47,6 +48,33 @@ function paletteFor(style: string, baseColor?: string, harmony?: Harmony, overri
 
 export function registerUiTools(server: McpServer, ctx: ToolContext): void {
   defineTool(server, ctx, {
+    name: "search_design_knowledge",
+    description: `Search the UI/UX Pro Max design knowledge base (MIT, 192 product types, 89 styles, 74 font pairings, 120+ UX rules). Domains: ${Object.entries(DOMAINS).map(([k, v]) => `${k} (${v.description})`).join("; ")}. Use it to ground style, color, type, layout and UX decisions before designing.`,
+    input: {
+      domain: z.enum(Object.keys(DOMAINS) as [Domain, ...Domain[]]),
+      query: z.string().min(2).max(500).describe('Keywords, e.g. "fintech", "glassmorphism", "elegant serif", "touch target"'),
+      limit: z.number().int().min(1).max(20).default(5),
+    },
+    annotations: READ_ONLY,
+    handler: async (a) => {
+      const hits = search(a.domain, a.query, a.limit);
+      return { data: { domain: a.domain, query: a.query, results: hits, source: "UI/UX Pro Max (github.com/nextlevelbuilder/ui-ux-pro-max-skill, MIT)" }, warnings: hits.length ? [] : ["No matches; try broader keywords."], source: "server" };
+    },
+  });
+
+  defineTool(server, ctx, {
+    name: "recommend_design_system",
+    description: "Recommend a complete design system for a product brief using UI/UX Pro Max reasoning: matched product type, color palette mapped to palette roles (incl. AA-safe subtle/link/onPrimary), font pairing, UI style, landing-page pattern, key considerations and anti-patterns to avoid. Pass the result's palette to create_ui_design or the design tools.",
+    input: { brief: z.string().min(3).max(2000).describe('e.g. "telemedicine app for elderly patients"') },
+    annotations: READ_ONLY,
+    handler: async (a) => {
+      const r = recommendDesignSystem(a.brief);
+      const palette = r.palette ? withUiRoles(r.palette) : undefined;
+      return { data: { ...r, palette, source: "UI/UX Pro Max (github.com/nextlevelbuilder/ui-ux-pro-max-skill, MIT)" }, warnings: r.confidence === "high" ? [] : ["No product type matched strongly; describe the business or audience (e.g. \"fintech\", \"pet care\")."], source: "server" };
+    },
+  });
+
+  defineTool(server, ctx, {
     name: "list_ui_components",
     description: "List the UI component library (button, input, card, navbar, tab-bar, list-item, toggle, stat, chart…) with props, the auto-layout node reference, device frame presets and default design tokens. Read this before create_ui_design.",
     input: {},
@@ -78,6 +106,7 @@ export function registerUiTools(server: McpServer, ctx: ToolContext): void {
       frame: z.enum(Object.keys(FRAME_PRESETS) as [string, ...string[]]).optional().describe("Device preset; or give width/height"),
       width: z.number().positive().optional(), height: z.number().positive().optional(),
       style: z.enum(STYLES as [string, ...string[]]).default("modern"),
+      product: z.string().max(500).optional().describe("Product/business description; applies the UI/UX Pro Max palette and font pairing for it (see recommend_design_system)"),
       baseColor: HexColorSchema.optional(), harmony: z.enum(["monochrome", "analogous", "complementary", "triadic", "split-complementary"]).optional(),
       palette: z.record(HexColorSchema).optional().describe("Override palette roles"),
       tokens: z.record(z.unknown()).optional().describe("Override design tokens (spacing, radius, fontSize, controlHeight)"),
@@ -90,13 +119,17 @@ export function registerUiTools(server: McpServer, ctx: ToolContext): void {
       const preset = a.frame ? FRAME_PRESETS[a.frame] : undefined;
       const width = a.width ?? preset?.width ?? 393, height = a.height ?? preset?.height ?? 852;
       const platform = preset?.platform ?? (width >= 768 ? "web" : "mobile");
-      const palette = paletteFor(a.style, a.baseColor, a.harmony, a.palette);
-      const type = TYPE_SYSTEMS[a.style]!;
+      const rec = a.product ? recommendDesignSystem(a.product) : undefined;
+      const known = rec?.confidence === "high" ? rec : undefined;
+      const palette = known?.palette && !a.baseColor
+        ? { ...known.palette, colors: { ...known.palette.colors, ...(a.palette ?? {}) } }
+        : paletteFor(a.style, a.baseColor, a.harmony, a.palette);
+      const type = known?.fonts ? { ...TYPE_SYSTEMS[a.style]!, ...known.fonts } : TYPE_SYSTEMS[a.style]!;
       const base = tokensFor(a.style, platform);
       const t = (a.tokens ?? {}) as Partial<typeof base>;
       const tokens = { ...base, ...t, spacing: { ...base.spacing, ...(t.spacing ?? {}) }, radius: { ...base.radius, ...(t.radius ?? {}) }, fontSize: { ...base.fontSize, ...(t.fontSize ?? {}) } };
       const draft = {
-        meta: { title: a.name, category: "ui", style: a.style, template: "custom-auto-layout", rationale: [`Auto layout on a ${width}×${height} px ${platform} frame`, `Style "${a.style}" with palette "${palette.name}" and ${platform} tokens`] },
+        meta: { title: a.name, category: "ui", style: a.style, template: "custom-auto-layout", rationale: [`Auto layout on a ${width}×${height} px ${platform} frame`, `Style "${a.style}" with palette "${palette.name}" and ${platform} tokens`, ...(known?.rationale ?? [])] },
         document: { name: a.name, width, height, units: "px", colorMode: "RGB" },
         background: { type: "solid", color: "palette.background" },
         palette: { name: palette.name, colors: palette.colors },

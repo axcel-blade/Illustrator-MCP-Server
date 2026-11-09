@@ -10,6 +10,10 @@ Figma-AI-style UI design.
 - 6 UI templates (mobile home, login, settings; landing page; web dashboard; UI kit) and a `wireframe` style. UI briefs are routed automatically.
 - 8 tools: `create_app_screen`, `create_landing_page`, `create_web_dashboard`, `create_ui_kit`, `create_ui_design`, `list_ui_components`, `get_design_tokens`, `rename_layers_semantically`.
 - Text contrast is validated against the shape beneath the text rather than only the page background.
+- Design knowledge from [UI/UX Pro Max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) (MIT, vendored in `data/ui-ux-pro-max`): 192 product types with palettes and reasoning, 89 UI styles, 74 font pairings, landing patterns, UX/mobile rules and chart guidance.
+  - `search_design_knowledge` and `recommend_design_system` tools.
+  - UI briefs automatically use the matched product's palette and font pairing (opt out with `designSystem: false`, or by giving a style or base color); `create_ui_design` takes `product`.
+  - New derived palette roles `onPrimary`, `onAccent` and `link` keep text readable on any palette; all 192 product palettes pass the contrast check.
 
 ## 0.1.0 — 2026-11-08
 

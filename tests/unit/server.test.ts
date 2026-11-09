@@ -17,7 +17,7 @@ align_objects arrange_objects center_on_artboard create_grid create_guides apply
 create_layer delete_layer rename_layer select_layer move_object_to_layer lock_layer hide_layer inspect_layers reorder_layers
 export_png export_jpg export_svg export_pdf export_eps export_multiple_formats generate_export_preview
 generate_design create_logo create_poster create_flyer create_social_media_graphic create_business_card create_brand_identity create_packaging_design create_infographic create_icon_set create_vector_illustration create_editorial_layout revise_design analyze_composition critique_design improve_design generate_design_variations
-create_app_screen create_landing_page create_web_dashboard create_ui_kit list_ui_components get_design_tokens create_ui_design rename_layers_semantically`.split(/\s+/);
+create_app_screen create_landing_page create_web_dashboard create_ui_kit list_ui_components get_design_tokens create_ui_design rename_layers_semantically search_design_knowledge recommend_design_system`.split(/\s+/);
 
 let client: Client;
 let mock: MockAdapter;
@@ -174,6 +174,16 @@ describe("MCP server", () => {
     const dry = await call("rename_layers_semantically", { dryRun: true });
     expect(dry.isError).toBe(false);
     expect(Array.isArray(dry.body.data.suggestions)).toBe(true);
+  });
+
+  it("serves UI/UX Pro Max knowledge and applies it to UI designs", async () => {
+    const s = await call("search_design_knowledge", { domain: "ux", query: "touch target size" });
+    expect(s.body.data.results[0].row.Issue).toBe("Touch Target Size");
+    const rec = await call("recommend_design_system", { brief: "telemedicine platform for clinics" });
+    expect(rec.body.data.product["Product Type"]).toBe("Telemedicine Platform");
+    expect(rec.body.data.palette.colors.onPrimary).toMatch(/^#/);
+    const ui = await call("create_ui_design", { execute: false, product: "fintech payments", layout: [{ type: "component", name: "Go", component: "button" }] });
+    expect(ui.body.data.plan.palette.name).toMatch(/Fintech/);
   });
 
   it("generates variations as plans", async () => {
