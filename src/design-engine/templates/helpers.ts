@@ -25,7 +25,11 @@ export interface TemplateContext {
 }
 
 /** Template output is validated by the planner (validatePlan), so elements are loosely typed here. */
-export type TemplateOutput = Pick<DesignPlanInput, "document" | "background" | "layers" | "grid"> & { elements: ElementInput[] };
+export type TemplateOutput = Pick<DesignPlanInput, "document" | "background" | "layers" | "grid" | "tokens"> & {
+  elements: ElementInput[];
+  /** Auto-layout tree (see ui/layout.ts), flattened into elements during validation. */
+  autoLayout?: Record<string, unknown>[];
+};
 
 export interface TemplateDefinition {
   id: string;

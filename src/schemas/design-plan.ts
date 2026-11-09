@@ -131,6 +131,20 @@ export const FontRoleSchema = z.object({
   tracking: z.number().optional(),
 });
 
+/**
+ * Design tokens (Figma-variable style): named spacing, radius and type sizes. Auto-layout nodes
+ * and UI components reference them by key (e.g. gap: "md", radius: "full", fontSize: "title").
+ * Spacing and radius are in document units; font sizes are in points.
+ */
+export const DesignTokensSchema = z.object({
+  spacing: z.record(z.number().min(0)).default({ none: 0, xxs: 2, xs: 4, sm: 8, md: 16, lg: 24, xl: 32, xxl: 48, xxxl: 64 }),
+  radius: z.record(z.number().min(0)).default({ none: 0, sm: 4, md: 8, lg: 16, xl: 24, full: 9999 }),
+  fontSize: z.record(z.number().min(1).max(1296)).default({ caption: 12, label: 14, body: 16, title: 20, heading: 28, display: 44, hero: 64 }),
+  /** Default height of interactive controls (buttons, inputs). */
+  controlHeight: z.number().positive().default(48),
+});
+export type DesignTokens = z.infer<typeof DesignTokensSchema>;
+
 export const DesignPlanSchema = z.object({
   version: z.literal(1).default(1),
   meta: z
@@ -165,6 +179,7 @@ export const DesignPlanSchema = z.object({
   grid: z
     .object({ columns: z.number().int().min(1).max(24).default(12), margin: z.number().min(0).default(15), gutter: z.number().min(0).default(5) })
     .optional(),
+  tokens: DesignTokensSchema.optional(),
   layers: z.array(z.object({ name: z.string().min(1).max(120), locked: z.boolean().optional() })).min(1).max(50),
   elements: z.array(ElementSchema).max(2000),
   swatches: z.boolean().default(true),

@@ -18,6 +18,7 @@ import { registerLayerTools } from "./mcp/tools/layers.js";
 import { registerLayoutTools } from "./mcp/tools/layout.js";
 import { registerObjectTools } from "./mcp/tools/objects.js";
 import { registerTypographyTools } from "./mcp/tools/typography.js";
+import { registerUiTools } from "./mcp/tools/ui.js";
 import { registerVectorTools } from "./mcp/tools/vector.js";
 import { PathPolicy } from "./utils/paths.js";
 
@@ -56,6 +57,7 @@ export function createServer(ctx: ToolContext): McpServer {
   registerExportTools(server, ctx);
   registerAssetTools(server, ctx);
   registerDesignTools(server, ctx);
+  registerUiTools(server, ctx);
   registerResources(server, ctx);
   registerPrompts(server);
   return server;

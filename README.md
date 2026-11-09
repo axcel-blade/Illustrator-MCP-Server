@@ -3,14 +3,14 @@
 [![CI](https://github.com/axcel-blade/Illustrator-MCP-Server/actions/workflows/ci.yml/badge.svg)](https://github.com/axcel-blade/Illustrator-MCP-Server/actions/workflows/ci.yml)
 
 An MCP server that lets AI assistants (Claude Desktop, ChatGPT) design in **Adobe Illustrator**: it turns
-natural-language briefs into structured design plans, builds them as **editable vector artwork**, inspects
+natural-language briefs — posters, logos, brand work and, Figma-AI-style, app screens, landing pages, dashboards and UI kits — into structured design plans, builds them as **editable vector artwork**, inspects
 the result, exports previews and applies targeted revisions.
 
 ```
 AI client (Claude Desktop: stdio · ChatGPT: HTTPS)
         │  MCP
         ▼
-MCP server ── 114 tools, resources, prompts, validation, auth
+MCP server ── 122 tools, resources, prompts, validation, auth
         │
         ▼
 AI design engine ── brief analysis → plan JSON → validation → compile; critique, revision, variations
@@ -26,8 +26,8 @@ Adobe Illustrator ── ExtendScript ops (illustrator-scripts/*.jsx)
 
 | Area | State |
 |---|---|
-| MCP server (stdio + Streamable HTTP), 114 tools, resources, prompts | Implemented, covered by automated tests |
-| Design engine (planner, 20 templates, 14 styles, validator, compiler, analyzer, revisions, variations) | Implemented, covered by automated tests |
+| MCP server (stdio + Streamable HTTP), 122 tools, resources, prompts | Implemented, covered by automated tests |
+| Design engine (planner, 26 templates incl. UI screens, 15 styles, auto layout, UI components, design tokens, validator, compiler, analyzer, revisions, variations) | Implemented, covered by automated tests |
 | Bridge (queue, timeouts, allowlist, error mapping, COM runner) | Implemented; COM failure path verified on a machine **without** Illustrator |
 | ExtendScript operations inside a real Illustrator | **Not yet verified** — the development machine had no Illustrator. Run `scripts\integration-test.ps1` |
 | ChatGPT remote connection | Transport implemented and tested locally; not verified against ChatGPT |
@@ -66,6 +66,7 @@ minimalist layout, beige background, elegant typography and a product image."*
 - [Installation & Windows setup](docs/INSTALLATION.md) — pnpm, Illustrator, Claude Desktop, ChatGPT
 - [Architecture](docs/ARCHITECTURE.md)
 - [Tool reference](docs/TOOLS.md) (generated) · [Example prompts](docs/EXAMPLES.md)
+- [UI design: auto layout, components, tokens](docs/UI_DESIGN.md)
 - [Design plan schema](docs/DESIGN_SCHEMA.md) · [Coordinate convention](docs/COORDINATES.md)
 - [Security](docs/SECURITY.md) · [Testing](docs/TESTING.md) · [Troubleshooting](docs/TROUBLESHOOTING.md)
 - [Development & extension guide](docs/DEVELOPMENT.md) · [Known limitations](docs/LIMITATIONS.md)

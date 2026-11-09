@@ -1,6 +1,8 @@
 import { ZodError } from "zod";
 import { DesignPlanSchema, type DesignElement, type DesignPlan, type Fill } from "../../schemas/design-plan.js";
 import { contrastRatio } from "../../utils/colors.js";
+import { McpDesignError } from "../../utils/errors.js";
+import { expandAutoLayoutWithWarnings } from "../ui/layout.js";
 
 export interface ValidationIssue {
   path: string;
@@ -53,11 +55,21 @@ function zodIssues(err: ZodError): ValidationIssue[] {
 
 /** Full validation: schema, then semantic checks (references, dependencies, geometry, contrast). */
 export function validatePlan(input: unknown): ValidationResult {
+  let layoutWarnings: ValidationIssue[] = [];
+  try {
+    ({ input, warnings: layoutWarnings } = expandAutoLayoutWithWarnings(input));
+  } catch (e) {
+    if (e instanceof McpDesignError) {
+      const details = Array.isArray(e.details) ? (e.details as ValidationIssue[]) : [{ path: "autoLayout", message: e.message }];
+      return { valid: false, errors: details, warnings: [] };
+    }
+    throw e;
+  }
   const parsed = DesignPlanSchema.safeParse(input);
   if (!parsed.success) return { valid: false, errors: zodIssues(parsed.error), warnings: [] };
   const plan = parsed.data;
   const errors: ValidationIssue[] = [];
-  const warnings: ValidationIssue[] = [];
+  const warnings: ValidationIssue[] = [...layoutWarnings];
 
   const layerNames = new Set<string>();
   plan.layers.forEach((l, i) => {
@@ -120,20 +132,30 @@ export function validatePlan(input: unknown): ValidationResult {
     }
   }
 
-  // Text contrast against the background color (WCAG: 4.5 normal, 3 for large text).
-  const bg = plan.background.type === "solid" ? resolveColor(plan.background.color, plan) : undefined;
-  if (bg) {
-    for (const el of plan.elements) {
-      if (el.type !== "text") continue;
-      const fg = resolveColor(el.color, plan);
-      if (!fg) continue;
-      const ratio = contrastRatio(fg, bg);
-      const min = el.fontSize >= 18 ? 3 : 4.5;
-      if (ratio < min) {
-        warnings.push({ path: `elements[${el.name}]`, message: `Text contrast ${ratio.toFixed(2)}:1 against background is below ${min}:1` });
-      }
+  // Text contrast against its backdrop (WCAG: 4.5 normal, 3 for large text). The backdrop is the
+  // topmost opaque solid shape listed before the text that contains its origin, else the page.
+  const pageBg = plan.background.type === "solid" ? resolveColor(plan.background.color, plan) : undefined;
+  const backdrop = (index: number, x: number, y: number): string | undefined => {
+    for (let j = index - 1; j >= 0; j--) {
+      const s = plan.elements[j]!;
+      if ((s.type !== "rect" && s.type !== "ellipse" && s.type !== "circle") || typeof s.fill !== "string" || s.fill === "none") continue;
+      if (s.align || (s.opacity !== undefined && s.opacity < 60)) continue;
+      const b = approxBox(s);
+      if (x >= b.x && x <= b.x + b.width && y >= b.y && y <= b.y + b.height) return resolveColor(s.fill, plan);
     }
-  }
+    return pageBg;
+  };
+  plan.elements.forEach((el, index) => {
+    if (el.type !== "text") return;
+    const bg = el.align ? pageBg : backdrop(index, el.x + 0.5, el.y + 0.5);
+    const fg = resolveColor(el.color, plan);
+    if (!bg || !fg) return;
+    const ratio = contrastRatio(fg, bg);
+    const min = el.fontSize >= 18 ? 3 : 4.5;
+    if (ratio < min) {
+      warnings.push({ path: `elements[${el.name}]`, message: `Text contrast ${ratio.toFixed(2)}:1 against background is below ${min}:1` });
+    }
+  });
 
   return { valid: errors.length === 0, plan: errors.length === 0 ? plan : undefined, errors, warnings };
 }

@@ -16,7 +16,8 @@ select_objects inspect_selection move_object resize_object rotate_object duplica
 align_objects arrange_objects center_on_artboard create_grid create_guides apply_margins create_layout balance_composition calculate_object_bounds create_layout_guides
 create_layer delete_layer rename_layer select_layer move_object_to_layer lock_layer hide_layer inspect_layers reorder_layers
 export_png export_jpg export_svg export_pdf export_eps export_multiple_formats generate_export_preview
-generate_design create_logo create_poster create_flyer create_social_media_graphic create_business_card create_brand_identity create_packaging_design create_infographic create_icon_set create_vector_illustration create_editorial_layout revise_design analyze_composition critique_design improve_design generate_design_variations`.split(/\s+/);
+generate_design create_logo create_poster create_flyer create_social_media_graphic create_business_card create_brand_identity create_packaging_design create_infographic create_icon_set create_vector_illustration create_editorial_layout revise_design analyze_composition critique_design improve_design generate_design_variations
+create_app_screen create_landing_page create_web_dashboard create_ui_kit list_ui_components get_design_tokens create_ui_design rename_layers_semantically`.split(/\s+/);
 
 let client: Client;
 let mock: MockAdapter;
@@ -141,6 +142,38 @@ describe("MCP server", () => {
 
     const cmp = await call("compare_design_versions", { planId: gen.body.data.planId, from: 1, to: 2 });
     expect(cmp.body.data.changed[0].name).toBe("Headline");
+  });
+
+  it("builds a UI screen from an auto-layout tree", async () => {
+    const r = await call("create_ui_design", {
+      name: "Checkout", frame: "iphone-15", style: "modern", preview: false,
+      layout: [{ type: "stack", name: "Screen", width: "fill", height: "fill", padding: "lg", gap: "md", children: [
+        { type: "text", name: "Title", content: "Checkout", fontSize: "heading", weight: "bold" },
+        { type: "component", name: "Card Number", component: "input", props: { label: "Card number", placeholder: "1234 5678" } },
+        { type: "spacer" },
+        { type: "component", name: "Pay", component: "button", props: { label: "Pay now" }, width: "fill" },
+      ] }],
+    });
+    expect(r.isError).toBe(false);
+    expect(r.body.data.verification.missing).toEqual([]);
+    const built = mock.calls.filter((c) => c.op === "execute_plan").at(-1)!.args as { elements: { name: string }[] };
+    expect(built.elements.map((e) => e.name)).toEqual(expect.arrayContaining(["Title", "Card Number / Field", "Pay", "Pay / Label"]));
+
+    const bad = await call("create_ui_design", { execute: false, layout: [{ type: "component", name: "X", component: "nope" }] });
+    expect(bad.isError).toBe(true);
+  });
+
+  it("creates app screens from a brief and renames generic layers", async () => {
+    const r = await call("create_app_screen", { brief: 'login screen for a banking app called "Vault"', preview: false });
+    expect(r.isError).toBe(false);
+    expect(r.body.data.analysis.category).toBe("mobile-app");
+    const tokens = await call("get_design_tokens", { style: "playful" });
+    expect(tokens.body.data.palette.colors.subtle).toMatch(/^#/);
+    const comps = await call("list_ui_components");
+    expect(comps.body.data.components.map((c: { id: string }) => c.id)).toContain("tab-bar");
+    const dry = await call("rename_layers_semantically", { dryRun: true });
+    expect(dry.isError).toBe(false);
+    expect(Array.isArray(dry.body.data.suggestions)).toBe(true);
   });
 
   it("generates variations as plans", async () => {

@@ -1,6 +1,6 @@
 # MCP tool reference
 
-Generated from the server (114 tools) by `node scripts/gen-docs.mjs`. Coordinates follow [COORDINATES.md](COORDINATES.md).
+Generated from the server (122 tools) by `node scripts/gen-docs.mjs`. Coordinates follow [COORDINATES.md](COORDINATES.md).
 
 ## `illustrator_status`
 
@@ -1397,6 +1397,86 @@ Create an editorial magazine page with kicker, title, deck, columns and pull quo
 | `preview` | boolean | Export and attach a PNG preview after execution |
 | `saveAs` | string | Save the result as this .ai path |
 
+## `create_app_screen`
+
+Create a mobile app screen (393×852-class frame) in auto layout with UI components: home/dashboard by default; the brief picks login/sign-up or settings screens. Pass copy.items for list rows. Same options as generate_design.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `brief` * | string | Natural-language design brief. Quote exact copy, e.g. headline "PURE BEAUTY". |
+| `style` | string |  |
+| `template` | string | Template id (see list_templates) |
+| `copy` | object |  |
+| `baseColor` | string | Derive the palette from this color |
+| `harmony` | string |  |
+| `palette` | object | Override palette roles, e.g. {background:'#E9DDCC'} |
+| `size` | object |  |
+| `colorMode` | string |  |
+| `imagePath` | string | Image to place (must be inside an allowed directory) |
+| `execute` | boolean | false = return the plan only |
+| `preview` | boolean | Export and attach a PNG preview after execution |
+| `saveAs` | string | Save the result as this .ai path |
+
+## `create_landing_page`
+
+Create a desktop website landing page: navbar, hero with CTAs and visual, feature cards. Pass copy.items as feature titles. Same options as generate_design.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `brief` * | string | Natural-language design brief. Quote exact copy, e.g. headline "PURE BEAUTY". |
+| `style` | string |  |
+| `template` | string | Template id (see list_templates) |
+| `copy` | object |  |
+| `baseColor` | string | Derive the palette from this color |
+| `harmony` | string |  |
+| `palette` | object | Override palette roles, e.g. {background:'#E9DDCC'} |
+| `size` | object |  |
+| `colorMode` | string |  |
+| `imagePath` | string | Image to place (must be inside an allowed directory) |
+| `execute` | boolean | false = return the plan only |
+| `preview` | boolean | Export and attach a PNG preview after execution |
+| `saveAs` | string | Save the result as this .ai path |
+
+## `create_web_dashboard`
+
+Create a web app dashboard: sidebar nav, header with search, KPI tiles, chart and activity list. Pass copy.items as nav labels. Same options as generate_design.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `brief` * | string | Natural-language design brief. Quote exact copy, e.g. headline "PURE BEAUTY". |
+| `style` | string |  |
+| `template` | string | Template id (see list_templates) |
+| `copy` | object |  |
+| `baseColor` | string | Derive the palette from this color |
+| `harmony` | string |  |
+| `palette` | object | Override palette roles, e.g. {background:'#E9DDCC'} |
+| `size` | object |  |
+| `colorMode` | string |  |
+| `imagePath` | string | Image to place (must be inside an allowed directory) |
+| `execute` | boolean | false = return the plan only |
+| `preview` | boolean | Export and attach a PNG preview after execution |
+| `saveAs` | string | Save the result as this .ai path |
+
+## `create_ui_kit`
+
+Create a design-system sheet: color tokens, type scale, buttons, inputs, controls, cards, list rows — all themed by style/palette. Same options as generate_design.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `brief` * | string | Natural-language design brief. Quote exact copy, e.g. headline "PURE BEAUTY". |
+| `style` | string |  |
+| `template` | string | Template id (see list_templates) |
+| `copy` | object |  |
+| `baseColor` | string | Derive the palette from this color |
+| `harmony` | string |  |
+| `palette` | object | Override palette roles, e.g. {background:'#E9DDCC'} |
+| `size` | object |  |
+| `colorMode` | string |  |
+| `imagePath` | string | Image to place (must be inside an allowed directory) |
+| `execute` | boolean | false = return the plan only |
+| `preview` | boolean | Export and attach a PNG preview after execution |
+| `saveAs` | string | Save the result as this .ai path |
+
 ## `revise_design`
 
 Apply targeted revisions to an executed plan without rebuilding: structured updates by element name, additions, removals, palette role changes, and simple instructions ("make the headline bigger", "change background to navy", "move logo up"). Unparsed instructions are reported, not guessed.
@@ -1462,3 +1542,50 @@ Generate N variations of a brief by changing one dimension each (style, palette 
 | `saveAs` | string | Save the result as this .ai path |
 | `count` | integer |  |
 | `dimension` | string |  |
+
+## `list_ui_components`
+
+List the UI component library (button, input, card, navbar, tab-bar, list-item, toggle, stat, chart…) with props, the auto-layout node reference, device frame presets and default design tokens. Read this before create_ui_design.
+
+## `get_design_tokens`
+
+Design system for a style: color roles (incl. AA-safe 'subtle' text color), typography roles, spacing/radius/type-size tokens and control height. Use the token keys in auto-layout nodes.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `style` | string |  |
+| `platform` | string |  |
+| `baseColor` | string |  |
+| `harmony` | string |  |
+| `palette` | object |  |
+
+## `create_ui_design`
+
+Build a UI screen from an auto-layout tree (Figma-style frames: stacks with gap/padding/alignment, fill/hug sizing, components and design tokens). The server measures and positions everything, validates contrast, then builds editable artwork in Illustrator with a preview. Call list_ui_components first for the node and component reference. execute: false returns the computed plan only.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `name` | string |  |
+| `frame` | string | Device preset; or give width/height |
+| `width` | number |  |
+| `height` | number |  |
+| `style` | string |  |
+| `baseColor` | string |  |
+| `harmony` | string |  |
+| `palette` | object | Override palette roles |
+| `tokens` | object | Override design tokens (spacing, radius, fontSize, controlHeight) |
+| `layout` * | array | Auto-layout root nodes; usually one vertical stack with width/height 'fill' |
+| `elements` | array | Extra absolutely-positioned plan elements drawn beneath the layout |
+| `execute` | boolean |  |
+| `preview` | boolean |  |
+| `saveAs` | string |  |
+
+## `rename_layers_semantically`
+
+Rename generic objects ("<Path>", "Rectangle 3", unnamed text) in the active document to meaningful names inferred from verified geometry and content, e.g. "Background", "Header Bar", "Button / Sign in", "Heading / Pure Beauty". dryRun returns suggestions only. Inspects top-level objects of each layer.
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `artboard` | integer |  |
+| `all` | boolean | Also rename objects that already have custom names |
+| `dryRun` | boolean |  |

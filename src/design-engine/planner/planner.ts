@@ -10,6 +10,10 @@ import { validatePlan } from "../validator/validate.js";
 export const STYLES = Object.keys(TYPE_SYSTEMS);
 
 const CATEGORY_KEYWORDS: [string, RegExp][] = [
+  ["ui-kit", /ui kit|design system|component (library|sheet)|style ?sheet for (an? )?app/],
+  ["web-dashboard", /dashboard|admin panel|analytics (page|screen|app)|back ?office|crm/],
+  ["mobile-app", /mobile app|app screen|\bios\b|android|login screen|sign ?(in|up) screen|onboarding|settings screen|app ui|\bapp\b.*\bscreen|wireframe.*\bapp\b/],
+  ["landing-page", /landing page|website|homepage|home page|web ?page|web ?site|saas|hero section/],
   ["brand-guidelines", /brand (guide|guidelines|book)|style ?guide/],
   ["brand-identity", /brand identity|visual identity|identity board|brand board/],
   ["corporate-identity", /stationery|corporate identity|letterhead/],
@@ -33,6 +37,7 @@ const CATEGORY_KEYWORDS: [string, RegExp][] = [
 ];
 
 const STYLE_KEYWORDS: [string, RegExp][] = [
+  ["wireframe", /wireframe|lo-?fi|low[- ]fidelity|grayscale mock/],
   ["luxury", /luxur|premium|elegant|high-end|opulent|sophisticat/],
   ["minimalist", /minimal|clean|simple|understated/],
   ["corporate", /corporate|business|professional|enterprise|finance|consult/],
@@ -133,6 +138,18 @@ export function defaultCopy(a: BriefAnalysis, overrides: Partial<Copy> = {}): Co
   };
 }
 
+/** Pick the closest screen inside a UI category from the brief's wording. */
+function pickUiTemplate(category: string, brief: string) {
+  const lower = brief.toLowerCase();
+  const hints: [string, string, RegExp][] = [
+    ["mobile-app", "mobile-login", /log ?in|sign ?(in|up)|auth|register/],
+    ["mobile-app", "mobile-settings", /settings|preferences|profile settings/],
+    ["mobile-app", "mobile-home", /./],
+  ];
+  const id = hints.find(([c, , re]) => c === category && re.test(lower))?.[1];
+  return id ? getTemplate(id) : undefined;
+}
+
 export interface PlanOptions {
   brief: string;
   category?: string;
@@ -154,7 +171,7 @@ export function planDesign(opts: PlanOptions): { plan: DesignPlan; analysis: Bri
   const category = opts.category ?? analysis.category;
   const style = opts.style ?? analysis.style;
   if (!TYPE_SYSTEMS[style]) throw new McpDesignError("VALIDATION_ERROR", `Unknown style "${style}". Available: ${STYLES.join(", ")}`);
-  const template = getTemplate(opts.template ?? category) ?? TEMPLATES.find((t) => t.category === category);
+  const template = getTemplate(opts.template ?? category) ?? pickUiTemplate(category, analysis.brief) ?? TEMPLATES.find((t) => t.category === category);
   if (!template) throw new McpDesignError("VALIDATION_ERROR", `No template for category "${category}". Available: ${TEMPLATES.map((t) => t.id).join(", ")}`);
 
   let palette: RolePalette = opts.baseColor

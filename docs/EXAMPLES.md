@@ -28,3 +28,23 @@ Paste these into Claude Desktop or ChatGPT once the server is connected.
 
 **Production export**
 > Save the document as final.ai, then export PNG (300 ppi), SVG (precision 2, outlined text) and PDF/X-4.
+
+## UI design (Figma-AI-style)
+
+**First-draft app screen**
+> Create a sign-in screen for a fitness app called "Pulse" in a playful style with base color #5B2EFF.
+
+**Landing page and dashboard**
+> Design a modern SaaS landing page for "Acme Analytics" with the headline "Insights in minutes", then a web dashboard for the same brand.
+
+**Design system**
+> Create a UI kit for "Nova" in the corporate style so I can see the colors, type scale and components together.
+
+**Custom screen with auto layout**
+> List the UI components, then use create_ui_design on an iphone-15 frame to build a checkout screen: status bar, app bar with back button, order summary card, card-number and expiry inputs side by side, and a full-width "Pay $42.00" button pinned to the bottom.
+
+**Wireframe**
+> Make a low-fidelity wireframe of a mobile app home screen for a recipe app.
+
+**Clean up layers**
+> Rename the generic layers in the open document to meaningful names. Show me the suggestions first.

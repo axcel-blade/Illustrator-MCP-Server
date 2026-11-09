@@ -22,3 +22,7 @@
   the AI client is expected to refine plans (`plan_design` → edit → `execute_design_plan`) for bespoke work.
 - Each bridge call starts PowerShell (~0.2–0.4 s). Complex designs are batched into a single call.
 - Only one Illustrator instance/user session is supported per server process.
+- Auto layout is computed once by the server and flattened to positioned objects; Illustrator has no live auto layout,
+  so moving or resizing an object later does not re-flow its siblings. Re-run `create_ui_design` (or revise the plan) to re-flow.
+- Auto-layout text sizes are estimates, so a long label can be slightly wider or narrower than its slot in the real font.
+- `rename_layers_semantically` looks at top-level objects of each layer (not inside groups) and needs Illustrator 2020+ (object `uuid`).

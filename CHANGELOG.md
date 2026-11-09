@@ -1,5 +1,16 @@
 # Changelog
 
+## Unreleased
+
+Figma-AI-style UI design.
+
+- Auto layout: `autoLayout` trees on design plans (stacks with direction, gap, padding, align, justify; hug/fill/percentage sizing; spacers) are measured and flattened into positioned elements before validation. Overflow is reported as a warning.
+- UI component library (20 components: button, input, search, card, navbar, app-bar, tab-bar, list-item, avatar, badge, toggle, checkbox, stat, image, chart, progress, divider, status-bar, section-header, sidebar-item) with `<instance> / <part>` naming.
+- Design tokens (`tokens`: spacing, radius, fontSize, controlHeight), style-aware; missing UI palette roles are derived, and `palette.subtle` guarantees AA-contrast secondary text.
+- 6 UI templates (mobile home, login, settings; landing page; web dashboard; UI kit) and a `wireframe` style. UI briefs are routed automatically.
+- 8 tools: `create_app_screen`, `create_landing_page`, `create_web_dashboard`, `create_ui_kit`, `create_ui_design`, `list_ui_components`, `get_design_tokens`, `rename_layers_semantically`.
+- Text contrast is validated against the shape beneath the text rather than only the page background.
+
 ## 0.1.0 — 2026-11-08
 
 Initial implementation.

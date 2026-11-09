@@ -1,3 +1,4 @@
+import { UI_TEMPLATES } from "./ui.js";
 import { el, heading, imageOrPlaceholder, STANDARD_LAYERS, type TemplateDefinition } from "./helpers.js";
 
 /*
@@ -498,6 +499,7 @@ const corporateIdentity: TemplateDefinition = {
 export const TEMPLATES: TemplateDefinition[] = [
   logo, corporateIdentity, brandIdentity, brandGuidelines, poster, flyer, brochure, businessCard, packaging, productLabel,
   social, infographic, editorial, iconSet, illustration, presentation, printAd, menu, event, catalogue,
+  ...UI_TEMPLATES,
 ];
 
 export function getTemplate(id: string): TemplateDefinition | undefined {
