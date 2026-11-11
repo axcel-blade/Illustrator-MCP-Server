@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 1.0.0 — 2026-11-11
+
+First stable major release. Same feature set as 0.2.0: cross-platform Windows/macOS Illustrator bridge, advanced vector/typography/design-system tools, and Figma-AI-style UI design.
+
 ## 0.2.0 — 2026-11-11
 
 Cross-platform Illustrator bridge (Windows + macOS).
