@@ -8,3 +8,4 @@ output/
 *.log
 coverage/
 test-output/
+node_modules
