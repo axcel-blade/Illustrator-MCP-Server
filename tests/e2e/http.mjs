@@ -12,7 +12,7 @@ import { ROOT } from "./lib.mjs";
 const PORT = 3399, TOKEN = randomBytes(24).toString("hex"), SECRET = randomBytes(16).toString("hex");
 const srv = spawn(process.execPath, [resolve(ROOT, "dist/index.js"), "--transport", "http"], {
   cwd: ROOT, stdio: ["ignore", "ignore", "pipe"],
-  env: { ...process.env, MCP_HTTP_PORT: String(PORT), MCP_AUTH_TOKEN: TOKEN, MCP_SECRET_PATH: SECRET, ILLUSTRATOR_ADAPTER: "com", LOG_LEVEL: "warn" },
+  env: { ...process.env, MCP_HTTP_PORT: String(PORT), MCP_AUTH_TOKEN: TOKEN, MCP_SECRET_PATH: SECRET, ILLUSTRATOR_ADAPTER: "auto", LOG_LEVEL: "warn" },
 });
 const res = [];
 const rec = (n, ok, d) => { res.push({ name: n, status: ok ? "PASS" : "FAIL" }); console.log(ok ? "PASS " : "FAIL ", n, ok ? "" : JSON.stringify(d).slice(0, 300)); };

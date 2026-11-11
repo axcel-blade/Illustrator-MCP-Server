@@ -1,7 +1,7 @@
 /**
  * Typography systems per style. Each role lists font candidates in preference order; the JSX
- * layer uses the first installed font and reports a warning when it falls back. The final
- * candidates are fonts that ship with Windows so a result is always produced.
+ * layer uses the first installed font and reports a warning when it falls back. Trailing
+ * candidates are fonts that ship with Windows and/or macOS so a result is always produced.
  */
 export type FontWeight = "thin" | "light" | "regular" | "medium" | "semibold" | "bold" | "extrabold" | "black";
 
@@ -16,8 +16,8 @@ export interface TypeSystem {
   headingCaps: boolean;
 }
 
-const SERIF_FALLBACK = ["Georgia", "TimesNewRomanPSMT", "Times New Roman"];
-const SANS_FALLBACK = ["Segoe UI", "ArialMT", "Arial"];
+const SERIF_FALLBACK = ["Georgia", "TimesNewRomanPSMT", "Times New Roman", "Times"];
+const SANS_FALLBACK = ["Helvetica Neue", "Segoe UI", "ArialMT", "Arial", "Helvetica"];
 
 export const TYPE_SYSTEMS: Record<string, TypeSystem> = {
   minimalist: { heading: { fonts: ["Helvetica Neue", "Inter", ...SANS_FALLBACK], weight: "light", tracking: 50 }, body: { fonts: ["Inter", ...SANS_FALLBACK], weight: "regular" }, accent: { fonts: ["Inter", ...SANS_FALLBACK], weight: "medium", tracking: 200 }, scale: 1.618, headingCaps: false },

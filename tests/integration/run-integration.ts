@@ -1,5 +1,5 @@
 /**
- * MANUAL integration test against a real Adobe Illustrator installation (Windows, COM).
+ * MANUAL integration test against a real Adobe Illustrator installation (Windows COM or macOS AppleScript).
  *
  *   pnpm build && pnpm test:integration
  *
@@ -18,7 +18,7 @@ import { createContext, createServer } from "../../src/server.js";
 type Step = { name: string; status: "passed" | "failed" | "skipped"; detail?: unknown };
 
 async function main(): Promise<void> {
-  const config = loadConfig({ ...process.env, ILLUSTRATOR_ADAPTER: "com" }, []);
+  const config = loadConfig({ ...process.env, ILLUSTRATOR_ADAPTER: process.env.ILLUSTRATOR_ADAPTER ?? "auto" }, []);
   const outDir = join(config.outputDir, "integration");
   mkdirSync(outDir, { recursive: true });
   const ctx = createContext(config);
@@ -51,7 +51,7 @@ async function main(): Promise<void> {
   const status = await call("illustrator_status", { probe: true });
   const app = (status.body as { data?: { application?: unknown } }).data?.application;
   if (!app) {
-    const report = { status: "blocked", reason: "Illustrator could not be reached via COM; no integration step was executed.", detection: (status.body as { data?: unknown }).data, steps: [] };
+    const report = { status: "blocked", reason: "Illustrator could not be reached via the platform bridge (COM/AppleScript); no integration step was executed.", detection: (status.body as { data?: unknown }).data, steps: [] };
     writeFileSync(join(outDir, "report.json"), JSON.stringify(report, null, 2));
     console.log("BLOCKED: Illustrator is not available. Report written to output/integration/report.json");
     await client.close();

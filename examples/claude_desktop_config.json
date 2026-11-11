@@ -4,7 +4,7 @@
       "command": "node",
       "args": ["C:\\path\\to\\Illustrator-MCP-Server\\dist\\index.js"],
       "env": {
-        "ILLUSTRATOR_ADAPTER": "com",
+        "ILLUSTRATOR_ADAPTER": "auto",
         "ILLUSTRATOR_AUTO_LAUNCH": "true",
         "ALLOWED_PATHS": "C:\\Users\\YOU\\Documents\\IllustratorMCP;C:\\path\\to\\Illustrator-MCP-Server\\output",
         "LOG_LEVEL": "info"

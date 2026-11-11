@@ -9,7 +9,7 @@ const EnvSchema = z.object({
   MCP_HTTP_PORT: z.coerce.number().int().min(1).max(65535).default(3333),
   MCP_AUTH_TOKEN: z.string().optional(),
   MCP_SECRET_PATH: z.string().optional(),
-  ILLUSTRATOR_ADAPTER: z.enum(["com", "mock"]).default("com"),
+  ILLUSTRATOR_ADAPTER: z.enum(["auto", "com", "applescript", "mock"]).default("auto"),
   ILLUSTRATOR_TIMEOUT_MS: z.coerce.number().int().min(1000).max(600000).default(60000),
   ILLUSTRATOR_AUTO_LAUNCH: z
     .string()
@@ -20,10 +20,12 @@ const EnvSchema = z.object({
   LOG_DIR: z.string().default("logs"),
 });
 
+export type IllustratorAdapterKind = "auto" | "com" | "applescript" | "mock";
+
 export interface AppConfig {
   transport: "stdio" | "http";
   http: { host: string; port: number; authToken?: string; secretPath?: string };
-  illustrator: { adapter: "com" | "mock"; timeoutMs: number; autoLaunch: boolean };
+  illustrator: { adapter: IllustratorAdapterKind; timeoutMs: number; autoLaunch: boolean };
   allowedPaths: string[];
   outputDir: string;
   logLevel: string;

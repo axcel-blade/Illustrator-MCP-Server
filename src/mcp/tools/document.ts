@@ -6,7 +6,7 @@ import { defineTool, DESTRUCTIVE, op, P, READ_ONLY, requireConfirm, unitsArg, WR
 export function registerDocumentTools(server: McpServer, ctx: ToolContext): void {
   defineTool(server, ctx, {
     name: "illustrator_status",
-    description: "Detect installed Illustrator versions, COM registration and whether Illustrator is running. With probe: true also queries the running application (version, open documents) via a real script call.",
+    description: "Detect installed Illustrator versions, bridge readiness (COM on Windows, AppleScript on macOS) and whether Illustrator is running. With probe: true also queries the running application (version, open documents) via a real script call.",
     input: { probe: z.boolean().default(false).describe("Execute a status script inside Illustrator (may launch it if auto-launch is enabled)") },
     annotations: READ_ONLY,
     handler: async ({ probe }) => {

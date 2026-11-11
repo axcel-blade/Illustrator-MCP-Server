@@ -44,9 +44,11 @@ builders, palette roles (`palette.primary`) and font roles (`fontRole: "heading"
 ## Adding a style
 
 Add a palette to `STYLE_PALETTES` and a type system to `TYPE_SYSTEMS` (same key) and a keyword rule in
-`STYLE_KEYWORDS` (`planner.ts`). End font candidate lists with fonts that ship with Windows.
+`STYLE_KEYWORDS` (`planner.ts`). End font candidate lists with fonts that ship on Windows and macOS
+(e.g. Arial / Helvetica Neue / Georgia).
 
 ## Adding an automation mechanism
 
 Implement `BridgeAdapter` (`detect`, `execute`) — e.g. a UXP plugin talking over a local socket — and select it in
-`createAdapter()` (`src/server.ts`). Everything above the bridge is unchanged.
+`createAdapter()` (`src/server.ts`). Production already picks COM on Windows and AppleScript on macOS when
+`ILLUSTRATOR_ADAPTER=auto`. Everything above the bridge is unchanged.

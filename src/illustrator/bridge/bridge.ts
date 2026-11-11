@@ -30,7 +30,7 @@ export class IllustratorBridge {
   private readonly workDir: string;
   /**
    * Document the server last operated on. With several documents open, Illustrator's
-   * activeDocument can differ between COM calls, so every op re-activates this one first.
+   * activeDocument can differ between automation calls, so every op re-activates this one first.
    */
   pinnedDocument: string | undefined;
 
@@ -42,7 +42,7 @@ export class IllustratorBridge {
     mkdirSync(this.workDir, { recursive: true });
   }
 
-  get adapterName(): "com" | "mock" {
+  get adapterName(): BridgeAdapter["name"] {
     return this.adapter.name;
   }
 

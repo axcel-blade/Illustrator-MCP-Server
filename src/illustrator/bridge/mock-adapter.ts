@@ -37,7 +37,14 @@ export class MockAdapter implements BridgeAdapter {
   }
 
   async detect(): Promise<DetectionResult> {
-    return { platform: process.platform, installs: [], comRegistered: false, running: false, notes: ["Mock adapter: no real Illustrator is used."] };
+    return {
+      platform: process.platform,
+      installs: [],
+      comRegistered: false,
+      automationAvailable: false,
+      running: false,
+      notes: ["Mock adapter: no real Illustrator is used."],
+    };
   }
 
   async execute(req: ExecuteRequest): Promise<string> {

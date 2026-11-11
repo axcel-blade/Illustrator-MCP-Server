@@ -1,3 +1,5 @@
+export type AdapterName = "com" | "applescript" | "mock";
+
 export interface IllustratorInstall {
   version: string;
   path: string;
@@ -7,8 +9,13 @@ export interface IllustratorInstall {
 export interface DetectionResult {
   platform: NodeJS.Platform;
   installs: IllustratorInstall[];
+  /** Windows only: COM class Illustrator.Application is registered. Always false on macOS. */
   comRegistered: boolean;
   comProgId?: string;
+  /** True when the platform bridge can reach Illustrator (COM registered on Windows; .app found on macOS). */
+  automationAvailable: boolean;
+  /** Which production bridge this host would use (absent on unsupported platforms / mock). */
+  bridge?: "com" | "applescript";
   running: boolean;
   notes: string[];
 }
@@ -34,11 +41,11 @@ export interface ExecuteRequest {
 }
 
 /**
- * Isolates the automation mechanism. The COM adapter is the production implementation; the
- * mock adapter exists for automated tests and never claims to be a real Illustrator.
+ * Isolates the automation mechanism. Production: COM (Windows) or AppleScript (macOS).
+ * The mock adapter exists for automated tests and never claims to be a real Illustrator.
  */
 export interface BridgeAdapter {
-  readonly name: "com" | "mock";
+  readonly name: AdapterName;
   detect(): Promise<DetectionResult>;
   execute(req: ExecuteRequest): Promise<string>;
 }
@@ -46,6 +53,6 @@ export interface BridgeAdapter {
 export interface BridgeResult<T = unknown> {
   data: T;
   warnings: string[];
-  adapter: "com" | "mock";
+  adapter: AdapterName;
   durationMs: number;
 }

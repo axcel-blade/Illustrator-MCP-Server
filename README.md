@@ -17,7 +17,8 @@ AI design engine ── brief analysis → plan JSON → validation → compile;
         │
         ▼
 Illustrator bridge ── allowlisted ops · serial queue · timeouts · typed errors
-        │  PowerShell → COM Illustrator.Application.DoJavaScriptFile
+        │  Windows: PowerShell → COM DoJavaScriptFile
+        │  macOS:   osascript → AppleScript do javascript file
         ▼
 Adobe Illustrator ── ExtendScript ops (illustrator-scripts/*.jsx)
 ```
@@ -28,15 +29,17 @@ Adobe Illustrator ── ExtendScript ops (illustrator-scripts/*.jsx)
 |---|---|
 | MCP server (stdio + Streamable HTTP), 148 tools, resources, prompts | Implemented, covered by automated tests |
 | Design engine (planner, 26 templates incl. UI screens, 15 styles, auto layout, UI components, design tokens, UI/UX Pro Max design knowledge, validator, compiler, analyzer, revisions, variations) | Implemented, covered by automated tests |
-| Bridge (queue, timeouts, allowlist, error mapping, COM runner, document pinning) | Implemented; verified with Illustrator running and not running |
-| ExtendScript operations inside a real Illustrator | Verified against Illustrator 2026 (30.8) with `pnpm test:e2e`, `test:e2e:design` and `test:e2e:advanced` (44/44); see [docs/TEST_REPORT.md](docs/TEST_REPORT.md) |
+| Bridge (queue, timeouts, allowlist, error mapping, COM + AppleScript runners, document pinning) | Implemented; Windows COM verified with Illustrator; macOS AppleScript adapter added |
+| ExtendScript operations inside a real Illustrator | Verified against Illustrator 2026 (30.8) on Windows with `pnpm test:e2e`, `test:e2e:design` and `test:e2e:advanced` (44/44); see [docs/TEST_REPORT.md](docs/TEST_REPORT.md) |
 | ChatGPT remote connection | Transport implemented and tested locally; not verified against ChatGPT |
 
 See [docs/LIMITATIONS.md](docs/LIMITATIONS.md) for details.
 
-## Quick start (Windows)
+## Quick start
 
-Requirements: Windows 10/11, Node.js 20+, pnpm (via Corepack), Adobe Illustrator 2020 or later.
+Requirements: **Windows 10/11 or macOS**, Node.js 20+, pnpm (via Corepack), Adobe Illustrator 2020 or later.
+
+### Windows
 
 ```powershell
 corepack enable
@@ -45,6 +48,20 @@ pnpm build
 powershell -ExecutionPolicy Bypass -File scripts\install.ps1 -ConfigureClaude
 powershell -ExecutionPolicy Bypass -File scripts\diagnostics.ps1
 ```
+
+### macOS
+
+```bash
+corepack enable
+pnpm install
+pnpm build
+chmod +x scripts/*.sh
+./scripts/install.sh --configure-claude
+./scripts/diagnostics.sh
+```
+
+On first use, macOS may ask to allow Terminal/Node to control Illustrator
+(System Settings → Privacy & Security → Automation).
 
 Restart Claude Desktop, then ask: *"Check Illustrator status, then create a modern luxury skincare poster with a
 minimalist layout, beige background, elegant typography and a product image."*
@@ -66,7 +83,7 @@ minimalist layout, beige background, elegant typography and a product image."*
 
 ## Documentation
 
-- [Installation & Windows setup](docs/INSTALLATION.md) — pnpm, Illustrator, Claude Desktop, ChatGPT
+- [Installation (Windows & macOS)](docs/INSTALLATION.md) — pnpm, Illustrator, Claude Desktop, ChatGPT
 - [Architecture](docs/ARCHITECTURE.md)
 - [Tool reference](docs/TOOLS.md) (generated) · [Example prompts](docs/EXAMPLES.md)
 - [UI design: auto layout, components, tokens](docs/UI_DESIGN.md)
