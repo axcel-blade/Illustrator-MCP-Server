@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.2.0 — 2026-11-11
+
 Cross-platform Illustrator bridge (Windows + macOS).
 
 - `ILLUSTRATOR_ADAPTER=auto` (default) selects COM on Windows and AppleScript on macOS; explicit `com` / `applescript` / `mock` still supported.
