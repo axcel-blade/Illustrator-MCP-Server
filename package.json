@@ -1,6 +1,6 @@
 {
   "name": "illustrator-ai-mcp",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "Adobe Illustrator AI Design MCP server: natural-language design planning executed as editable Illustrator artwork.",
   "type": "module",
   "main": "dist/index.js",
