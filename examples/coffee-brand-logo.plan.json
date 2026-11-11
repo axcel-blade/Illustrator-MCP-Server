@@ -1,0 +1,146 @@
+{
+  "version": 1,
+  "meta": {
+    "title": "Ember Coffee Roasters",
+    "brief": "minimalist logo for Ember Coffee Roasters, warm terracotta and cream",
+    "category": "logo",
+    "style": "minimalist",
+    "audience": "general audience",
+    "template": "logo",
+    "rationale": [
+      "Category \"logo\" via template \"logo\" (Geometric monogram mark with wordmark and tagline lockup.)",
+      "Style \"minimalist\" for general audience: palette \"Minimal Mono (brief colors)\", headings in Helvetica Neue, body in Inter",
+      "Hierarchy uses a 1.618 modular type scale; headline is the dominant element, supporting copy steps down in size and contrast",
+      "Layers separate typography, graphics, images and a locked background so revisions can target one concern"
+    ]
+  },
+  "document": {
+    "name": "Ember Coffee Roasters Logo",
+    "width": 1000,
+    "height": 1000,
+    "units": "px",
+    "colorMode": "RGB"
+  },
+  "background": {
+    "type": "solid",
+    "color": "palette.background"
+  },
+  "palette": {
+    "name": "Minimal Mono (brief colors)",
+    "colors": {
+      "background": "#FAFAF7",
+      "surface": "#EFEFEA",
+      "primary": "#C8643B",
+      "secondary": "#6B6B6B",
+      "accent": "#F4EDE1",
+      "text": "#1A1A1A",
+      "muted": "#9A9A94"
+    }
+  },
+  "typography": {
+    "heading": {
+      "fonts": [
+        "Helvetica Neue",
+        "Inter",
+        "Segoe UI",
+        "ArialMT",
+        "Arial"
+      ],
+      "weight": "light",
+      "tracking": 50
+    },
+    "body": {
+      "fonts": [
+        "Inter",
+        "Segoe UI",
+        "ArialMT",
+        "Arial"
+      ],
+      "weight": "regular"
+    },
+    "accent": {
+      "fonts": [
+        "Inter",
+        "Segoe UI",
+        "ArialMT",
+        "Arial"
+      ],
+      "weight": "medium",
+      "tracking": 200
+    }
+  },
+  "layers": [
+    {
+      "name": "Logo"
+    },
+    {
+      "name": "Background",
+      "locked": true
+    }
+  ],
+  "elements": [
+    {
+      "type": "circle",
+      "name": "Mark Shape",
+      "layer": "Logo",
+      "x": 500,
+      "y": 400,
+      "role": "mark",
+      "fill": "palette.primary",
+      "stroke": "none",
+      "radius": 170
+    },
+    {
+      "type": "circle",
+      "name": "Mark Accent",
+      "layer": "Logo",
+      "x": 605.4,
+      "y": 294.6,
+      "role": "mark",
+      "fill": "palette.accent",
+      "stroke": "none",
+      "radius": 27.2
+    },
+    {
+      "type": "text",
+      "name": "Monogram",
+      "layer": "Logo",
+      "x": 500,
+      "y": 306.5,
+      "role": "mark",
+      "content": "E",
+      "fontRole": "heading",
+      "fontSize": 150,
+      "color": "palette.background",
+      "textAlign": "center"
+    },
+    {
+      "type": "text",
+      "name": "Wordmark",
+      "layer": "Logo",
+      "x": 500,
+      "y": 660,
+      "role": "headline",
+      "content": "Ember Coffee Roasters",
+      "fontRole": "heading",
+      "fontSize": 64,
+      "color": "palette.text",
+      "textAlign": "center"
+    },
+    {
+      "type": "text",
+      "name": "Tagline",
+      "layer": "Logo",
+      "x": 500,
+      "y": 760,
+      "role": "subheadline",
+      "content": "EST. 2026",
+      "fontRole": "accent",
+      "fontSize": 20,
+      "color": "palette.muted",
+      "textAlign": "center",
+      "tracking": 300
+    }
+  ],
+  "swatches": true
+}

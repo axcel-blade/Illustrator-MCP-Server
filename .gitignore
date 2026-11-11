@@ -1,0 +1,11 @@
+node_modules/
+dist/
+release/
+logs/*
+!logs/.gitkeep
+output/
+.env
+*.log
+coverage/
+test-output/
+node_modules

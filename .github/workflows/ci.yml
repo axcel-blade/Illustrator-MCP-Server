@@ -1,0 +1,83 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build & test (Node ${{ matrix.node }})
+    # Windows matches the target platform (COM bridge, PowerShell scripts, Windows path rules).
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [20, 22]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Reject npm/Yarn lockfiles
+        shell: pwsh
+        run: |
+          foreach ($f in 'package-lock.json', 'yarn.lock') {
+            if (Test-Path $f) { Write-Error "$f found - this project uses pnpm only"; exit 1 }
+          }
+
+      # Version comes from "packageManager" in package.json.
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
+      - run: pnpm lint
+      - run: pnpm build
+      - run: pnpm test
+        env:
+          LOG_LEVEL: error
+
+      - name: Check generated docs are up to date
+        if: matrix.node == 22
+        shell: pwsh
+        env:
+          LOG_LEVEL: error
+        run: |
+          node scripts/gen-docs.mjs
+          git diff --exit-code -- docs/TOOLS.md templates/catalog.json
+          if ($LASTEXITCODE -ne 0) { Write-Error "Run 'node scripts/gen-docs.mjs' and commit the result"; exit 1 }
+
+      - name: PowerShell script syntax
+        if: matrix.node == 22
+        shell: pwsh
+        run: |
+          $bad = 0
+          Get-ChildItem scripts, illustrator-scripts -Filter *.ps1 | ForEach-Object {
+            $errors = $null
+            [System.Management.Automation.Language.Parser]::ParseFile($_.FullName, [ref]$null, [ref]$errors) | Out-Null
+            if ($errors) { $bad++; $errors | ForEach-Object { Write-Host "$($_.Extent.File):$($_.Extent.StartLineNumber) $($_.Message)" } }
+          }
+          if ($bad) { exit 1 }
+
+      - name: Package release ZIP
+        if: matrix.node == 22
+        shell: pwsh
+        run: git archive --format=zip -o illustrator-ai-mcp.zip HEAD
+
+      - uses: actions/upload-artifact@v4
+        if: matrix.node == 22
+        with:
+          name: illustrator-ai-mcp
+          path: illustrator-ai-mcp.zip
+          retention-days: 14

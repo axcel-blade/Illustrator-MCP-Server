@@ -1,0 +1,24 @@
+title: "[Idea] "
+labels: ["idea"]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: Idea
+      description: A tool, template, style or workflow you would like.
+    validations:
+      required: true
+  - type: textarea
+    id: example
+    attributes:
+      label: Example prompt
+      description: How would you ask the AI to use it?
+  - type: checkboxes
+    id: area
+    attributes:
+      label: Area
+      options:
+        - label: Illustrator tools
+        - label: Design engine / templates
+        - label: Client setup (Claude / ChatGPT)
+        - label: Documentation
