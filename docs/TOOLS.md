@@ -4,7 +4,7 @@ Generated from the server (148 tools) by `node scripts/gen-docs.mjs`. Coordinate
 
 ## `illustrator_status`
 
-Detect installed Illustrator versions, COM registration and whether Illustrator is running. With probe: true also queries the running application (version, open documents) via a real script call.
+Detect installed Illustrator versions, bridge readiness (COM on Windows, AppleScript on macOS) and whether Illustrator is running. With probe: true also queries the running application (version, open documents) via a real script call.
 
 | Parameter | Type | Notes |
 |---|---|---|

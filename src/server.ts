@@ -2,6 +2,7 @@ import { join } from "node:path";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type { AppConfig } from "./config/index.js";
 import { PlanStore } from "./design-engine/plan-store.js";
+import { AppleScriptAdapter } from "./illustrator/bridge/applescript-adapter.js";
 import { IllustratorBridge } from "./illustrator/bridge/bridge.js";
 import { ComAdapter } from "./illustrator/bridge/com-adapter.js";
 import { MockAdapter } from "./illustrator/bridge/mock-adapter.js";
@@ -25,8 +26,17 @@ import { PathPolicy } from "./utils/paths.js";
 
 export const SERVER_INFO = { name: "illustrator-ai-mcp", version: "0.1.0" };
 
+/** Pick COM on Windows, AppleScript on macOS; explicit adapter names always win. */
 export function createAdapter(config: AppConfig): BridgeAdapter {
-  return config.illustrator.adapter === "mock" ? new MockAdapter() : new ComAdapter({ autoLaunch: config.illustrator.autoLaunch });
+  const kind = config.illustrator.adapter;
+  if (kind === "mock") return new MockAdapter();
+  if (kind === "com") return new ComAdapter({ autoLaunch: config.illustrator.autoLaunch });
+  if (kind === "applescript") return new AppleScriptAdapter({ autoLaunch: config.illustrator.autoLaunch });
+  if (process.platform === "win32") return new ComAdapter({ autoLaunch: config.illustrator.autoLaunch });
+  if (process.platform === "darwin") return new AppleScriptAdapter({ autoLaunch: config.illustrator.autoLaunch });
+  throw new Error(
+    `No Illustrator bridge for platform "${process.platform}". Use ILLUSTRATOR_ADAPTER=mock for tests, or run on Windows/macOS.`,
+  );
 }
 
 /** Shared state for one process: one bridge/queue regardless of how many MCP sessions connect. */

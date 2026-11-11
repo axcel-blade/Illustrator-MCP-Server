@@ -6,7 +6,7 @@ export const OUT = resolve(ROOT, "test-output");
 export async function connect(env = {}) {
   const t = new StdioClientTransport({
     command: process.execPath, args: [resolve(ROOT, "dist/index.js")], cwd: ROOT, stderr: "pipe",
-    env: { ...process.env, ILLUSTRATOR_ADAPTER: "com", ALLOWED_PATHS: `${OUT};${resolve(ROOT, "output")}`, LOG_LEVEL: "warn", ...env },
+    env: { ...process.env, ILLUSTRATOR_ADAPTER: "auto", ALLOWED_PATHS: `${OUT};${resolve(ROOT, "output")}`, LOG_LEVEL: "warn", ...env },
   });
   const c = new Client({ name: "e2e", version: "1" });
   await c.connect(t);

@@ -58,7 +58,7 @@ async function preflight(ctx: ToolContext, plan: DesignPlan): Promise<{ plan: De
   const fonts = new Set<string>();
   for (const role of [plan.typography.heading, plan.typography.body, plan.typography.accent]) role?.fonts.forEach((f) => fonts.add(f));
   for (const el of plan.elements) if (el.type === "text" && el.font) (Array.isArray(el.font) ? el.font : [el.font]).forEach((f) => fonts.add(f));
-  if (ctx.bridge.adapterName === "com" && fonts.size) {
+  if (ctx.bridge.adapterName !== "mock" && fonts.size) {
     try {
       const r = await ctx.bridge.run<{ fonts: { requested: string; available: boolean; resolved: string | null }[] }>("check_fonts", { fonts: [...fonts] });
       const roles = { heading: plan.typography.heading, body: plan.typography.body, accent: plan.typography.accent };

@@ -11,6 +11,7 @@ Runs in CI or on any machine; no Illustrator needed. Files in `tests/unit/`:
 | `utils.test.ts` | Unit conversion, coordinate convention, colors/contrast/CMYK, path sandbox (traversal, UNC, extensions, overwrite) |
 | `design-engine.test.ts` | Schema validation (reference example, errors, dependency cycles, contrast), compiler (units, circles, alignment, z-order), planner (brief analysis, colors, sizes, **every template × every style** produces a valid plan), variations, revisions (instruction parsing, targeted ops, palette propagation, versioning), composition analyzer |
 | `bridge.test.ts` | Serial queue, queue limit, script literal escaping, **allowlist ↔ JSX implementation parity**, JSX syntax/ES3 checks (incl. reserved words as keys), error mapping, malformed output, timeout + recovery, document pinning |
+| `adapter.test.ts` | `ILLUSTRATOR_ADAPTER=auto` / com / applescript / mock selection; platform guards on execute; install detection helpers |
 | `advanced.test.ts` | Typography issue detection, design-system store (save/list/get, overwrite refusal, validation) |
 | `server.test.ts` | Server startup over an in-memory MCP transport, registration of all required tools, resources/prompts, input validation, mock labelling, unit conversion, confirmation gates, path restrictions, error propagation, full generate → analyze → critique → revise → compare loop |
 | `transport.test.ts` | Config refusal of unauthenticated public binds, `authorize()`, real HTTP server: 401 without token, session init with token, health check |
@@ -26,9 +27,11 @@ Runs in CI or on any machine; no Illustrator needed. Files in `tests/unit/`:
 
 Each step passes only after the result is read back from Illustrator or found on disk.
 
-## Manual integration (real Illustrator) — `scripts\integration-test.ps1`
+## Manual integration (real Illustrator)
 
-1. `scripts\test-bridge.ps1` — runs a read-only status script through COM.
+Windows: `scripts\integration-test.ps1`. macOS: `./scripts/test-bridge.sh` then `pnpm test:integration`.
+
+1. Bridge smoke test — read-only status script through COM (Windows) or AppleScript (macOS).
 2. `pnpm test:integration` — builds the sample project through the real MCP tools:
    A4 artboard · background rectangle · headline · decorative circle · secondary text · separate Graphics layer ·
    verification by inspection · composition analysis · saved `.ai` · exported PNG · inline preview · drop shadow · full `generate_design`.

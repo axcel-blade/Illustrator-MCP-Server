@@ -58,7 +58,7 @@ describe("script builder", () => {
 class StubAdapter implements BridgeAdapter {
   readonly name = "mock" as const;
   constructor(private readonly impl: (req: ExecuteRequest) => Promise<string>) {}
-  detect = async () => ({ platform: process.platform, installs: [], comRegistered: false, running: false, notes: [] });
+  detect = async () => ({ platform: process.platform, installs: [], comRegistered: false, automationAvailable: false, running: false, notes: [] });
   execute(req: ExecuteRequest) { return this.impl(req); }
 }
 

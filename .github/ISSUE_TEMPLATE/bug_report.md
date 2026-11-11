@@ -26,7 +26,7 @@ assignees: ""
 
 ## Environment
 
-- Windows version:
+- OS: Windows / macOS (version):
 - Node.js (`node -v`):
 - pnpm (`pnpm -v`):
 - Illustrator version:
@@ -36,7 +36,7 @@ assignees: ""
 
 ## Diagnostics
 
-<!-- Output of scripts\diagnostics.ps1 and scripts\test-bridge.ps1, plus relevant lines from logs/. -->
+<!-- Output of scripts/diagnostics(.ps1|.sh) and test-bridge(.ps1|.sh), plus relevant lines from logs/. -->
 
 ```text
 

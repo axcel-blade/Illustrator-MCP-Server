@@ -15,7 +15,8 @@
 - `replace_image` relinks linked images only; an embedded image cannot be relinked.
 - The server pins the document it last worked on. If you switch documents in Illustrator's UI, call `activate_document` (or `list_documents` and then `activate_document`) so the server follows.
 
-- Windows only (COM). macOS would need an AppleScript or UXP adapter.
+- Windows (COM) and macOS (AppleScript) only. Other platforms need a new `BridgeAdapter`.
+- macOS: Automation permission must be granted for the host process (Terminal, Node, Claude Desktop) to control Illustrator.
 - Illustrator's scripting DOM cannot create **pattern swatches**; `create_pattern` builds a tiled clipping group instead and says so.
 - `set_document_units` changes the session default and a ruler preference; `Document.rulerUnits` is read-only in scripting.
 - PDF/EPS export uses `saveAs`, so the open document is re-targeted; the tool reopens the saved .ai afterwards and refuses to run on unsaved changes.
@@ -23,7 +24,7 @@
 - The server does no image recognition. Visual critique depends on the AI client viewing the attached PNG preview.
 - The brief planner is rule-based (keywords → category/style/colors). It is deterministic and explainable but not creative on its own;
   the AI client is expected to refine plans (`plan_design` → edit → `execute_design_plan`) for bespoke work.
-- Each bridge call starts PowerShell (~0.2–0.4 s). Complex designs are batched into a single call.
+- Each bridge call starts PowerShell (Windows) or osascript (macOS). Complex designs are batched into a single call.
 - Only one Illustrator instance/user session is supported per server process.
 - Auto layout is computed once by the server and flattened to positioned objects; Illustrator has no live auto layout,
   so moving or resizing an object later does not re-flow its siblings. Re-run `create_ui_design` (or revise the plan) to re-flow.

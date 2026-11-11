@@ -169,9 +169,9 @@ export function paletteFromRow(row: Row): RolePalette {
   return { name: `${row["Product Type"]} (UI/UX Pro Max)`, colors };
 }
 
-/** Body/heading font candidates with Windows-safe fallbacks. */
+/** Body/heading font candidates with Windows- and macOS-safe fallbacks. */
 function fontList(name: string | undefined, serif: boolean): string[] {
-  const fall = serif ? ["Georgia", "Times New Roman"] : ["Segoe UI", "Arial"];
+  const fall = serif ? ["Georgia", "Times New Roman", "Times"] : ["Helvetica Neue", "Segoe UI", "Arial", "Helvetica"];
   return [...(name ? [name] : []), ...fall];
 }
 const SERIF = /serif|display|playfair|lora|merriweather|garamond|baskerville|cormorant|libre|crimson|bodoni|dm serif|fraunces|spectral/i;

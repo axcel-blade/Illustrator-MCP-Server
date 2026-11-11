@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+Cross-platform Illustrator bridge (Windows + macOS).
+
+- `ILLUSTRATOR_ADAPTER=auto` (default) selects COM on Windows and AppleScript on macOS; explicit `com` / `applescript` / `mock` still supported.
+- New `AppleScriptAdapter` + `illustrator-scripts/run-jsx.applescript` (`osascript` → `do javascript file`).
+- Detection finds installs under `/Applications` and `~/Applications`, reports `automationAvailable` / `bridge`.
+- macOS helper scripts: `scripts/install.sh`, `diagnostics.sh`, `test-bridge.sh`; Claude config example for macOS.
+- Font fallbacks include Helvetica Neue / Helvetica / Times for macOS alongside Windows system fonts.
+
 Vector editing, images, artboards, typography and design systems (24 tools, verified against Illustrator 2026 / 30.8 with `pnpm test:e2e:advanced`, 44/44).
 
 - Pathfinder: `pathfinder` (unite, minusFront, intersect, exclude, divide, minusBack), expanded to editable paths. `flip_objects`.
